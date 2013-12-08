@@ -1,4 +1,4 @@
-all: dstl
+all: dstl 
 
 clean:
 	$(MAKE) -C stl clean

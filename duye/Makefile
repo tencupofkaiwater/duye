@@ -1,4 +1,4 @@
-all: dposix dstl dutil
+all: dposix dstl dutil ut_app
 
 clean:
 	$(MAKE) -C stl clean
@@ -20,4 +20,7 @@ dposix:
 
 dutil:    
 	$(MAKE) -C util
+
+ut_app:
+	$(MAKE) -C ut
 
