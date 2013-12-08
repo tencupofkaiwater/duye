@@ -1,4 +1,5 @@
 INCLUDES += ./inc 
+		    $(DUYE_ROOT) 	
 
 LIBS += 
 
@@ -25,14 +26,10 @@ OBJS := $(patsubst %.$(PS), $(OBJDIR)/%.o, $(CPPSRCS))
 DEPS := $(patsubst %.o, $(OBJDIR)/%.d, $(CPPSRCS))
 MISSING_DEPS := $(filter-out $(wildcard $(DEPS)), $(DEPS))
 
-#change file attribute
-HEADERS := $(wildcard $(BUILD_PATH)/inc/*.h)
-#$(shell chmod 775 $(SOURCE)) 
-#$(shell chmod 775 $(HEADERS)) 
-
 $(TARGET) : $(OBJS)
 	$(CC) $(CPPFLAGS) $(OBJS) -o $(BUILD_PATH)/output/bin/$(TARGET) $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
 	@echo "++++++++++Build $(TARGET) Success++++++++++"
+	$(MAKE) install
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 	@echo $<, `more $<|wc -l` lines
@@ -40,18 +37,20 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 
 .PHONY : all install clean 
 
-all : 
-	$(MAKE) clean
-	$(MAKE) $(TARGET)
-
 install :
 	@echo "start install $(TARGET) ..."
-	cp -ax $(BUILD_PATH)/output/bin/$(TARGET) $1/bin
+	mkdir $(DUYE_BIN) -p
+	cp -ax $(BUILD_PATH)/output/bin/$(TARGET) $(DUYE_BIN)
 	@echo 'install $(TARGET) complete ...'
 
 clean :
 	$(RM) $(BUILD_PATH)/output -rf
-	@touch `find . -name "*.cpp" | xargs`
+	#@touch `find . -name "*.cpp" | xargs`
+
+cleanall :
+	$(RM) $(BUILD_PATH)/output -rf
+	$(RM) $(DUYE_BIN)/$(TARGET) -rf
+	#@touch `find . -name "*.cpp" | xargs`
 
 ifneq ($(MISSING_DEPS),)
 $(MISSING_DEPS) :
