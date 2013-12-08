@@ -9,7 +9,8 @@ cleanall:
 	$(MAKE) -C stl cleanall
 	$(MAKE) -C posix cleanall
 	$(MAKE) -C util cleanall
-	rm ./lib -rf
+	rm $(DUYE_LIB) -rf
+	rm $(DUYE_BIN) -rf
 
 dstl:    
 	$(MAKE) -C stl
