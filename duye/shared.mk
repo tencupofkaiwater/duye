@@ -41,6 +41,7 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 
 install :
 	@echo "start install $(TARGET).so ..."
+	mkdir $(DUYE_LIB) -p
 	cp -ax $(BUILD_PATH)/output/lib/$(TARGET).so $(DUYE_LIB)
 	@echo 'install $(TARGET).so complete ...'
 

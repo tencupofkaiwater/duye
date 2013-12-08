@@ -19,5 +19,5 @@
 
 #include <duye/inc/duye_type.h>
 
-#define DUYE_POSIX_NS_BEG namespace duye { namespace posix {
+#define DUYE_POSIX_NS_BEG namespace Duye { namespace Posix {
 #define DUYE_POSIX_NS_END }}
