@@ -17,7 +17,7 @@
 
 #include <duye/stl/inc/duye_string.h>
 
-DUYE_STL_SN_BEG
+DUYE_STL_NS_BEG
 
 static const UInt32_t BUF_PRE_ALLOCATION_SIZE = 50;
 
@@ -34,7 +34,7 @@ String::String(const Int8_t* str)
 	, m_length(0)									   
 	, m_capacity(0)
 {
-	Assign(cStr);
+	Assign(str);
 }
 
 String::String(const Int8_t* str, const UInt32_t size) 
@@ -42,7 +42,7 @@ String::String(const Int8_t* str, const UInt32_t size)
 	, m_length(0)									   
 	, m_capacity(0)
 {
-	Assign(cStr, size);
+	Assign(str, size);
 }
 
 String::String(const String& duyeStr)
@@ -71,14 +71,14 @@ void String::Assign(const Int8_t* str)
 {
 	D_ASSERT(str != NULL && str[0] != '\0');
 	
-	UInt32_t length = DuyeByte::StrLen(str);
+	UInt32_t length = Bytemem::StrLen(str);
 	if (m_capacity < length)
 	{
 		ReAllocation(length);
 	}
 
 	m_length = length; 
-	DuyeByte::Memcpy(m_data, str, length);
+	Bytemem::Memcpy(m_data, str, length);
 }
 
 void String::Assign(const Int8_t* str, const UInt32_t size)
@@ -87,7 +87,7 @@ void String::Assign(const Int8_t* str, const UInt32_t size)
 
 	Release();
 
-	m_length = DuyeByte::StrLen(str); 
+	m_length = Bytemem::StrLen(str); 
 	m_data = new Int8_t[m_length + 1];	
 }
 
@@ -119,4 +119,4 @@ void String::Release()
 	}
 }
 
-DUYE_STL_SN_END
+DUYE_STL_NS_END
