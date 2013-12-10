@@ -24,8 +24,6 @@
 
 DUYE_POSIX_NS_BEG
 
-// POSIX pthread_mutex_t wrapper, used by class 
-// DuyeLock, DuyeTryLock and DuyeAutoLock
 class Mutex
 {
 public:

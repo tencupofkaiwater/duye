@@ -20,10 +20,10 @@
 DUYE_POSIX_NS_BEG
 
 /*---------------------------Thread class----------------------*/
-Thread::Thread(Runnable* target, const bool autoRel) 
+Thread::Thread(Runnable* runnable, const bool autoRel) 
 	: m_threadId(-1)
-	, m_runnable(target)
 	, m_autoRel(autoRel)
+	, m_runnable(runnable)
 {
 }
 
@@ -35,7 +35,7 @@ bool Thread::Start()
 {
 	pthread_attr_t* attributes = NULL;
 	
-	Int32_t ret = pthread_create(&m_threadId, attributes, EnterPoint, m_target);
+	Int32_t ret = pthread_create(&m_threadId, attributes, EnterPoint, m_runnable);
 
 	if (ret != 0)
 	{
@@ -50,22 +50,22 @@ bool Thread::Start()
 	return true;
 }
 
-pthread_id Thread::GetThreadId() const
+pthread_t Thread::GetThreadId() const
 {
 	return m_threadId;
 }
 
-pthread_t Thread::Bind(void* entry, void* argument, const bool autoRel = true)
+pthread_t Thread::Bind(void* entry, void* argument, const bool autoRel)
 {
 	pthread_attr_t* attributes = NULL;
 
 	pthread_t threadId = -1;
 
-	Int32_t ret = pthread_create(&threadId, attributes, entry, argument);
+	Int32_t ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
 
 	if (ret != 0)
 	{
-		return tid;
+		return threadId;
 	}
 
 	if (autoRel)
@@ -78,9 +78,9 @@ pthread_t Thread::Bind(void* entry, void* argument, const bool autoRel = true)
 
 void* Thread::EnterPoint(void* argument)
 {
-	Runnable* target = static_cast<Runnable*>(argument);
+	Runnable* runnable = static_cast<Runnable*>(argument);
 
-    target->Run();
+    runnable->Run();
 
 	return NULL;
 }

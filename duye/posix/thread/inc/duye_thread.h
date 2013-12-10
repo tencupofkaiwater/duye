@@ -19,9 +19,10 @@
 
 #include <pthread.h> 
 #include <duye/posix/inc/duye_posix_def.h>
-#include <duye/posix/thread/inc/duye_lock.h>
 
 DUYE_POSIX_NS_BEG
+
+typedef void* (*ThreadFunPoint_t)(void*);
 
 // fn : thread entry interface, used in thread class
 class Runnable
@@ -29,7 +30,7 @@ class Runnable
 public:
 	Runnable() {}
 	virtual ~Runnable() {}
-	virtual Run() = 0;
+	virtual void Run() = 0;
 };
 
 // fn : thread class 
@@ -59,7 +60,7 @@ public:
 	bool Start();
 
 	// fn : get thread ID
-	Int32_t GetThreadId() const;
+	pthread_t GetThreadId() const;
 
 	// fn : Create new thread
 	// @entry : the fun of thread entry
@@ -67,16 +68,18 @@ public:
 	// ret : return true when create sucessed, else return  
 	// example :
 	//		Thread::Bind(EntryFun, argument);
-	static Int32_t Bind(void* entry, void* argument, const bool autoRel = true);
+	static pthread_t Bind(void* entry, void* argument, const bool autoRel = true);
 
 private:
+	Thread(const Thread&);
+	void operator=(const Thread&);
 	// fn : thread entry
 	static void* EnterPoint(void* argument);
 
 private:
-	Int32_t     m_threadId;
+	pthread_t	m_threadId;
 	bool		m_autoRel;
-	Runnable*	m_target;
+	Runnable*	m_runnable;
 };
 
 // fn : thread class
@@ -104,14 +107,15 @@ public:
 
 	bool Start();
 
-protected:
-	virtual Int8_t* Run(void* argument) = 0;
+	virtual void Run() = 0;
 
 private:
+	ThreadTask(const ThreadTask&);
+	void operator=(const ThreadTask&);
 	static void* EnterPoint(void* argument);	
 
 private:
-	pthread_id		m_threadId;	
+	pthread_t		m_threadId;	
 	bool			m_autoRel;
 };
 
