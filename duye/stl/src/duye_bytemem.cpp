@@ -27,7 +27,7 @@ Bytemem::~Bytemem()
 {
 }
 
-UInt32_t Bytemem::StrLen(const Int8_t* str)
+UInt32_t Bytemem::Strlen(const Int8_t* str)
 {
 	D_ASSERT(str != NULL && str[0] != '\0');
 
@@ -49,6 +49,31 @@ Int8_t* Bytemem::Strcpy(Int8_t* dstStr, const Int8_t* srcStr)
 	return dstStr;
 }	
 
+bool Bytemem::Strcmp(Int8_t* str1, Int8_t* str2)
+{
+	D_ASSERT(str1 != NULL && str2 != NULL);
+
+	UInt32_t str1Size = Bytemem::Strlen(str1);
+	UInt32_t str2Size = Bytemem::Strlen(str2);
+	UInt32_t size = (str1Size < str2Size ? str1Size : str2Size);
+
+	Int8_t ch1 = '\0';
+	Int8_t ch2 = '\0';
+
+	while (size--)
+	{
+		ch1 = *str1++;
+		ch2 = *str2++;
+
+		if (ch1 != ch2)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void Bytemem::Memset(Int8_t* str, const Int8_t ch, UInt32_t size)
 {	
 	while (size--)
@@ -67,6 +92,34 @@ Int8_t* Bytemem::Memcpy(Int8_t* dstStr, const Int8_t* srcStr, UInt32_t size)
 	}	
 
 	return dstStr;
-}	
+}
+
+bool Bytemem::Memcmp(Int8_t* str1, Int8_t* str2, UInt32_t size)
+{
+	D_ASSERT(str1 != NULL && str2 != NULL && size > 0);
+
+	UInt32_t str1Size = Bytemem::Strlen(str1);
+	UInt32_t str2Size = Bytemem::Strlen(str2);
+	if (str2Size < size || str1Size < size)
+	{
+		return false;
+	}
+
+	Int8_t ch1 = '\0';
+	Int8_t ch2 = '\0';
+
+	while (size--)
+	{
+		ch1 = *str1++;
+		ch2 = *str2++;
+
+		if (ch1 != ch2)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
 
 DUYE_STL_NS_END
