@@ -25,7 +25,7 @@ Mutex::Mutex()
 	Init(PTHREAD_MUTEX_RECURSIVE);
 }
 
-Mutex::Mutex(const Int32_t kind)
+Mutex::Mutex(const D_Int32 kind)
 {
 	if (kind != PTHREAD_MUTEX_NORMAL && 
 		kind != PTHREAD_MUTEX_RECURSIVE &&
@@ -60,13 +60,13 @@ bool Mutex::Unlock()
 	return pthread_mutex_unlock(&m_mutex) == 0 ? true : false;
 }
 
-void Mutex::Init(const Int32_t kind)
+void Mutex::Init(const D_Int32 kind)
 {
 	pthread_mutexattr_t attr;
 	pthread_mutexattr_init(&attr);
 	pthread_mutexattr_settype(&attr, kind);
 	pthread_mutex_init(&m_mutex, &attr);
-	//pthread_mutexattr_destroy(&attr);
+	pthread_mutexattr_destroy(&attr);
 }
 
 //----------------------------class OrgLock-------------------------//
@@ -75,7 +75,7 @@ OrgLock::OrgLock() : m_mutex(NULL)
 	m_mutex = new Mutex();	
 }
 
-OrgLock::OrgLock(const Int32_t kind) : m_mutex(NULL)
+OrgLock::OrgLock(const D_Int32 kind) : m_mutex(NULL)
 {
 	m_mutex = new Mutex(kind);	
 }
@@ -103,7 +103,7 @@ TryLock::TryLock(const bool autoUnlock)
 	m_mutex = new Mutex();	
 }
 
-TryLock::TryLock(const Int32_t kind, const bool autoUnlock) 
+TryLock::TryLock(const D_Int32 kind, const bool autoUnlock) 
 	: m_mutex(NULL)
 	, m_autoUnlock(autoUnlock)
 {
@@ -120,7 +120,7 @@ TryLock::~TryLock()
 	delete m_mutex;
 }
 
-bool TryLock::Lock(const UInt32_t timeout)
+bool TryLock::Lock(const D_UInt32 timeout)
 {
 	if (m_mutex->TryLock())
 	{
@@ -132,7 +132,7 @@ bool TryLock::Lock(const UInt32_t timeout)
 		return false;    
 	}
 
-	const UInt32_t sleepUnit = 10; // millisecond
+	const D_UInt32 sleepUnit = 10; // millisecond
 
 	unsigned int loops = timeout / sleepUnit + 1;
 						
@@ -167,22 +167,14 @@ bool TryLock::Unlock()
 }
 
 //----------------------------class TryLock-------------------------//
-AutoLock::AutoLock() : m_mutex(NULL)
+AutoLock::AutoLock(Mutex& mutex) : m_mutex(mutex)
 {
-	m_mutex = new Mutex();	
-	m_mutex->Lock();
-}
-
-AutoLock::AutoLock(const Int32_t kind) : m_mutex(NULL)
-{
-	m_mutex = new Mutex(kind);	
-	m_mutex->Lock();
+	m_mutex.Lock();
 }
 
 AutoLock::~AutoLock()
 {
-	m_mutex->Unlock();
-	delete m_mutex;
+	m_mutex.Unlock();
 }
 
 DUYE_POSIX_NS_END

@@ -19,7 +19,7 @@
 
 DUYE_STL_NS_BEG
 
-static const UInt32_t BUF_PRE_ALLOCATION_SIZE = 50;
+static const D_UInt32 BUF_PRE_ALLOCATION_SIZE = 50;
 
 String::String() 
 	: m_data(NULL)
@@ -29,7 +29,7 @@ String::String()
 	PreAllocation();
 }
 
-String::String(const Int8_t* str) 
+String::String(const D_Int8* str) 
 	: m_data(NULL)
 	, m_length(0)									   
 	, m_capacity(0)
@@ -37,7 +37,7 @@ String::String(const Int8_t* str)
 	Assign(str);
 }
 
-String::String(const Int8_t* str, const UInt32_t size) 
+String::String(const D_Int8* str, const D_UInt32 size) 
 	: m_data(NULL)
 	, m_length(0)									   
 	, m_capacity(0)
@@ -55,7 +55,7 @@ String::~String()
 	Release();
 }
 
-void String::Resize(const UInt32_t size)
+void String::Resize(const D_UInt32 size)
 {
 	D_ASSERT(size > 0);
 	
@@ -67,11 +67,11 @@ void String::Resize(const UInt32_t size)
 	ReAllocation(size);
 }
 
-void String::Assign(const Int8_t* str)
+void String::Assign(const D_Int8* str)
 {
 	D_ASSERT(str != NULL && str[0] != '\0');
 	
-	UInt32_t length = Bytemem::StrLen(str);
+	D_UInt32 length = Bytemem::Strlen(str);
 	if (m_capacity < length)
 	{
 		ReAllocation(length);
@@ -81,31 +81,31 @@ void String::Assign(const Int8_t* str)
 	Bytemem::Memcpy(m_data, str, length);
 }
 
-void String::Assign(const Int8_t* str, const UInt32_t size)
+void String::Assign(const D_Int8* str, const D_UInt32 size)
 {
 	D_ASSERT(str != NULL && str[0] != '\0');
 
 	Release();
 
-	m_length = Bytemem::StrLen(str); 
-	m_data = new Int8_t[m_length + 1];	
+	m_length = Bytemem::Strlen(str); 
+	m_data = new D_Int8[m_length + 1];	
 }
 
-Int8_t* String::GetCStr() const
+D_Int8* String::GetCStr() const
 {
 	return m_data;
 }
 
 void String::PreAllocation()
 {
-	m_data = new Int8_t[BUF_PRE_ALLOCATION_SIZE];
+	m_data = new D_Int8[BUF_PRE_ALLOCATION_SIZE];
 	D_ASSERT(m_data != NULL);
 	m_capacity = BUF_PRE_ALLOCATION_SIZE;
 }
 
-void String::ReAllocation(const UInt32_t size)
+void String::ReAllocation(const D_UInt32 size)
 {
-	m_data = new Int8_t[size];
+	m_data = new D_Int8[size];
 	D_ASSERT(m_data != NULL);
 	m_capacity = size;
 }

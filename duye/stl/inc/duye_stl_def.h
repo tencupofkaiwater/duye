@@ -19,5 +19,5 @@
 
 #include <duye/inc/duye_type.h>
 
-#define DUYE_STL_NS_BEG namespace Duye { namespace Stl {
+#define DUYE_STL_NS_BEG namespace duye { namespace stl {
 #define DUYE_STL_NS_END }}

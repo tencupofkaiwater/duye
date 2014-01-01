@@ -28,7 +28,7 @@ class Mutex
 {
 public:
 	Mutex();
-	explicit Mutex(const Int32_t kind);
+	explicit Mutex(const D_Int32 kind);
 	~Mutex();
 
 	bool Lock();
@@ -38,7 +38,7 @@ public:
 private:
 	Mutex(const Mutex&); 
 	void operator=(const Mutex&);	
-	void Init(const Int32_t kind);
+	void Init(const D_Int32 kind);
     
 private:
 	pthread_mutex_t	m_mutex;	
@@ -50,7 +50,7 @@ class OrgLock
 {
 public:
     OrgLock();
-    explicit OrgLock(const Int32_t kind);
+    explicit OrgLock(const D_Int32 kind);
     virtual ~OrgLock();
 
 	bool Lock();
@@ -70,12 +70,12 @@ class TryLock
 {
 public:
 	explicit TryLock(const bool autoUnlock = true);
-    TryLock(const Int32_t kind, const bool autoUnlock = true);
+    TryLock(const D_Int32 kind, const bool autoUnlock = true);
 	~TryLock();
 
 	// lock
 	// @timeout, try lock time out, millisecond
-	bool Lock(const UInt32_t timeout = 0);
+	bool Lock(const D_UInt32 timeout = 0);
 	bool Unlock();
 
 private:
@@ -92,8 +92,7 @@ private:
 class AutoLock
 {
 public:
-	AutoLock();
-    explicit AutoLock(const Int32_t kind);
+	explicit AutoLock(Mutex& mutex);
 	~AutoLock();
 
 private:
@@ -101,7 +100,7 @@ private:
 	void operator=(const AutoLock&);
 
 private:
-	Mutex* m_mutex;
+	Mutex& m_mutex;
 };
 
 DUYE_POSIX_NS_END

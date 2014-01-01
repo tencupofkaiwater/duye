@@ -19,7 +19,7 @@
 
 DUYE_POSIX_NS_BEG
 
-/*---------------------------Thread class----------------------*/
+//---------------------------Thread class----------------------//
 Thread::Thread(Runnable* runnable, const bool autoRel) 
 	: m_threadId(-1)
 	, m_autoRel(autoRel)
@@ -35,7 +35,7 @@ bool Thread::Start()
 {
 	pthread_attr_t* attributes = NULL;
 	
-	Int32_t ret = pthread_create(&m_threadId, attributes, EnterPoint, m_runnable);
+	D_Int32 ret = pthread_create(&m_threadId, attributes, EnterPoint, m_runnable);
 
 	if (ret != 0)
 	{
@@ -61,7 +61,7 @@ pthread_t Thread::Bind(void* entry, void* argument, const bool autoRel)
 
 	pthread_t threadId = -1;
 
-	Int32_t ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
+	D_Int32 ret = pthread_create(&threadId, attributes, (ThreadFunPoint_t)entry, argument);
 
 	if (ret != 0)
 	{
@@ -85,7 +85,7 @@ void* Thread::EnterPoint(void* argument)
 	return NULL;
 }
 
-/*------------------class ThreadTask--------------*/
+//------------------class ThreadTask--------------//
 ThreadTask::ThreadTask(const bool autoRel) : m_threadId(-1), m_autoRel(autoRel)
 {
 }
@@ -98,7 +98,7 @@ bool ThreadTask::Start()
 {
 	pthread_attr_t* attributes = NULL;
 	
-	Int32_t ret = pthread_create(&m_threadId, attributes, EnterPoint, this);
+	D_Int32 ret = pthread_create(&m_threadId, attributes, EnterPoint, this);
 
 	if (ret != 0)
 	{

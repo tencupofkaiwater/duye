@@ -22,6 +22,17 @@
 
 DUYE_POSIX_NS_BEG
 
+// fn : thread state
+enum ThreadState
+{
+	// thread running
+	THR_STATE_RUN = 0,
+	// thread stop
+	THR_STATE_STOP,
+	// thread exit
+	THR_STATE_EXIT
+};
+
 typedef void* (*ThreadFunPoint_t)(void*);
 
 // fn : thread entry interface, used in thread class

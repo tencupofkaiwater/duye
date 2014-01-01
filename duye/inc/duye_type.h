@@ -43,14 +43,15 @@
 #endif
 
 // base type define
-typedef char                Int8_t;
-typedef short int           Int16_t;
-typedef int                 Int32_t;
-typedef long int            Int64_t;
+typedef bool                D_Bool;
+typedef char                D_Int8;
+typedef short int           D_Int16;
+typedef int                 D_Int32;
+typedef long int            D_Int64;
 
-typedef unsigned char       UInt8_t;
-typedef unsigned short int  UInt16_t;
-typedef unsigned int        UInt32_t;
-typedef unsigned long int   UInt64_t;
+typedef unsigned char       D_UInt8;
+typedef unsigned short int  D_UInt16;
+typedef unsigned int        D_UInt32;
+typedef unsigned long int   D_UInt64;
 
-typedef Int32_t				Ret_t;
+typedef D_Int32				D_Result;

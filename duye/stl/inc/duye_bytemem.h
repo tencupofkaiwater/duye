@@ -27,12 +27,12 @@ public:
 	Bytemem();
 	~Bytemem();
 
-	static UInt32_t Strlen(const Int8_t* str); 
-	static Int8_t* Strcpy(Int8_t* dstStr, const Int8_t* srcStr);
-	static bool Strcmp(Int8_t* str1, Int8_t* str2); 
-	static void Memset(Int8_t* str, const Int8_t ch, UInt32_t size); 
-	static Int8_t* Memcpy(Int8_t* dstStr, const Int8_t* srcStr, const UInt32_t size); 
-	static bool Memcmp(Int8_t* str1, Int8_t* str2, UInt32_t size); 
+	static D_UInt32 Strlen(const D_Int8* str); 
+	static D_Int8* Strcpy(D_Int8* dstStr, const D_Int8* srcStr);
+	static bool Strcmp(D_Int8* str1, D_Int8* str2); 
+	static void Memset(D_Int8* str, const D_Int8 ch, D_UInt32 size); 
+	static D_Int8* Memcpy(D_Int8* dstStr, const D_Int8* srcStr, const D_UInt32 size); 
+	static bool Memcmp(D_Int8* str1, D_Int8* str2, D_UInt32 size); 
 };
 
 DUYE_STL_NS_END 

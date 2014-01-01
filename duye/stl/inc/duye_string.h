@@ -26,25 +26,25 @@ class String
 {
 public:
 	String();
-	explicit String(const Int8_t* str);
-	String(const Int8_t* str, const UInt32_t size);
+	explicit String(const D_Int8* str);
+	String(const D_Int8* str, const D_UInt32 size);
 	String(const String& duyeStr);
 	~String();
 
-	void Resize(const UInt32_t size);
-	void Assign(const Int8_t* str);
-	void Assign(const Int8_t* str, const UInt32_t size);
-	Int8_t* GetCStr() const;
+	void Resize(const D_UInt32 size);
+	void Assign(const D_Int8* str);
+	void Assign(const D_Int8* str, const D_UInt32 size);
+	D_Int8* GetCStr() const;
 
 private:
 	void PreAllocation();
-	void ReAllocation(const UInt32_t size);
+	void ReAllocation(const D_UInt32 size);
 	void Release();
 
 private:
-	Int8_t*		m_data;
-	UInt32_t	m_length;
-	UInt32_t	m_capacity;
+	D_Int8*		m_data;
+	D_UInt32	m_length;
+	D_UInt32	m_capacity;
 };
 
 DUYE_STL_NS_END

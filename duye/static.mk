@@ -1,5 +1,4 @@
-INCLUDES += ./inc \
-		    $(DUYE_ROOT) 	
+INCLUDES += $(DUYE_ROOT) 	
 
 LIBS += 
 
