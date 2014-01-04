@@ -11,8 +11,11 @@
 * @date     2013-11-26
 * @note 
 *
-*  1. 2013-11-26 duye Created this file
-* 
+* 1. 2013-11-26 duye Created this file
+* 2. 2014-01-04 duye 
+* 	a. Change Mutex function TryLock() to Trylock()
+* 	b. Add function Trylock() for OrgLock class
+* 	c. Modify TryLock class implimenting
 */
 
 #include <duye/posix/thread/inc/duye_lock.h>
