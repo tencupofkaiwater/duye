@@ -11,8 +11,11 @@
 * @date     2013-11-26
 * @note 
 *
-*  1. 2013-11-26 duye Created this file
-* 
+* 1. 2013-11-26 duye Created this file
+* 2. 2014-01-04 duye 
+* 	a. Modify Mutex function TryLock to Trylock()
+* 	b. Add function Trylock() for class OrgLock
+* 	c. Modify TryLock class implimenting
 */
 
 #pragma once
