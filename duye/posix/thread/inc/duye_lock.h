@@ -49,9 +49,9 @@ private:
 class OrgLock
 {
 public:
-    OrgLock();
-    explicit OrgLock(const D_Int32 kind);
-    virtual ~OrgLock();
+	OrgLock();
+    	explicit OrgLock(const D_Int32 kind);
+    	virtual ~OrgLock();
 
 	bool Lock();
 	bool Unlock();
@@ -69,8 +69,7 @@ private:
 class TryLock
 {
 public:
-	explicit TryLock(const bool autoUnlock = true);
-    TryLock(const D_Int32 kind, const bool autoUnlock = true);
+	TryLock(Mutex& mutex, const bool autoUnlock = true);
 	~TryLock();
 
 	// lock
@@ -83,7 +82,7 @@ private:
 	void operator=(const TryLock&);	
     
 private:
-	Mutex*	m_mutex;
+	Mutex&	m_mutex;
 	bool	m_autoUnlock;
 };
 
