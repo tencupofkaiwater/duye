@@ -32,7 +32,7 @@ public:
 	~Mutex();
 
 	bool Lock();
-	bool TryLock();
+	bool Trylock();
 	bool Unlock();
 
 private:
@@ -54,6 +54,7 @@ public:
     	virtual ~OrgLock();
 
 	bool Lock();
+	bool Trylock();
 	bool Unlock();
 
 private:
