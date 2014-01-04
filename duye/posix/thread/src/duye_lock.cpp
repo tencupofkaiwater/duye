@@ -50,7 +50,7 @@ bool Mutex::Lock()
 	return pthread_mutex_lock(&m_mutex) == 0 ? true : false;
 }
 
-bool Mutex::TryLock()
+bool Mutex::Trylock()
 {
 	return pthread_mutex_trylock(&m_mutex) == 0 ? true : false;
 }
@@ -90,39 +90,34 @@ bool OrgLock::Lock()
 	return m_mutex->Lock();
 }
 
+bool OrgLock::Trylock()
+{
+	return m_mutex->Trylock();
+}
+
 bool OrgLock::Unlock()
 {
 	return m_mutex->Unlock();
 }
 
 //----------------------------class TryLock-------------------------//
-TryLock::TryLock(const bool autoUnlock) 
-	: m_mutex(NULL)
+TryLock::TryLock(Mutex& mutex, const bool autoUnlock) 
+	: m_mutex(mutex)
 	, m_autoUnlock(autoUnlock)
 {
-	m_mutex = new Mutex();	
-}
-
-TryLock::TryLock(const D_Int32 kind, const bool autoUnlock) 
-	: m_mutex(NULL)
-	, m_autoUnlock(autoUnlock)
-{
-	m_mutex = new Mutex(kind);	
 }
 
 TryLock::~TryLock() 
 {
 	if (m_autoUnlock)
 	{
-		m_mutex->Unlock();
+		m_mutex.Unlock();
 	}
-
-	delete m_mutex;
 }
 
 bool TryLock::Lock(const D_UInt32 timeout)
 {
-	if (m_mutex->TryLock())
+	if (m_mutex.TryLock())
 	{
 		return true;
 	}
@@ -147,7 +142,7 @@ bool TryLock::Lock(const D_UInt32 timeout)
 			usleep(1000 * sleepUnit);    
 		}
 
-		if (m_mutex->TryLock())
+		if (m_mutex.TryLock())
 		{
 			return true;
 		}
@@ -163,7 +158,7 @@ bool TryLock::Unlock()
 		return false;
 	}
 
-	return m_mutex->Unlock();
+	return m_mutex.Unlock();
 }
 
 //----------------------------class TryLock-------------------------//
