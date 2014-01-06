@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include <sys/time.h>
 #include <pthread.h>
 #include <duye/posix/inc/duye_posix_def.h> 
 #include <duye/posix/thread/inc/duye_lock.h> 
@@ -31,10 +32,13 @@ public:
 
 	// fn : wake up one waitting thread by the thread priority 
 	bool Signal();
+	
 	// fn : wake up all waitting thread
 	bool Broadcast();
+	
 	// fn : to wait condition changed
 	bool Wait();
+	
 	// fn : to wait condition changed with timeout
 	bool Wait(const D_UInt32 timeout);
 
