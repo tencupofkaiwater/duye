@@ -1,0 +1,43 @@
+项目源码目录结构：
+
+trunk
+|----- doc                                                // 项目和库相关说明文档
+|----- duye                                               // 源码目录
+       |----- inc                                         // 子模块公共头文件
+       |----- posix                                       // 动态库子模块，POSIX 系统API的封装源码目录
+              |----- inc                                  // POSIX子模块公共头文件
+              |----- ipc                                  // 静态库子模块，进程间通信系统API封装
+                     |----- inc                                
+                     |----- src
+                     |----- Makefile
+              |----- posix                                // 仅存放生成POSIX动态库Makefile
+                     |----- Makefile
+              |----- stdio                                // 静态库子模块，?标准IO系统API封装
+                     |----- inc
+                     |----- src
+                     |----- Makefile
+              |----- thread                               // 静态库子模块，线程相关系统API封装
+                     |----- inc
+                     |----- src
+                     |----- Makefile
+              |----- Makefile                             // 生成posix子模块动态库Makefile
+       |----- stl                                         // 动态库子模块，标准容器实现源码目录
+              |----- inc
+              |----- src
+              |----- Makefile           
+       |----- util                                        // 动态库子模块，实用工具实现源码目录?
+              |----- inc                                  // 公共头文件
+              |----- ini                                  // ini配置文件解析工具
+              |----- util                                 // 仅存放生成util模块动态库Makefile?
+              |----- xml                                  // xml文件解析工具
+              |----- Makefile
+       |----- ut                                          // 源码单元测试源码目录
+              |----- posix                                // posix模块测试代码
+              |----- stl                                  // stl模块测试代码
+              |----- util                                 // util模块测试代码 
+              |----- Makefile     
+       |----- app.mk                                      // 生成可执行程序的Makefile脚本
+       |----- Makefile                                    // 编译整个项目源码的Makefile
+       |----- setenv.sh                                   // 设置编译环境的脚本，可修改
+       |----- shared.mk                                   // 生成共享库的Makefile脚本
+       |----- static.mk                                   // 生成静态库的Makefile脚本
