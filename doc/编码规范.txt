@@ -1,0 +1,77 @@
+				Duye 项目编码规范
+
+1. 命名规范 :
+	a. 宏变量命名规则:
+		全大写，用下划线把单词分开，例如:XXX_XXX_XXX
+		
+	b. 全局变量命名规则:
+		以'G_'开头，其余全大写，单词用下划线分析，例如:G_XXX_XXX_XXX
+		
+	c. 类名命名规则:
+		以大写开头，中间部分不同单词用大写开头做区分，不能出现数字和下划线，例如:MyExampleClass
+
+	d. 类成员变量命名规则:
+		非static成员变量以'm_'开头，后面开头之母小写，例如:m_myMemeber;
+		static成员变量以's_'开头，后面同上，例如:s_myStaticMember;
+
+	e. 函数命名规范:
+		以大写字母开头，单词用开头大写区分，不能用下划线，例如:void MyFunction();
+
+	f. 结构体命名规则:
+		同类命名规则一致
+		
+	g. 枚举类型命名规则:
+		类型名同类命名规则一致，其值命名规则全大写，以下划线分开，例如:ENUM_TYPE_ONE	
+
+2. 注释 :
+	a. 头文件注释
+		/***************************************************************************
+		**  
+		*    @copyright (c) 2010-2019, ChengDu Duyer Technology Co., LTD. All Right Reserved.
+		*
+		***************************************************************************/
+		/**
+		* @file	    duye_condition.h
+		* @version     
+		* @brief      
+		* @author   duye
+		* @date     2013-12-22
+		* @note 
+		*
+		*  1. 2013-12-22 duye Created this file
+		* 
+		*/
+		
+	b. 类注释
+		// brief:注释举例说明类
+		//	
+		// usage:
+		//	MyExample example;
+		//  example.PrintSystem();
+		// 
+		class MyExample
+		{
+		public:
+			MyExample() {}
+			~MyExample() {}
+
+			void PrintSystem();
+		};
+		
+	c. 函数注释
+		// brief:xxxxxx 
+		// @para [in] type 类型
+		// @para [in/out] name 名字
+		// @para [out] number 序号
+		// @return true/false
+		// note:xxxxxxxxx
+		bool GetInfo(const int type, string& name, int& number);
+		
+	d. 变量注释
+		// the class member
+		// 
+		int m_memeber;
+	
+3. 编码风格 : 
+	a. 所有大括号换行，4个空格缩进
+	b. 只有一行的代码块也必须加大括号
