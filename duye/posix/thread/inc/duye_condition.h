@@ -11,6 +11,8 @@
 * @date     2013-12-22
 * @note 
 *
+*  2. 2014-01-09 duye Add comments
+*
 *  1. 2013-12-22 duye Created this file
 * 
 */
@@ -24,25 +26,62 @@
 
 DUYE_POSIX_NS_BEG
 
+// brief:POSIX 条件变量封装
+//	
+// usage:
+//	Condition myCond;
+//  
+//  void ThreadOne()
+//  {
+//      if (!myCond.Wait())
+//      {
+//          return;
+//      }
+//      
+//      // to do
+//  }
+//
+//  void ThreadTwo()
+//  {
+//      sleep(1);
+//      myCond.Signal();
+//  }
+// 
 class Condition 
 {
 public:
 	Condition();
 	~Condition();
 
-	// fn : wake up one waitting thread by the thread priority 
+	// brief:唤醒等待线程，只能唤醒一个等待线程，根据线程优先级和等待时长选择
+	// @para
+	// @return true/false
+	// note:
 	bool Signal();
 	
-	// fn : wake up all waitting thread
+	// brief:唤醒所有等待线程
+	// @para
+	// @return true/false
+	// note:
 	bool Broadcast();
 	
-	// fn : to wait condition changed
+	// brief:使当前线程进入等待状态，直到被唤醒
+	// @para
+	// @return true/false
+	// note:
 	bool Wait();
 	
-	// fn : to wait condition changed with timeout
+	// brief:使当前线程进入等待状态，直到被唤醒或超时返回
+	// @para [in] timeout 等待超时时间
+	// @return true/false
+	// note:
 	bool Wait(const D_UInt32 timeout);
 
 private:
+	// brief:防拷贝
+	// @para 
+	// @return 
+	// note:
 	Condition(const Condition&); 
 	void operator=(const Condition&);	
     

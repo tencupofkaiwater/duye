@@ -130,7 +130,8 @@ bool TryLock::Lock(const D_UInt32 timeout)
 		return false;    
 	}
 
-	const D_UInt32 sleepUnit = 10; // millisecond
+    // ∫¡√Î
+	const D_UInt32 sleepUnit = 10; 
 
 	unsigned int loops = timeout / sleepUnit + 1;
 						

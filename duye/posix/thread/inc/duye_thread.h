@@ -22,45 +22,65 @@
 
 DUYE_POSIX_NS_BEG
 
-// fn : thread state
+// brief:
+//  线程状态枚举
 enum ThreadState
 {
-	// thread running
+	// 线程运行状态
 	THR_STATE_RUN = 0,
-	// thread stop
+	// 线程停止状态
 	THR_STATE_STOP,
-	// thread exit
+	// 线程退出状态
 	THR_STATE_EXIT
 };
 
+// brief:
+//  函数指针重命名
 typedef void* (*ThreadFunPoint_t)(void*);
 
-// fn : thread entry interface, used in thread class
+// brief:
+//  线程使用接口类
+//	
+// usage:
+//	class MyThread : public Runnable
+//  {
+//  public:
+//      MyThread() {}
+//      virtual ~MyThread() {}
+//  
+//      virtual void Run()
+//      {
+//          // my thread
+//          for (;;) {}
+//      }
+//  }
 class Runnable
 {
 public:
-	Runnable() {}
 	virtual ~Runnable() {}
 	virtual void Run() = 0;
 };
 
-// fn : thread class 
-// example :
-//		class MyWorkWithThread : public Runnable
-//		{
-//		public:
-//			virtual ~MyThread() {}
-//			virtual Run() 
-//			{
-//				for (;;)
-//				{
-//					thread loop
-//				}
-//			}
-//		}
-//
-//		MyWorkWithThread work;
-//		Thread myThread(&work);
+// brief:
+//  POSIX 线程API封装
+//	
+// usage:
+//	class MyThread : public Runnable
+//  {
+//  public:
+//      MyThread() {}
+//      virtual ~MyThread() {}
+//  
+//      virtual void Run()
+//      {
+//          // my thread
+//          for (;;) {}
+//      }
+//  }
+//  
+//  MyThread myThread;
+//  Thread newThread(&myThread);
+//  newThread.Start();
 class Thread
 {
 public:
