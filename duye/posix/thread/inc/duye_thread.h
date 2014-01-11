@@ -23,7 +23,7 @@
 DUYE_POSIX_NS_BEG
 
 // brief:
-//  线程状态
+//  线程状态, 你好
 enum ThreadState
 {
 	// 运行状态
