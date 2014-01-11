@@ -55,7 +55,7 @@ pthread_t Thread::GetThreadId() const
 	return m_threadId;
 }
 
-pthread_t Thread::Bind(void* entry, void* argument, const bool autoRel)
+pthread_t Thread::CreateThread(void* entry, void* argument, const bool autoRel)
 {
 	pthread_attr_t* attributes = NULL;
 

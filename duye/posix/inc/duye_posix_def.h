@@ -4,7 +4,7 @@
 *
 ***************************************************************************/
 /**
-* @file		duye_posix_def.h
+* @file	    duye_posix_def.h
 * @version     
 * @brief      
 * @author   duye
@@ -18,6 +18,3 @@
 #pragma once
 
 #include <duye/inc/duye_type.h>
-
-#define DUYE_POSIX_NS_BEG namespace duye { namespace posix {
-#define DUYE_POSIX_NS_END }}

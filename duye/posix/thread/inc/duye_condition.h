@@ -26,9 +26,9 @@
 
 DUYE_POSIX_NS_BEG
 
-// brief:POSIX 条件变量封装
+// brief : POSIX condition wrapper
 //	
-// usage:
+// usage :
 //	Condition myCond;
 //  
 //  void ThreadOne()
@@ -53,32 +53,34 @@ public:
 	Condition();
 	~Condition();
 
-	// brief:唤醒等待线程，只能唤醒一个等待线程，根据线程优先级和等待时长选择
+	// brief : wake up the waitting thread, only wake up one thread,  
+	// according to the thread priority and waitting time
 	// @para
 	// @return true/false
 	// note:
 	bool Signal();
 	
-	// brief:唤醒所有等待线程
+	// brief : wake up all waitting threads
 	// @para
 	// @return true/false
 	// note:
 	bool Broadcast();
 	
-	// brief:使当前线程进入等待状态，直到被唤醒
+	// brief : let current thread has reached the awaited state, utill be wake up
 	// @para
 	// @return true/false
 	// note:
 	bool Wait();
 	
-	// brief:使当前线程进入等待状态，直到被唤醒或超时返回
-	// @para [in] timeout 等待超时时间
+	// brief : let current thread has reached the awaited state, 
+	// utill be wake up or timeout return
+	// @para [in]timeout : waitting timeout
 	// @return true/false
 	// note:
 	bool Wait(const D_UInt32 timeout);
 
 private:
-	// brief:防拷贝
+	// brief : to prevent copying
 	// @para 
 	// @return 
 	// note:

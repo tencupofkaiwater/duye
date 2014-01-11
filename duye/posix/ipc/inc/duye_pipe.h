@@ -18,35 +18,37 @@
 #pragma once
 
 #include <duye/posix/inc/duye_posix_def.h>
+#include <duye/stl/string>
 
 DUYE_POSIX_NS_BEG 
-// brief :你好吗 
-// 你好吗	
+// brief : Pipe base class, be inherited by WritePipe and ReadPipe class
+// 
 class Pipe
 {
 public:
 	Pipe() {}
 	virtual ~Pipe() {}
 	
-	// brief : 打开管道
-	// @para pipeName 管道名
-	// return true/false
+	// brief : Open the pipe
+	// @para [in]pipeName : the pipe name
+	// return : true/false
 	// note
-	D_BOOL Open(const stl::string& pipeName) = 0;
+	virtual D_Bool Open(const stl::String& pipeName) = 0;
 	
-proteced:
-	// 管道描述符
-	D_INT32		m_pipefd;
+protected:
+	// pipe descriptor
+	D_Int32		m_pipefd;
 };
 
-// brief : 写管道
+// brief : Be used to write pipe
 // usage :
 //	void MyWritePipe()
 //	{
 // 		WritePipe writePipe;
 //		if (writePipe.Open("/tmp/testFifoFile"))
 //		{
-//		
+//          char* data = "test data";
+//		    writePipe.Write(data, strlen(data));
 //		}
 //	}
 class WritePipe : public Pipe
@@ -55,30 +57,56 @@ public:
 	WritePipe() {}
 	virtual ~WritePipe() {}
 	
-	// brief : 打开管道
-	// @para pipeName 管道名
-	// return true/false
+	// brief : Open the pipe
+	// @para [in]pipeName : pipe name
+	// return : true/false
 	// note
-	D_BOOL Open(const stl::string& pipeName);	
+	D_Bool Open(const stl::String& pipeName);	
 	
-	// brief : 向管道写数据
-	// @para data 写入数据
-	// @para dataLen 写入数据长度
-	// return true/false
+	// brief : Write data to pipe
+	// @para [in]data 
+	// @para [in]dataLen 
+	// return : true/false
 	// note
-	D_BOOL Write(D_INT8* data, const D_UINT32 dataLen);
+	D_Bool Write(D_Int8* data, const D_UInt32 dataLen);
 	
 private:
-	// brief : 防止拷贝
+	// brief : To pervent copy 
 	WritePipe(const WritePipe&);
 	void operator=(const WritePipe&);
 };
 
-// brief : 读管道
+// brief : be used to read pipe
 // usage :
-//	
-// ??????
+//	void MyReadPipe()
+//  {
+//      ReadPipe readPipe;
+//      if (readPipe.Open("/tmp/testFifoFile"))
+//      {
+//          char buffer[100] = {'\0'};
+//          readPipe.Read(buffer, 100);
+//          printf("read pipe : %s\n", buffer);
+//      }
+//  }
+class ReadPipe : public Pipe
+{
+public:
+    ReadPipe() {}
+    virtual ~ReadPipe() {}
 
+    // brief : open pipe
+    // @para [in]pipeName : pipe name
+    // return : true/false
+    // note
+    D_Bool Open(const stl::String& pipeName);
+
+	// brief : read data from pipe
+	// @para [out]buffer : template buffer
+	// @para [in]bufferSize : template buffer size
+	// return : true/false
+	// note
+	D_Bool Read(D_Int8* buffer, const D_UInt32 bufferSize);    
+};
 
 DUYE_POSIX_NS_END 
 

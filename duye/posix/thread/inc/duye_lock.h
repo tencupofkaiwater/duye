@@ -30,8 +30,7 @@
 
 DUYE_POSIX_NS_BEG
 
-// brief:
-//  POSIX 互斥变量封装
+// brief : POSIX mutex wrapper
 //	
 // usage:
 //	Mutex mutex;
@@ -41,68 +40,57 @@ DUYE_POSIX_NS_BEG
 class Mutex
 {
 public:
-	// brief:
-	//  无参构造函数
+	// brief :
 	// @para
 	// @return 
-	// note:
-	//  默认锁类型PTHREAD_MUTEX_RECURSIVE
+	// note : default mutex type is PTHREAD_MUTEX_RECURSIVE
 	Mutex();
 	
-	// brief:
-	//  带参构造函数
-	// @para [in] kind 锁类型
+	// brief :
+	// @para [in]kind : mutex type
 	// @return 
-	// note:
-	//  有四种锁类型:PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
-	//  PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT
+	// note : have four mutex type, are PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
+	// PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT
 	explicit Mutex(const D_Int32 kind);
 	~Mutex();
 
-	// brief:
-	//  对互斥变量加锁，进入等待队列
+	// brief : lock mutex, enter to awaited state
 	// @para 
 	// @return true/false
 	// note:
 	bool Lock();
 
-	// brief:
-	//  尝试对互斥变量加锁，失败后立马返回
+	// brief : try to lock mutex, failure return immediately
 	// @para 
 	// @return true/false
 	// note:	
 	bool Trylock();
 
-	// brief:
-	//  释放互斥变量，Lock()和Trylock()的反操作
+	// brief : release lock
 	// @para 
 	// @return true/false
 	// note:	
 	bool Unlock();
 
 private:
-	// brief:
-	//  防止拷贝，仅声明不实现
+	// brief : to prevent copying
 	// @para 
 	// @return 
 	// note:
 	Mutex(const Mutex&); 
 	void operator=(const Mutex&);	
 
-	// brief:
-	//  初始化互斥变量
-	// @para 
+	// brief : initialize mutex
+	// @para [in]kink : mutex type, reference constructor function
 	// @return
 	// note:	
 	void Init(const D_Int32 kind);
     
 private:
-    // 系统互斥变量
 	pthread_mutex_t	m_mutex;	
 };
 
-// brief:
-//  对Mutex封装成原始锁
+// brief : original lock wrapper
 //	
 // usage:
 //	OrgLock orgLock;
@@ -112,48 +100,40 @@ private:
 class OrgLock
 {
 public:
-	// brief:
-	//  无参构造函数
+	// brief :
 	// @para
 	// @return 
-	// note:
-	//  默认锁类型PTHREAD_MUTEX_RECURSIVE
+	// note : default mutex type is PTHREAD_MUTEX_RECURSIVE
 	OrgLock();
 	
-	// brief:
-	//  带参构造函数
-	// @para [in] kind 锁类型
+	// brief :
+	// @para [in]kind : mutex type
 	// @return 
-	// note:
-	//  有四种锁类型:PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
-	//  PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT	
+	// note : have four mutex type : PTHREAD_MUTEX_NORMAL、PTHREAD_MUTEX_RECURSIVE
+	// PTHREAD_MUTEX_ERRORCHECK、PTHREAD_MUTEX_DEFAULT	
 	explicit OrgLock(const D_Int32 kind);
 	virtual ~OrgLock();
 
-	// brief:
-	//  加锁，进入等待队列
+	// brief : locked and waitting
 	// @para 
 	// @return true/false
 	// note:
 	bool Lock();
 
-	// brief:
-	//  尝试加锁，失败后立马返回
+	// brief : try lock, if failed return immediately
 	// @para 
 	// @return true/false
 	// note:	
 	bool Trylock();
 
-	// brief:
-	//  释放锁，Lock()和Trylock()的反操作
-	// @para 
+	// brief : release lock
+	// @para  
 	// @return true/false
 	// note:		
 	bool Unlock();
 
 private:
-	// brief:
-	//  防止拷贝，仅声明不实现
+	// brief : prevent copying
 	// @para 
 	// @return 
 	// note:
@@ -161,15 +141,12 @@ private:
 	void operator=(const OrgLock&);	
 
 private:
-    // 封装后的互斥变量
 	Mutex*	m_mutex;
 };
 
-// brief:
-//  对Mutex封装成尝试锁
+// brief : try lock wrapper
 //	
 // usage:
-//  // static mutex
 //  Mutex mutex;
 //
 //  void MyFun()
@@ -198,36 +175,33 @@ private:
 class TryLock
 {
 public:
-	// brief:
-	//  构造函数
-	// @para [in] mutex 锁的互斥变量
-	// @para [in] autoUnlock 是否自动释放锁，默认自动释放
+	// brief :
+	// @para [in]mutex : mutex
+	// @para [in]autoUnlock : whether release lock automatic
 	// @return 
-	// note:
+	// note
 	TryLock(Mutex& mutex, const bool autoUnlock = true);
 	
 	~TryLock();
 
-	// brief:
-	//  尝试加锁
-	// @para [in] timeout 锁超时时间，默认0，表示只尝试一次，失败立刻返回
+	// brief : try lock 
+	// @para [in]timeout : try lock timeout, default is zero, indicate try once, 
+	// then return immediately
 	// @return true/false
-	// note:
+	// note
 	bool Lock(const D_UInt32 timeout = 0);
 
-	// brief:
-	//  释放锁
+	// brief : release lock
 	// @para
 	// @return true/false
-	// note:如果是自动释放锁，可不用调用，就算调用也不起作用	
+	// note : if construct a release lock, invoke invalid
 	bool Unlock();
 
 private:
-	// brief:
-	//  防止拷贝，仅声明不实现
+	// brief : prevent copying
 	// @para 
 	// @return 
-	// note:
+	// note
 	TryLock(const TryLock&); 
 	void operator=(const TryLock&);	
     
@@ -236,11 +210,9 @@ private:
 	bool	m_autoUnlock;
 };
 
-// brief:
-//  对Mutex封装自动锁
+// brief : auto lock wrapper
 //	
-// usage:
-//  // static mutex
+// usage :
 //  Mutex mutex;
 //
 //  void MyFun()
@@ -249,25 +221,23 @@ private:
 //	    AutoLock autoLock(mutex);
 //
 //      // to do
-//      // 返回时，自动释放锁
+//      // auto release lock, when return the function
 //  }
 class AutoLock
 {
 public:
-	// brief:
-	//  构造函数
-	// @para [in] mutex 锁的互斥变量
+	// brief :
+	// @para [in]mutex : mutex
 	// @return 
 	// note:
 	explicit AutoLock(Mutex& mutex);
 	~AutoLock();
 
 private:
-	// brief:
-	//  防止拷贝，仅声明不实现
+	// brief : prevent copying
 	// @para 
 	// @return 
-	// note:
+	// note
 	AutoLock(const AutoLock&);
 	void operator=(const AutoLock&);
 

@@ -22,24 +22,21 @@
 
 DUYE_POSIX_NS_BEG
 
-// brief:
-//  线程状态
+// brief : thread state
 enum ThreadState
 {
-	// 运行状态
+	// running state
 	THR_STATE_RUN = 0,
-	// 停止状态
+	// stoped state
 	THR_STATE_STOP,
-	// 退出状态
+	// exit state
 	THR_STATE_EXIT
 };
 
-// brief:
-//  线程入口函数指针
+// brief : the pointer of thread enter
 typedef void* (*ThreadFunPoint_t)(void*);
 
-// brief:
-//  使用多线程者需继承的接口
+// brief : can be inherited ty user
 //	
 // usage:
 //	class MyThread : public Runnable
@@ -61,8 +58,7 @@ public:
 	virtual void Run() = 0;
 };
 
-// brief:
-//  POSIX 多线程封装
+// brief : POSIX thread wrapper
 //	
 // usage:
 //	class MyThread : public Runnable
@@ -87,21 +83,22 @@ public:
     explicit Thread(Runnable* target, const bool autoRel = true);
     ~Thread();
 	
-	// brief : 启动线程
+	// brief : startup thread
 	// @para
 	// return true/false
 	bool Start();
 
-	// brief : 获取线程ID
+	// brief : get thread ID
 	// @para
-	// return 返回线程ID
+	// return : thread ID
 	pthread_t GetThreadId() const;
 
-	// brief : 创建线程
-	// @para entry 线程入口函数指针
-	// @para argument 线程参数
-	// @para autoRel 是否与主线程分离
-	// return 返回线程ID
+	// brief : create a new thread
+	// @para [in]entry : the entry function for thread 
+	// @para [in]argument : thread argument
+	// @para [in]autoRel : whether detached with main thread, default is ture, 
+	// indicate detached with main thread
+	// return : thread ID
 	// usage :
 	//  void MyEntryFun(void* argument)
 	//	{
@@ -113,25 +110,25 @@ public:
 	static pthread_t CreateThread(void* entry, void* argument, const bool autoRel = true);
 
 private:
-	// brief : 防止拷贝
+	// brief : prevent copying
 	Thread(const Thread&);
 	void operator=(const Thread&);
 	
-	// brief : 启动多线程入口
-	// @para argument 线程参数
-	// return void*
+	// brief : thread entry
+	// @para [in]argument : thread argument
+	// return : reutrn description
 	static void* EnterPoint(void* argument);
 
 private:
-	// 线程ID
+	// thread ID
 	pthread_t	m_threadId;
-	// 是否与主线程分离，默认分离
+	// indicate whether is detached with main thread，default is detached
 	bool		m_autoRel;
-	// 用户多线程入口对象
+	// user thread object
 	Runnable*	m_runnable;
 };
 
-// brief : 多线程基类
+// brief : thread base class, be inherited by user
 // usage :
 //	class MyThreadTask : public ThreadTask
 //	{
@@ -150,35 +147,37 @@ private:
 class ThreadTask
 {
 public:
-	// brief : 构造函数
-	// @para autoRel 是否与主线程分离
+	// brief : 
+	// @para [in]autoRel : whether is detached with main thread, default is detached
+	// note
 	explicit ThreadTask(const bool autoRel = true);
 	virtual ~ThreadTask();
 
-	// brief : 启动线程
+	// brief : startup thread
 	// @para
 	// return true/false
 	bool Start();
 
-	// brief : 线程入口，子类实现
+	// brief : thread entry function
 	// @para
 	// note
 	virtual void Run() = 0;
 
 private:
-	// brief : 防止拷贝
+	// brief : prevate copying
 	ThreadTask(const ThreadTask&);
 	void operator=(const ThreadTask&);
 	
-	// brief : 启动多线程入口
-	// @para argument 线程参数
-	// return void*
+	// brief : inner used for starting thread
+	// @para [in]argument : thread argument
+	// return : thread return description
 	static void* EnterPoint(void* argument);	
 
 private:
-	// 线程ID
+	// thread ID
 	pthread_t	m_threadId;	
-	// 是否与主线程分离，默认分离
+	// whether is detached with main thread, default is ture, 
+	// indicate detached with main thread
 	bool		m_autoRel;
 };
 

@@ -30,67 +30,144 @@ static const D_UInt32 g_DefThreadCount = 20;
 class ThreadWorker;
 class ThreadJob;
 
-// fn : class ThreadPool
-//		thread pool implemention
+// brief : thread pool implemention
+// usage :
+//  class MyJob : public ThreadJob
+//  {
+//  public:
+//      MyJob() {}
+//      virtual MyJob() {}
+//  
+//      virtual void Work(void* userData)
+//      {
+//          // TODO    
+//      }
+//  }
+//  
+//  int threadPoolSize = 90;
+//  ThreadPool myThreadPool(threadPoolSize);
+//
+//  MyJob myJob;
+//  void* userData = NULL;
+//  myThreadPool.DoJob(&myJob, userData))
 class ThreadPool
 {
 public:
-	typedef duye::stl::List<ThreadWorker*> ThreadWorkerList;
+    // thread worker queue
+	typedef stl::List<ThreadWorker*> ThreadWorkerList;
 
 public:
+    // brief : 
+    // @para [in]threadCount : the size of thread pool
+    // note
 	explicit ThreadPool(const D_UInt32 threadCount = g_DefThreadCount);
 	~ThreadPool();
 
-	bool DoJob(ThreadJob* threadJob);
+    // brief : start to do user job
+    // @para [in]threadJob : user job object
+    // @para [in]userData : user data
+    // return : true/false
+    // note
+	bool DoJob(ThreadJob* threadJob, void* userData);
+
+	// brief : get thread count
+	// @para
+	// return : the count of thread pool
+	// note
 	D_UInt32 GetThreadCount() const;
 
 private:
+    // brief : prevent copying
+    ThreadPool(const ThreadPool&);
+    void operator=(const ThreadPool&);
+
+    // brief : initialize thread pool
 	void InitThreadPool();
+
+	// brief : move idle thread worker from busy queue to idle queue
+	// @para [in]workerId : thread worker ID
+	// note
 	void MoveToIdleList(const D_UInt32 workerId);
+
+	// brief : move busy thread worker from idle queue to busy queue
+	// @para [in]workerId : thread worker ID
+	// note
 	void MoveToBusyList(const D_UInt32 workerId);
 
 private:
+    // thread pool size
 	D_UInt32			m_threadCount;
-	ThreadWorkerList		m_idleThreadWorkerList;
-	ThreadWorkerList		m_busyThreadWorkerList;
+	// the idle queue
+	ThreadWorkerList	m_idleThreadWorkerList;
+	// the busy queue
+	ThreadWorkerList	m_busyThreadWorkerList;
 };
 
-// fn : class ThreadWorker
-//		thread worker for thread pool
+// brief : thread worker, class ThreadPool depend on 
+// usage:
+//  ThreadWorker threadWork;
+//  
+//  class MyJob : public ThreadJob {};
+//  ThreadJob* threadJob = new MyJob;
+//  void* userData;
+//  threadWork.DoWork(threadJob, userData);
 class ThreadWorker : public ThreadTask
 {
 public:
+    // brief : 
+    // @para [in]workerId : setting worker ID
+    // note
 	explicit ThreadWorker(const D_UInt32 workerId);
 	virtual ~ThreadWorker();
 
+    // brief : get thread worker ID
+    // return : thread worker ID
 	D_UInt32 GetWorkerId() const;
+
+	// brief : to do work
+	// @para [in] threadJob : user thread job
+	// @para [in] userData : user data
+	// return : true/false
+	// note
 	D_Bool DoWork(ThreadJob* threadJob, void* userData);		
 
 private:
+    // brief : prevent copying
 	ThreadWorker(const ThreadWorker&);
 	void operator=(const ThreadWorker&);
 	
-	// fn : work function	
+	// brief : thread run fucntion, loop 
 	void Run();
 
 private:
+    // thread worker ID, setting by external
 	D_UInt32		m_workerId;
+	// waitting condition
 	Condition		m_condition;
-	
+	// current running job
 	ThreadJob*		m_threadJob;	
+	// current running user data
 	void*			m_userData;	
 };
 
-// fn : class ThreadJob
-//		thread job interface for user inherit
+// brief : thread job, be inherited by user
+// usage:
+//  class UserJob : public ThreaJob
+//  {
+//  public:
+//      UserJob() {}
+//      virtual UserJob() {}
+//      
+//      virtual void Work(void* userData)
+//      {
+//          // do user work
+//      }
+//  }
 class ThreadJob
 {
 public:
 	~ThreadJob();
-	virtual void Work(void* para) = 0;
+	virtual void Work(void* userData) = 0;
 };
-
-// example :
-//
 
 DUYE_POSIX_NS_END

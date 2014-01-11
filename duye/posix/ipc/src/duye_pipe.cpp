@@ -18,13 +18,5 @@
 #include <duye/posix/ipc/inc/duye_pipe.h>
 
 DUYE_POSIX_NS_BEG
-
-Pipe::Pipe()
-{
-}
-
-Pipe::~Pipe()
-{
-}
-
+ 
 DUYE_POSIX_NS_END

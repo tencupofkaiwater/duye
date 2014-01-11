@@ -11,7 +11,9 @@
 * @date     2013-12-10
 * @note 
 *
-*  1. 2013-12-10 duye Created this file
+* 2. 2014-01-12 duye Modify implemention    
+*
+* 1. 2013-12-10 duye Created this file
 * 
 */
 
@@ -28,7 +30,7 @@ ThreadPool::~ThreadPool()
 {
 }
 
-bool ThreadPool::DoJob(ThreadJob* threadJob)
+bool ThreadPool::DoJob(ThreadJob* threadJob, void* userData)
 {
 	return true;
 }
