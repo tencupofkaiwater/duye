@@ -20,7 +20,7 @@
 #include <duye/posix/inc/duye_posix_def.h>
 
 DUYE_POSIX_NS_BEG 
-// brief : ½ø³ÌÍ¨ÐÅ£¬¹ÜµÀ»ùÀà£¬±»¶Á¹ÜµÀºÍÐ´¹ÜµÀ¼Ì³Ð
+// brief :ä½ å¥½å— 
 // ä½ å¥½å—	
 class Pipe
 {
