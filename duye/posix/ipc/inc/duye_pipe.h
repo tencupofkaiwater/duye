@@ -20,9 +20,8 @@
 #include <duye/posix/inc/duye_posix_def.h>
 
 DUYE_POSIX_NS_BEG 
-
-// brief : ่ฟ็จ้€ไฟก๏ผ็ฎก้“ๅบ็ฑป๏ผ่ขซ่ฏป็ฎก้“ๅ’ๅ็ฎก้“็ปงๆฟ
-// 	
+// brief : ฝ๘ณฬอจะลฃฌนÜตภป๙ภเฃฌฑปถมนÜตภบอะดนÜตภผฬณะ
+// ไฝ ๅฅฝๅ—	
 class Pipe
 {
 public:
@@ -78,8 +77,7 @@ private:
 // brief : ่ฏป็ฎก้“
 // usage :
 //	
-
-
+// ??????
 
 
 DUYE_POSIX_NS_END 
