@@ -19,7 +19,7 @@
 
 DUYE_POSIX_NS_BEG
 
-//---------------------------Thread class----------------------//
+//---------------------------Thread class---------------------------//
 Thread::Thread(Runnable* runnable, const bool autoRel) 
 	: m_threadId(-1)
 	, m_autoRel(autoRel)
@@ -85,7 +85,7 @@ void* Thread::EnterPoint(void* argument)
 	return NULL;
 }
 
-//------------------class ThreadTask--------------//
+//---------------------------class ThreadTask--------------------------//
 ThreadTask::ThreadTask(const bool autoRel) : m_threadId(-1), m_autoRel(autoRel)
 {
 }

@@ -23,23 +23,23 @@
 DUYE_POSIX_NS_BEG
 
 // brief:
-//  ï¿½ß³ï¿½×´Ì¬Ã¶ï¿½ï¿½
+//  Ïß³Ì×´Ì¬
 enum ThreadState
 {
-	// ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
+	// ÔËĞĞ×´Ì¬
 	THR_STATE_RUN = 0,
-	// ï¿½ß³ï¿½Í£Ö¹×´Ì¬
+	// Í£Ö¹×´Ì¬
 	THR_STATE_STOP,
-	// ï¿½ß³ï¿½ï¿½Ë³ï¿½×´Ì¬
+	// ÍË³ö×´Ì¬
 	THR_STATE_EXIT
 };
 
 // brief:
-//  ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//  Ïß³ÌÈë¿Úº¯ÊıÖ¸Õë
 typedef void* (*ThreadFunPoint_t)(void*);
 
 // brief:
-//  ï¿½ß³ï¿½Ê¹ï¿½Ã½Ó¿ï¿½ï¿½ï¿½
+//  Ê¹ÓÃ¶àÏß³ÌÕßĞè¼Ì³ĞµÄ½Ó¿Ú
 //	
 // usage:
 //	class MyThread : public Runnable
@@ -62,7 +62,7 @@ public:
 };
 
 // brief:
-//  POSIX ï¿½ß³ï¿½APIï¿½ï¿½×°
+//  POSIX ¶àÏß³Ì·â×°
 //	
 // usage:
 //	class MyThread : public Runnable
@@ -87,51 +87,51 @@ public:
     explicit Thread(Runnable* target, const bool autoRel = true);
     ~Thread();
 	
-	// brief : å¼€å§‹çº¿ç¨‹
+	// brief : Æô¶¯Ïß³Ì
 	// @para
 	// return true/false
 	bool Start();
 
-	// brief : è·å–çº¿ç¨‹ID
+	// brief : »ñÈ¡Ïß³ÌID
 	// @para
-	// return çº¿ç¨‹ID
+	// return ·µ»ØÏß³ÌID
 	pthread_t GetThreadId() const;
 
-	// brief : åˆ›å»ºæ–°çº¿ç¨‹
-	// @para entry çº¿ç¨‹å…¥å£å‡½æ•°
-	// @para argument çº¿ç¨‹å‚æ•°
-	// @para autoRel çº¿ç¨‹ä¸ä¸»çº¿ç¨‹æ˜¯å¦åˆ†ç¦»ï¼Œé»˜è®¤åˆ†ç¦»
-	// return çº¿ç¨‹ID 
+	// brief : ´´½¨Ïß³Ì
+	// @para entry Ïß³ÌÈë¿Úº¯ÊıÖ¸Õë
+	// @para argument Ïß³Ì²ÎÊı
+	// @para autoRel ÊÇ·ñÓëÖ÷Ïß³Ì·ÖÀë
+	// return ·µ»ØÏß³ÌID
 	// usage :
-	//		void MyEntryFun(void* argument)
-	//		{
-	//			for (;;) {}
-	//		}
+	//  void MyEntryFun(void* argument)
+	//	{
+	//	    for (;;) {}
+	//  }
 	//		
-	//		void* argument;
-	//		Thread::CreateThread(MyEntryFun, argument);
+	//	void* argument;
+	//	Thread::CreateThread(MyEntryFun, argument);
 	static pthread_t CreateThread(void* entry, void* argument, const bool autoRel = true);
 
 private:
-	// brief : é˜²æ­¢æ‹·è´
+	// brief : ·ÀÖ¹¿½±´
 	Thread(const Thread&);
 	void operator=(const Thread&);
 	
-	// brief : å¯åŠ¨çº¿ç¨‹å…¥å£staticæ–¹æ³•
-	// @para argument çº¿ç¨‹å‚æ•°
+	// brief : Æô¶¯¶àÏß³ÌÈë¿Ú
+	// @para argument Ïß³Ì²ÎÊı
 	// return void*
 	static void* EnterPoint(void* argument);
 
 private:
-	// çº¿ç¨‹ID
+	// Ïß³ÌID
 	pthread_t	m_threadId;
-	// çº¿ç¨‹æ˜¯å¦ä¸ä¸»çº¿ç¨‹åˆ†ç¦»
+	// ÊÇ·ñÓëÖ÷Ïß³Ì·ÖÀë£¬Ä¬ÈÏ·ÖÀë
 	bool		m_autoRel;
-	// çº¿ç¨‹å¯¹è±¡
+	// ÓÃ»§¶àÏß³ÌÈë¿Ú¶ÔÏó
 	Runnable*	m_runnable;
 };
 
-// brief : å®ç°å¤šçº¿ç¨‹åŸºç±»
+// brief : ¶àÏß³Ì»ùÀà
 // usage :
 //	class MyThreadTask : public ThreadTask
 //	{
@@ -150,36 +150,36 @@ private:
 class ThreadTask
 {
 public:
-	// brief : å¸¦å‚æ„é€ å‡½æ•°
-	// @para autoRel æ˜¯å¦ä¸ä¸»çº¿ç¨‹åˆ†ç¦»ï¼Œé»˜è®¤æ˜¯
+	// brief : ¹¹Ôìº¯Êı
+	// @para autoRel ÊÇ·ñÓëÖ÷Ïß³Ì·ÖÀë
 	explicit ThreadTask(const bool autoRel = true);
 	virtual ~ThreadTask();
 
-	// brief : å¼€å§‹çº¿ç¨‹ï¼Œç»§æ‰¿ç±»è°ƒç”¨
+	// brief : Æô¶¯Ïß³Ì
 	// @para
 	// return true/false
 	bool Start();
 
-	// brief : ç»§æ‰¿ç±»å¤šçº¿ç¨‹å…¥å£
+	// brief : Ïß³ÌÈë¿Ú£¬×ÓÀàÊµÏÖ
 	// @para
-	// note ç»§æ‰¿ç±»å¿…é¡»å®ç°
+	// note
 	virtual void Run() = 0;
 
 private:
-	// brief : é˜²æ­¢æ‹·è´
+	// brief : ·ÀÖ¹¿½±´
 	ThreadTask(const ThreadTask&);
 	void operator=(const ThreadTask&);
 	
-	// brief : çº¿ç¨‹å…¥å£
-	// @para argument çº¿ç¨‹å‚æ•°
+	// brief : Æô¶¯¶àÏß³ÌÈë¿Ú
+	// @para argument Ïß³Ì²ÎÊı
 	// return void*
 	static void* EnterPoint(void* argument);	
 
 private:
-	// çº¿ç¨‹ID
-	pthread_t		m_threadId;	
-	// æ˜¯å¦ä¸ä¸»çº¿ç¨‹åˆ†ç¦»
-	bool			m_autoRel;
+	// Ïß³ÌID
+	pthread_t	m_threadId;	
+	// ÊÇ·ñÓëÖ÷Ïß³Ì·ÖÀë£¬Ä¬ÈÏ·ÖÀë
+	bool		m_autoRel;
 };
 
 DUYE_POSIX_NS_END
