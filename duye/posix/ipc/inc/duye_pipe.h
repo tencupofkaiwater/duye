@@ -4,7 +4,7 @@
 *
 ***************************************************************************/
 /**
-* @file		duye_pipe.h
+* @file     duye_pipe.h
 * @version     
 * @brief      
 * @author   duye
@@ -81,3 +81,6 @@ private:
 
 
 DUYE_POSIX_NS_END 
+
+
+
