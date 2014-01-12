@@ -1,8 +1,8 @@
-/***************************************************************************
+/************************************************************************************
 **  
 *    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
-***************************************************************************/
+*************************************************************************************/
 /**
 * @file		duye_list.h
 * @version     
@@ -19,25 +19,37 @@
 
 #include <duye/stl/inc/duye_stl_def.h>
 #include <duye/stl/inc/duye_bytemem.h>
+#include <duye/stl/inc/duye_stl_iterator.h>
+#include <duye/stl/inc/duye_stl_node.h>
 
 DUYE_STL_NS_BEG
 
+// brief : stl list implemention
+//	
+// usage :
 template <typename T>
 class List 
 {
 public:
-	List() {}
-	~List() {}
+    typedef _Iterator<T> Iterator;
+    
+public:
+	List() : m_count(0), m_head(NULL), m_tail(NULL) {}
 
-	void PushBack(T item);
+    Iterator 
+	void PushBack(const Item& item);
+	void PushFront(const Item& item);
+
+    T& GetBack();
+    T& GetFront();
+    
+	void RemoveBack();
+	void RemoveFront();	
 
 private:
-};
-
-template <typename T>
-void List<T>::PushBack(T item)
-{
-	
-}
+    D_UInt32    m_count;
+    Node<T>*    m_head;     
+    Node<T>*    m_tail;
+}; 
 
 DUYE_STL_NS_END
