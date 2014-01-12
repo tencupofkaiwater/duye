@@ -13,11 +13,8 @@
 *
 *  1. 2013-11-15 duye Created this file
 * 
-*/
-
-#pragma once
-
+*/ 
 #include <duye/util/xml/inc/duye_xml.h>
 
-DUYE_UTIL_SN_BEG
-DUYE_UTIL_SN_END
+DUYE_UTIL_NS_BEG
+DUYE_UTIL_NS_END

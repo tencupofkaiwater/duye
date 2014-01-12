@@ -18,6 +18,3 @@
 #pragma once
 
 #include <duye/inc/duye_type.h>
-
-#define DUYE_UTIL_SN_BEG namespace duye { namespace util {
-#define DUYE_UTIL_SN_END }}

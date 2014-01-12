@@ -17,5 +17,5 @@
 
 #include <duye/util/ini/inc/duye_ini.h>
 
-DUYE_UTIL_SN_BEG
-DUYE_UTIL_SN_END
+DUYE_UTIL_NS_BEG
+DUYE_UTIL_NS_END
