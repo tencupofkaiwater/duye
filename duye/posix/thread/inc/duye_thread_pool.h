@@ -1,8 +1,8 @@
-/***************************************************************************
+/************************************************************************************
 **  
 *    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
-***************************************************************************/
+*************************************************************************************/
 /**
 * @file	    duye_thread_pool.h
 * @version     
@@ -84,6 +84,9 @@ private:
     // brief : initialize thread pool
 	void InitThreadPool();
 
+	// brief : uninitialize thread pool
+	void UninitThreadPool();
+
 	// brief : move idle thread worker from busy queue to idle queue
 	// @para [in]workerId : thread worker ID
 	// note
@@ -105,12 +108,15 @@ private:
 
 // brief : thread worker, class ThreadPool depend on 
 // usage:
-//  ThreadWorker threadWork;
+//  void MyTestFun()
+//  {
+//      ThreadWorker threadWork;
 //  
-//  class MyJob : public ThreadJob {};
-//  ThreadJob* threadJob = new MyJob;
-//  void* userData;
-//  threadWork.DoWork(threadJob, userData);
+//      class MyJob : public ThreadJob {};
+//      ThreadJob* threadJob = new MyJob;
+//      void* userData;
+//      threadWork.DoWork(threadJob, userData);
+//  }
 class ThreadWorker : public ThreadTask
 {
 public:

@@ -1,8 +1,8 @@
-/***************************************************************************
+/************************************************************************************
 **  
 *    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
-***************************************************************************/
+*************************************************************************************/
 /**
 * @file	    duye_type.h
 * @version     
@@ -74,7 +74,7 @@ DUYE_STL_NS_END
 #define DUYE_POSIX_NS_BEG namespace duye { namespace posix {
 #define DUYE_POSIX_NS_END }}
 
-DUYE_POSIX_NS_BEG
+DUYE_POSIX_NS_BEG  
 DUYE_POSIX_NS_END
 
 // ut namespace, path : /duye/ut

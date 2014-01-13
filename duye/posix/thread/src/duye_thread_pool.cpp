@@ -1,8 +1,8 @@
-/***************************************************************************
+/************************************************************************************
 **  
 *    @copyright (c) 2013-2100, ChengDu Duyer Technology Co., LTD. All Right Reserved.
 *
-***************************************************************************/
+*************************************************************************************/
 /**
 * @file	    duye_thread_pool.cpp
 * @version     
@@ -24,10 +24,12 @@ DUYE_POSIX_NS_BEG
 //---------------------------class ThreadPool----------------------//
 ThreadPool::ThreadPool(const D_UInt32 threadCount) : m_threadCount(threadCount)
 {
+    InitThreadPool();    
 }
 
 ThreadPool::~ThreadPool()
 {
+    
 }
 
 bool ThreadPool::DoJob(ThreadJob* threadJob, void* userData)
@@ -46,6 +48,11 @@ void ThreadPool::InitThreadPool()
 	{
 		m_idleThreadWorkerList.PushBack(new ThreadWorker(i));		
 	}
+}
+
+void ThreadPool::UninitThreadPool()
+{
+    
 }
 
 /*---------------------------ThreadWorker class----------------------*/
