@@ -32,14 +32,29 @@ public:
     explicit _Iterator(Node<T>* node) : m_node(node) {}
     _Iterator(const _Iterator& iter) : m_node(iter.m_node) {}
 
+    // brief : whether is end
+    bool IsEnd()
+    {
+        return (m_node == NULL ? true : false);
+    }
+
     // brief : get data reference
-    T& operator*() const { return m_node->GetData(); }
+    T& operator*() 
+    { 
+        return m_node->GetData(); 
+    }
 
     // brief : get data const referenced
-    const T& operator*() const { return m_node->GetData(); }
+    const T& operator*() const 
+    { 
+        return m_node->GetData(); 
+    }
 
     // brief : get data pointer
-    T* operator->() const { return &m_node->GetData(); }
+    T* operator->() const 
+    { 
+        return &m_node->GetData(); 
+    }
 
     // brief : prefix ++ rewrite
     _Iterator& operator++()  
@@ -51,7 +66,7 @@ public:
     // brief : postfix rewrite
     _Iterator operator++(int) 
     { 
-        Iterator currIter = *this;
+        _Iterator currIter = *this;
         m_node = m_node->GetNext();
         return currIter;
     }

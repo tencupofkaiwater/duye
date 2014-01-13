@@ -27,6 +27,12 @@ DUYE_STL_NS_BEG
 // brief : stl list implemention
 //	
 // usage :
+//  List<int> MyList;
+//  List<int>::Iterator iter = MyList.BegIter();
+//  for (; iter.IsEnd(); ++iter)
+//  {
+//      // TBD
+//  }
 template <typename T>
 class List 
 {
@@ -36,20 +42,84 @@ public:
 public:
 	List() : m_count(0), m_head(NULL), m_tail(NULL) {}
 
-    Iterator 
-	void PushBack(const Item& item);
-	void PushFront(const Item& item);
+    // brief : return the begin of iterator
+    Iterator& BegIter()
+    {
+        m_iter = m_head;
+        return m_iter;
+    }
 
-    T& GetBack();
-    T& GetFront();
-    
-	void RemoveBack();
-	void RemoveFront();	
+    // brief : return the end of iterator
+    Iterator& EndIter()
+    {
+        m_iter = m_tail->GetNext();
+        return m_iter;
+    }
+
+    // brief : insert a node at the back of list
+	void PushBack(const T& item)
+	{
+	        
+	}
+
+	// brief : insert a node at the front of list
+	void PushFront(const T& item)
+	{
+	}
+
+    // brief : return the reference of the last node
+    T& GetBack()
+    {
+    }
+
+    // brief : return the reference of the first node
+    T& GetFront()
+    {
+    }
+
+    // brief : remove the last node
+	void RemoveBack()
+	{
+	}
+
+	// brief : remove the frist node
+	void RemoveFront()
+	{
+	}
+
+    // brief : clear the all node
+	void Clear()
+	{
+	}
+
+	// brief : get the count of list
+	D_UInt32 Size()
+	{
+	    return m_count;
+	}
+
+	// brief : sort the list
+	void Sort()
+	{
+	}
+
+	// brief : delete a node 
+	Iterator erase(const Iterator& iter)
+	{
+	    return ++iter;
+	}
+
+	// brief : insert a node to the list
+	Iterator Insert(Iterator& pos, const T& value)
+	{
+	    return ++pos;    
+	}
 
 private:
     D_UInt32    m_count;
     Node<T>*    m_head;     
     Node<T>*    m_tail;
+    Iterator    m_iter;
 }; 
 
 DUYE_STL_NS_END

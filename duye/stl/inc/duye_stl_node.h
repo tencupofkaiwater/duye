@@ -29,15 +29,40 @@ class Node
 public:
     explicit Node(const T& data) : m_data(data), m_next(NULL), m_prev(NULL) {}
 
-    void SetData(const T& data) { m_data = data; }
-    const T& GetData() const { return m_data; }
-    T& GetData() const { return m_data; }
+    void SetData(const T& data) 
+    { 
+        m_data = data; 
+    }
+    
+    const T& GetData() const 
+    { 
+        return m_data; 
+    }
+    
+    T& GetData() 
+    { 
+        return m_data; 
+    }
 
-    void SetNext(Node* next) { m_next = next; }
-    Node* GetNext() { return m_next; }
+    void SetNext(Node* next) 
+    { 
+        m_next = next; 
+    }
+    
+    Node* GetNext() 
+    { 
+        return m_next; 
+    }
 
-    void SetPrev(Node* prev) { m_prev = prev; }
-    Node* GetPrev() { return m_prev; }
+    void SetPrev(Node* prev) 
+    { 
+        m_prev = prev; 
+    }
+    
+    Node* GetPrev() 
+    { 
+        return m_prev; 
+    }
 
 private:
     T       m_data;

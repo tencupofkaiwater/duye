@@ -23,10 +23,6 @@ Bytemem::Bytemem()
 {
 }
 
-Bytemem::~Bytemem()
-{
-}
-
 D_UInt32 Bytemem::Strlen(const D_Int8* str)
 {
 	D_ASSERT(str != NULL && str[0] != '\0');

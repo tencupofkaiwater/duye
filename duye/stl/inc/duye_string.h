@@ -22,6 +22,9 @@
 
 DUYE_STL_NS_BEG
 
+// brief : string wrapper
+//	
+// usage :
 class String
 {
 public:
