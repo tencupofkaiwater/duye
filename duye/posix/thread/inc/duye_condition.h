@@ -46,7 +46,6 @@ DUYE_POSIX_NS_BEG
 //      sleep(1);
 //      myCond.Signal();
 //  }
-// 
 class Condition 
 {
 public:
