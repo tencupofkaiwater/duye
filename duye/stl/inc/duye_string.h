@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_str.h
+* @file		duye_string.h
 * @version     
 * @brief      
 * @author   duye
@@ -29,24 +29,53 @@ class String
 {
 public:
 	String();
+	// brief : constructor
+	// @para [in]str : init string
 	explicit String(const D_Int8* str);
-	String(const D_Int8* str, const D_UInt32 size);
-	String(const String& duyeStr);
+	
+	// brief : constructor
+	// @para [in]str : init string
+	// @para [in]strLen : the length of string
+	String(const D_Int8* str, const D_UInt32 strLen);
+	
+	// brief : copying constructor
+	// @para [in]str : string
+	String(const String& str);
 	~String();
 
+	// brief : reset capacity size
+	// @para [in]size : size
 	void Resize(const D_UInt32 size);
+	
+	// brief : assign a string
+	// @para [in]str : assign string
 	void Assign(const D_Int8* str);
-	void Assign(const D_Int8* str, const D_UInt32 size);
+	
+	// brief : assign a string
+	// @para [in]str : assign string
+	// @para [in]strLen : the length of string
+	void Assign(const D_Int8* str, const D_UInt32 strLen);
+	
+	// brief : get C string
+	// return : C string pointer
 	D_Int8* GetCStr() const;
 
 private:
+	// brief : predistribution allocation buffer for string
 	void PreAllocation();
+	
+	// brief : reallocation buffer for string
 	void ReAllocation(const D_UInt32 size);
+	
+	// brief : release buffer
 	void Release();
 
 private:
+	// string buffer
 	D_Int8*		m_data;
+	// string length
 	D_UInt32	m_length;
+	// capacity size
 	D_UInt32	m_capacity;
 };
 
