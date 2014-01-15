@@ -19,6 +19,7 @@
 
 DUYE_STL_NS_BEG
 
+D_UInt8 String::EmptyString = '\0';
 static const D_UInt32 BUF_PRE_ALLOCATION_SIZE = 50;
 
 String::String() 
