@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_string.h
+* @file	    duye_string.h
 * @version     
 * @brief      
 * @author   duye
@@ -181,24 +181,48 @@ public:
     D_UInt32 Find(const D_UInt32 index, const D_Int8 ch, const D_Bool reverse = false);   
 
     // brief : insert character
-    // @para [in]index : start index
-    // @para [in]ch : need find character
+    // @para [in]index : insert index
+    // @para [in]ch : insert character
     // @para [in]reverse : whether is reverse find, default is false
     // return : the index of the first character of the found sub string, 
     // if don't find the character, return String::End      
     D_UInt32 Insert(const D_UInt32 index, const D_Int8 ch, const D_Bool reverse = false);    
-
+    
+    // brief : insert string
+    // @para [in]index : insert index
+    // @para [in]str : insert string
+    // @para [in]reverse : whether is reverse find, default is false
+    // return : the index of the first character of the found sub string, 
+    // if don't find the character, return String::End     
+    D_UInt32 Insert(const D_UInt32 index, const String& str, const D_Bool reverse = false);
+    D_UInt32 Insert(const D_UInt32 index, const D_Int8* str, const D_Bool reverse = false);
+    
 	// brief : get length
 	// return : length
 	D_UInt32 Length();    
 
-    String& Replace();
+	// brief : replace string
+	// @para [in]index : replace start index
+	// @para [in]str : replaced string
+	// return : return new string
+    String& Replace(const D_UInt32 index, const String& str);
+    String& Replace(const D_UInt32 index, const D_Int8* str);
+    
+	// brief : replace string
+	// @para [in]dstStr : be replaced string
+	// @para [in]srcStr : replaced string
+	// return : return new string    
+    String& Replace(const String& dstStr, const String& srcStr);
 
 	// brief : reset capacity size
 	// @para [in]size : size
 	void Resize(const D_UInt32 size);
 
-	String SubString();
+	// brief : get sub string
+	// @para [in]index : begin index
+	// @para [in]len : sub string length, default is the end of string
+	// return : new sub string
+	String SubString(const D_UInt32 index, const D_UInt32 len = String::End);
 	
 private:
 	// brief : predistribution allocation buffer for string
