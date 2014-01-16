@@ -49,6 +49,22 @@ public:
 	String(const String& str);
 	~String();
 
+	// brief : get length
+	// return : length
+	D_UInt32 Length(); 	
+
+    // brief : whether is empty string
+    // return : true/false, if empty return true, else if return false
+    D_Bool IsEmpty();
+
+	// brief : reset capacity size
+	// @para [in]size : size
+	void Resize(const D_UInt32 size);    
+    
+    // brief : get C string
+    // reutrn : C pointer
+    D_Int8* GetChars();  
+
 	// brief : append string
 	// @para [in]str : string
 	// return : new string
@@ -81,14 +97,6 @@ public:
 	// @para [in]strLen : the length of string
 	void Assign(const D_Int8* str, const D_UInt32 len);    
 
-    // brief : get C string
-    // reutrn : C pointer
-    D_Int8* GetChars();
-
-    // brief : whether is empty string
-    // return : true/false, if empty return true, else if return false
-    D_Bool IsEmpty();
-
     // brief : delete all character equal to parameter 'ch'
     // @para [in]ch : be deleted character
     // return : the index of the first be deleted character, if don't find the character, 
@@ -103,17 +111,26 @@ public:
     // return String::End    
     D_UInt32 Delete(const D_UInt32 start, const D_UInt32 end, const D_Bool reverse = false);
 
-    // brief : begin with specific string
-    // @para [in]str : compare string
-    // return : true/false, found return true, else if return false
-    D_Bool BegWith(const D_Int8* str);
-    D_Bool BegWith(const String& str);
-
     // brief : end with specific string
     // @para [in]str : compare string
     // return : true/false, found return true, else if return false
     D_Bool EndWith(const D_Int8* str);
     D_Bool EndWith(const String& str);
+
+    // brief : begin with specific string
+    // @para [in]str : compare string
+    // return : true/false, found return true, else if return false
+    D_Bool BegWith(const D_Int8* str);
+    D_Bool BegWith(const String& str);   
+
+    // brief : compare string
+    // @para [in]str : be compared string
+    // return : 
+    //  < 0 , when < str
+    //  = 0 , when == str
+    //  > 0 , when > str
+    D_Int32 Compare(const D_Int8* str);
+    D_Int32 Compare(const String& str);
     
     // brief : find character
     // @para [in]ch : need find character
@@ -146,7 +163,7 @@ public:
     // if don't find the character, return String::End    
     D_UInt32 Find(const D_Int8* str, const D_UInt32 start, const D_Bool reverse = false);
     D_UInt32 Find(const String& str, const D_UInt32 start, const D_Bool reverse = false);
-
+    
     // brief : insert character
     // @para [in]ch : insert character
     // @para [in]start : insert index
@@ -163,11 +180,7 @@ public:
     // if don't find the character, return String::End    
     D_UInt32 Insert(const D_Int8* str, const D_UInt32 start, const D_Bool reverse = false);
     D_UInt32 Insert(const String& str, const D_UInt32 start, const D_Bool reverse = false);
-    
-	// brief : get length
-	// return : length
-	D_UInt32 Length();    
-
+ 	
 	// brief : replace character
 	// @para [in]dstCh : be replaced character
 	// @para [in]srcCh : replaced character
@@ -182,10 +195,6 @@ public:
     String& Replace(const String& dstStr, const D_Int8* srcStr, const D_UInt32 start = 0);
     String& Replace(const D_Int8* dstStr, const String& srcStr, const D_UInt32 start = 0);
     String& Replace(const String& dstStr, const String& srcStr, const D_UInt32 start = 0);
-
-	// brief : reset capacity size
-	// @para [in]size : size
-	void Resize(const D_UInt32 size);
 
 	// brief : get sub string
 	// @para [in]start : begin index
@@ -211,6 +220,12 @@ public:
 	// return : new sub string		
 	String ToUppercase() const;
 
+	// brief : make string to lowercase
+    void MakeLowercase();
+
+    // brief : make string to uppercase
+    void MakeUppercase();	
+
 	// brief : converte to integer
 	// return : true/false
 	D_Result ToInteger(D_Int16& value) const;
@@ -224,12 +239,6 @@ public:
 	// brief : converte to float
 	// return : true/false
 	D_Result ToFloat(float& value) const;
-
-	// brief : make string to lowercase
-    void MakeLowercase();
-
-    // brief : make string to uppercase
-    void MakeUppercase();
 
     // brief : make string to uppercase
     const String& Trim();
@@ -246,6 +255,13 @@ public:
 	
 	D_Int8 operator[](const D_UInt32 index) const;
 	D_Int8& operator[](const D_UInt32 index);
+
+    // friend operators
+    friend String operator+(const String& str1, const String& str2);
+    friend String operator+(const String& str1, const D_Int8* str2);
+    friend String operator+(const D_Int8* str1, const String& str2);
+    friend String operator+(const String& str, D_Int8 ch);
+    friend String operator+(D_Int8 ch, const String& str);	
 	
 private:
 	// brief : predistribution allocation buffer for string
@@ -266,6 +282,159 @@ private:
 	D_UInt32	m_capacity;
 };
 
+// brief : memory malloc
+//	
+// usage :
+class Buffer 
+{
+public:
+    static Buffer* Allocate(D_UInt32 allocated, D_UInt32 len) 
+    {
+        void* mem = ::operator new(sizeof(Buffer)+allocated+1);
+        return new(mem) Buffer(allocated, length);
+    }
+    
+    static char* Create(NPT_Size allocated, NPT_Size length=0) 
+    {
+        Buffer* shared = Allocate(allocated, length);
+        return shared->GetChars();
+    }
+    
+    static char* Create(const char* copy) 
+    {
+        NPT_Size length = StringLength(copy);
+        Buffer* shared = Allocate(length, length);
+        CopyString(shared->GetChars(), copy);
+        return shared->GetChars();
+    }
+    
+    static char* Create(const char* copy, NPT_Size length) 
+    {
+        Buffer* shared = Allocate(length, length);
+        CopyBuffer(shared->GetChars(), copy, length);
+        shared->GetChars()[length] = '\0';
+        return shared->GetChars();
+    }
+    static char* Create(char c, NPT_Cardinal repeat) {
+        Buffer* shared = Allocate(repeat, repeat);
+        char* s = shared->GetChars();
+        while (repeat--) {
+            *s++ = c;
+        }
+        *s = '\0';
+        return shared->GetChars();
+    }
+    // methods
+    char* GetChars() { 
+        // return a pointer to the first char
+        return reinterpret_cast<char*>(this+1); 
+    }
+    NPT_Size GetLength() const      { return m_Length; }
+    void SetLength(NPT_Size length) { m_Length = length; }
+    NPT_Size GetAllocated() const   { return m_Allocated; }
+    void Destroy() { ::operator delete((void*)this); }
+    
+private:
+    // methods
+    Buffer(NPT_Size allocated, NPT_Size length = 0) : 
+        m_Length(length),
+        m_Allocated(allocated) {}
+    
+    // members
+    NPT_Cardinal m_Length;
+    NPT_Cardinal m_Allocated;
+    // the actual string data follows
 
+};
+
+inline bool operator==(const String& str1, const String& str2) 
+{ 
+    return str1.Compare(str2) == 0; 
+}
+
+inline bool operator==(const String& str1, const D_Int8* str2) 
+{
+    return str1.Compare(str2) == 0; 
+}
+
+inline bool operator==(const D_Int8* str1, const String& str2) 
+{
+    return str2.Compare(str1) == 0; 
+}
+
+inline bool operator!=(const String& str1, const String& str2) 
+{
+    return str1.Compare(str2) != 0; 
+}
+
+inline bool operator!=(const String& str1, const D_Int8* str2) 
+{
+    return str1.Compare(str2) != 0; 
+}
+
+inline bool operator!=(const D_Int8* str1, const String& str2) 
+{
+    return str2.Compare(str1) != 0; 
+}
+
+inline bool operator<(const String& str1, const String& str2) 
+{
+    return str1.Compare(str2) < 0; 
+}
+
+inline bool operator<(const String& str1, const D_Int8* str2) 
+{
+    return str1.Compare(str2) < 0; 
+}
+
+inline bool operator<(const D_Int8* str1, const String& str2) 
+{
+    return str2.Compare(str1) > 0; 
+}
+
+inline bool operator>(const String& str1, const String& str2) 
+{
+    return str1.Compare(str2) > 0; 
+}
+
+inline bool operator>(const String& str1, const D_Int8* str2) 
+{
+    return str1.Compare(str2) > 0; 
+}
+
+inline bool operator>(const D_Int8* str1, const String& str2) 
+{
+    return str2.Compare(str1) < 0; 
+}
+
+inline bool operator<=(const String& str1, const String& str2) 
+{
+    return str1.Compare(str2) <= 0; 
+}
+
+inline bool operator<=(const String& str1, const D_Int8* str2) 
+{
+    return str1.Compare(str2) <= 0; 
+}
+
+inline bool operator<=(const D_Int8* str1, const String& str2) 
+{
+    return str2.Compare(str1) >= 0; 
+}
+
+inline bool operator>=(const String& str1, const String& str2) 
+{
+    return str1.Compare(str2) >= 0; 
+}
+
+inline bool operator>=(const String& str1, const D_Int8* str2) 
+{
+    return str1.Compare(str2) >= 0; 
+}
+
+inline bool operator>=(const D_Int8* str1, const String& str2) 
+{
+    return str2.Compare(str1) <= 0; 
+}
 
 DUYE_STL_NS_END
