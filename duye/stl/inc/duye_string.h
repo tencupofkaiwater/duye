@@ -49,11 +49,6 @@ public:
 	String(const String& str);
 	~String();
 
-	String& operator=(const String& str);
-	D_Bool operator==(const String& str);
-	D_Bool operator!=(const String& str);
-	String operator+(const String& str);
-
 	// brief : append string
 	// @para [in]str : string
 	// return : new string
@@ -240,7 +235,17 @@ public:
     const String& Trim();
     const String& TrimLeft();
     const String& TrimRight();
+    
+	String& operator=(const D_Int8* str);
+	String& operator=(const String& str);
+	String& operator=(const D_Int8 ch);
 	
+	const String& operator+=(const D_Int8* str);
+	const String& operator+=(const String& str);
+	const String& operator+=(const D_Int8 ch);
+	
+	D_Int8 operator[](const D_UInt32 index) const;
+	D_Int8& operator[](const D_UInt32 index);
 	
 private:
 	// brief : predistribution allocation buffer for string
@@ -260,5 +265,7 @@ private:
 	// capacity size
 	D_UInt32	m_capacity;
 };
+
+
 
 DUYE_STL_NS_END
