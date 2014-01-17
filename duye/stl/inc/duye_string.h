@@ -19,6 +19,7 @@
 
 #include <duye/stl/inc/duye_stl_def.h>
 #include <duye/stl/inc/duye_bytemem.h>
+#include <duye/stl/inc/duye_buffer.h>
 
 DUYE_STL_NS_BEG
 
@@ -282,157 +283,92 @@ private:
 	D_UInt32	m_capacity;
 };
 
-// brief : memory malloc
-//	
-// usage :
-class Buffer 
-{
-public:
-    static Buffer* Allocate(D_UInt32 allocated, D_UInt32 len) 
-    {
-        void* mem = ::operator new(sizeof(Buffer)+allocated+1);
-        return new(mem) Buffer(allocated, length);
-    }
-    
-    static char* Create(NPT_Size allocated, NPT_Size length=0) 
-    {
-        Buffer* shared = Allocate(allocated, length);
-        return shared->GetChars();
-    }
-    
-    static char* Create(const char* copy) 
-    {
-        NPT_Size length = StringLength(copy);
-        Buffer* shared = Allocate(length, length);
-        CopyString(shared->GetChars(), copy);
-        return shared->GetChars();
-    }
-    
-    static char* Create(const char* copy, NPT_Size length) 
-    {
-        Buffer* shared = Allocate(length, length);
-        CopyBuffer(shared->GetChars(), copy, length);
-        shared->GetChars()[length] = '\0';
-        return shared->GetChars();
-    }
-    static char* Create(char c, NPT_Cardinal repeat) {
-        Buffer* shared = Allocate(repeat, repeat);
-        char* s = shared->GetChars();
-        while (repeat--) {
-            *s++ = c;
-        }
-        *s = '\0';
-        return shared->GetChars();
-    }
-    // methods
-    char* GetChars() { 
-        // return a pointer to the first char
-        return reinterpret_cast<char*>(this+1); 
-    }
-    NPT_Size GetLength() const      { return m_Length; }
-    void SetLength(NPT_Size length) { m_Length = length; }
-    NPT_Size GetAllocated() const   { return m_Allocated; }
-    void Destroy() { ::operator delete((void*)this); }
-    
-private:
-    // methods
-    Buffer(NPT_Size allocated, NPT_Size length = 0) : 
-        m_Length(length),
-        m_Allocated(allocated) {}
-    
-    // members
-    NPT_Cardinal m_Length;
-    NPT_Cardinal m_Allocated;
-    // the actual string data follows
-
-};
-
-inline bool operator==(const String& str1, const String& str2) 
+inline D_Bool operator==(const String& str1, const String& str2) 
 { 
     return str1.Compare(str2) == 0; 
 }
 
-inline bool operator==(const String& str1, const D_Int8* str2) 
+inline D_Bool operator==(const String& str1, const D_Int8* str2) 
 {
     return str1.Compare(str2) == 0; 
 }
 
-inline bool operator==(const D_Int8* str1, const String& str2) 
+inline D_Bool operator==(const D_Int8* str1, const String& str2) 
 {
     return str2.Compare(str1) == 0; 
 }
 
-inline bool operator!=(const String& str1, const String& str2) 
+inline D_Bool operator!=(const String& str1, const String& str2) 
 {
     return str1.Compare(str2) != 0; 
 }
 
-inline bool operator!=(const String& str1, const D_Int8* str2) 
+inline D_Bool operator!=(const String& str1, const D_Int8* str2) 
 {
     return str1.Compare(str2) != 0; 
 }
 
-inline bool operator!=(const D_Int8* str1, const String& str2) 
+inline D_Bool operator!=(const D_Int8* str1, const String& str2) 
 {
     return str2.Compare(str1) != 0; 
 }
 
-inline bool operator<(const String& str1, const String& str2) 
+inline D_Bool operator<(const String& str1, const String& str2) 
 {
     return str1.Compare(str2) < 0; 
 }
 
-inline bool operator<(const String& str1, const D_Int8* str2) 
+inline D_Bool operator<(const String& str1, const D_Int8* str2) 
 {
     return str1.Compare(str2) < 0; 
 }
 
-inline bool operator<(const D_Int8* str1, const String& str2) 
+inline D_Bool operator<(const D_Int8* str1, const String& str2) 
 {
     return str2.Compare(str1) > 0; 
 }
 
-inline bool operator>(const String& str1, const String& str2) 
+inline D_Bool operator>(const String& str1, const String& str2) 
 {
     return str1.Compare(str2) > 0; 
 }
 
-inline bool operator>(const String& str1, const D_Int8* str2) 
+inline D_Bool operator>(const String& str1, const D_Int8* str2) 
 {
     return str1.Compare(str2) > 0; 
 }
 
-inline bool operator>(const D_Int8* str1, const String& str2) 
+inline D_Bool operator>(const D_Int8* str1, const String& str2) 
 {
     return str2.Compare(str1) < 0; 
 }
 
-inline bool operator<=(const String& str1, const String& str2) 
+inline D_Bool operator<=(const String& str1, const String& str2) 
 {
     return str1.Compare(str2) <= 0; 
 }
 
-inline bool operator<=(const String& str1, const D_Int8* str2) 
+inline D_Bool operator<=(const String& str1, const D_Int8* str2) 
 {
     return str1.Compare(str2) <= 0; 
 }
 
-inline bool operator<=(const D_Int8* str1, const String& str2) 
+inline D_Bool operator<=(const D_Int8* str1, const String& str2) 
 {
     return str2.Compare(str1) >= 0; 
 }
 
-inline bool operator>=(const String& str1, const String& str2) 
+inline D_Bool operator>=(const String& str1, const String& str2) 
 {
     return str1.Compare(str2) >= 0; 
 }
 
-inline bool operator>=(const String& str1, const D_Int8* str2) 
+inline D_Bool operator>=(const String& str1, const D_Int8* str2) 
 {
     return str1.Compare(str2) >= 0; 
 }
 
-inline bool operator>=(const D_Int8* str1, const String& str2) 
+inline D_Bool operator>=(const D_Int8* str1, const String& str2) 
 {
     return str2.Compare(str1) <= 0; 
 }
