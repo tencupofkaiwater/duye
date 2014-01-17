@@ -42,8 +42,8 @@ public:
 	
 	// brief : constructor
 	// @para [in]str : init string
-	// @para [in]strLen : the length of string
-	String(const D_Int8* str, const D_UInt32 strLen);
+	// @para [in]len : the length of string
+	String(const D_Int8* str, const D_UInt32 len);
 	
 	// brief : copying constructor
 	// @para [in]str : string
@@ -53,6 +53,10 @@ public:
 	// brief : get length
 	// return : length
 	D_UInt32 Length(); 	
+
+	// brief : get capacity
+	// return : capacity
+	D_UInt32 Capacity();
 
     // brief : whether is empty string
     // return : true/false, if empty return true, else if return false
@@ -274,13 +278,10 @@ private:
 	// brief : release buffer
 	void Release();
 
-private:
-	// string buffer
+private: 
 	D_Int8*		m_data;
-	// string length
-	D_UInt32	m_length;
-	// capacity size
-	D_UInt32	m_capacity;
+	D_UInt32    m_length;
+	D_UInt32    m_capacity;
 };
 
 inline D_Bool operator==(const String& str1, const String& str2) 

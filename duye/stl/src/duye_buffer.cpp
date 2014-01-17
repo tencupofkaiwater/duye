@@ -24,41 +24,48 @@ DUYE_STL_NS_BEG
 
 D_Int8* Buffer::Create(const D_UInt32 allocated)
 {
+    if (allocated == NULL)
+    {
+        return NULL;
+    }
+    
     Buffer* buffer = Allocate(allocated);
     D_ASSERT(buffer != NULL);
-    return buffer->GetChars();
+    
+    return buffer->GetStart();
 }
 
-static D_Int8* Buffer::Create(const D_Int8* str)
+D_Int8* Buffer::Create(const D_Int8* str)
 {
+    if (str == NULL)
+    {
+        return NULL;
+    }
+    
     D_UInt32 length = Bytemem::Strlen(str);
-    Buffer* buffer = Allocate(length, length);
+    return Create(str, length);
+}
+
+D_Int8* Buffer::Create(const D_Int8* str, const D_UInt32 length)
+{
+    if (str == NULL || length == 0)
+    {
+        return NULL;
+    }
+    
+    Buffer* buffer = Allocate(length + 1);
     D_ASSERT(buffer != NULL);
-    Bytemem::Memcpy(buffer->GetChars(), str, length);
-    return buffer->GetChars();    
+
+    D_Int8* ptr = buffer->GetStart();
+    Bytemem::Memcpy(ptr, str, length);
+    ptr[length] = '\0';
+    
+    return ptr;
 }
 
-static D_Int8* Buffer::Create(const D_Int8* str, const D_UInt32 length)
+D_UInt32 Buffer::Size()
 {
-    Buffer* buffer = Allocate(length, length);
-    D_ASSERT(buffer != NULL);
-    Bytemem::Memcpy(buffer->GetChars(), str, length);
-    return buffer->GetChars();
-}
-
-D_UInt32 Buffer::GetLength() const
-{
-    return m_length;
-}
-
-D_UInt32 Buffer::GetAllocated() const
-{
-    return m_allocated;
-}
-
-D_Int8* Buffer::GetChars()
-{
-    return reinterpret_cast<D_Int8*>(this + 1);       
+    return m_size;
 }
 
 void Buffer::Destroy()
@@ -66,16 +73,19 @@ void Buffer::Destroy()
     ::operator delete((void*)this);    
 }
 
-Buffer* Buffer::Allocate(const D_UInt32 allocated, const D_UInt32 length = 0)
+Buffer::Buffer(const D_UInt32 size) : m_size(size) 
 {
-    void* mem = ::operator new(sizeof(Buffer) + allocated + 1);
-    return new(mem) Buffer(allocated, length);    
 }
-    
-Buffer::Buffer(const D_UInt32 allocated, D_UInt32 length = 0) 
-    : m_allocated(allocated) 
-    , m_length(length)
+
+Buffer* Buffer::Allocate(const D_UInt32 allocated)
 {
+    void* mem = ::operator new(sizeof(Buffer) + allocated);
+    return new(mem) Buffer(allocated);    
+}
+
+D_Int8* Buffer::GetStart()
+{
+    return reinterpret_cast<D_Int8*>(this + 1);       
 }
 
 DUYE_STL_NS_END

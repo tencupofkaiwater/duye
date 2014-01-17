@@ -44,31 +44,27 @@ public:
     // return : buffer address
     static D_Int8* Create(const D_Int8* str, const D_UInt32 length);
 
-    // brief : Get length of string
-    // return : string length
-    D_UInt32 GetLength() const;
-
-    // brief : Get length of allocated
-    D_UInt32 GetAllocated() const;
-
-    // brief : Get C pointer
-    D_Int8* GetChars();
-
+    // brief : Get buffer size
+    D_UInt32 Size();
+    
     // brief : Free buffer
     void Destroy();
 
 private:
+    // brief : constructor
+    Buffer(const D_UInt32 size);
+    
     // brief : malloc memory
     // @para [in]allocated : will allocate length
     // @para [in]length : the length of string
-    static Buffer* Allocate(const D_UInt32 allocated, const D_UInt32 length = 0);
-    
-private:
-    Buffer(const D_UInt32 allocated, D_UInt32 length = 0);
+    static Buffer* Allocate(const D_UInt32 allocated);
 
-private:    
-    D_UInt32    m_allocated;
-    D_UInt32    m_length;
+    // brief : Get C pointer
+    D_Int8* GetStart(); 
+
+private:
+	// buffer size
+	D_UInt32	m_size;
 };
 
 DUYE_STL_NS_END

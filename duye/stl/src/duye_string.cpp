@@ -21,40 +21,86 @@ DUYE_STL_NS_BEG
 
 D_UInt8 String::EmptyString = '\0';
 
-String::String()
+String::String() : m_data(NULL), m_length(0), m_capacity(0)
 {
 }
 
-String::String(const D_Int8* str)
+String::String(const D_Int8* str) : m_data(NULL), m_length(0), m_capacity(0)
 {
+    if (str == NULL)
+    {
+        return;
+    }
+
+    m_data = Buffer::Create(str);
+    if (m_data != NULL)
+    {
+        m_length = Bytemem::Strlen(m_data);
+        m_capacity = m_length;
+    }
 }
 
-String::String(const D_Int8* str, const D_UInt32 strLen)
+String::String(const D_Int8* str, const D_UInt32 len) : m_data(NULL), m_length(0), m_capacity(0)
 {
+    if (str == NULL)
+    {
+        return;
+    }
+
+    m_data = Buffer::Create(str, len);
+    if (m_data != NULL)
+    {
+        m_length = len;
+        m_capacity = m_length;
+    }
 }
 
-String::String(const String& str)
+String::String(const String& str) : m_data(NULL), m_length(0), m_capacity(0)
 {
+    if (str.Length() == 0)
+    {
+        return;
+    }
+
+    m_data = Buffer::Create(str.GetChars(), str.Length());
+    if (m_data != NULL)
+    {
+        m_length = str.Length();
+        m_capacity = str.Capacity();
+    }
 }
 
 String::~String()
 {
+    Release();    
 }
 
 D_UInt32 String::Length()
 {
+    return m_length;
+}
+
+D_UInt32 String::Capacity()
+{
+    return m_capacity;
 }
 
 D_Bool String::IsEmpty()
 {
+    return (m_length == 0 ? true : false);
 }
 
 void String::Resize(const D_UInt32 size)
 {
+    if (m_data != NULL)    
+    {
+        
+    }
 }
 
 D_Int8* String::GetChars()
 {
+    return m_data;
 }
 
 String& String::Append(const String& str)
@@ -283,6 +329,16 @@ void String::ReAllocation(const D_UInt32 size)
 
 void String::Release()
 {
+    Buffer* buffer = GetBuffer();
+    if (buffer != NULL)
+    {
+        buffer->Destroy();
+    }
+}
+
+Buffer* String::GetBuffer()
+{
+    reinterpret_cast<Buffer*>(m_data) - 1;
 }
 
 String operator+(const String& str1, const String& str2)
