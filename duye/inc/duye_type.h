@@ -43,6 +43,7 @@
 #endif
 
 // base type define
+typedef void                D_Void;
 typedef bool                D_Bool;
 typedef char                D_Int8;
 typedef short int           D_Int16;

@@ -45,9 +45,12 @@ public:
 	// brief : compare equal
 	// @para [in]str1 : string
 	// @para [in]str2 : string
-	// @return : return true when equal, else if return false
+	// @return : 
+	//  1 : str1 > str2
+	//  0 : str1 == str2
+	//  -1: str2 < str2
 	// note
-	static bool Strcmp(D_Int8* str1, D_Int8* str2); 
+	static D_Int32 Strcmp(D_Int8* str1, D_Int8* str2); 
 
 	// brief : set char value for a buffer
 	// @para [in]str : operand string
@@ -68,10 +71,31 @@ public:
 	// brief : compare string whether equal with a size
 	// @para [in]str1 : input string
 	// @para [in]str2 : input string
-	// @para [in]size : compare size
-	// @return : return true when equal, else if return false
+	// @para [in]compareLen : compare length
+	// @return : 
+	//  1 : str1 > str2
+	//  0 : str1 == str2
+	//  -1: str2 < str2
 	// note
-	static bool Memcmp(D_Int8* str1, D_Int8* str2, D_UInt32 size); 
+	static D_Int32 Memcmp(D_Int8* str1, D_Int8* str2, D_UInt32 compareLen); 
+
+	// brief : find sub string
+	// @para [in]dstStr : base string
+	// @para [in]srcStr : sub string
+	// @para [in]reverse : reverse find string, default is false
+	// @return : index, else if -1
+	// note
+	static D_Int32 FindSubStr(D_Int8* dstStr, D_Int8* srcStr, const D_Bool reverse = false);	
+
+	// brief : find sub string
+	// @para [in]dstStr : base string
+	// @para [in]srcStr : sub string
+	// @para [in]srcStrLen : sub string length
+	// @para [in]reverse : reverse find string, default is false	
+	// @return : index, else if -1
+	// note
+	static D_Int32 MemFindSubStr(D_Int8* dstStr, const D_UInt32 dstStrLen, D_Int8* srcStr, 
+	    const D_UInt32 srcStrLen, const D_Bool reverse = false);
 };
 
 DUYE_STL_NS_END 

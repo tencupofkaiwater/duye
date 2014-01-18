@@ -27,47 +27,17 @@ String::String() : m_data(NULL), m_length(0), m_capacity(0)
 
 String::String(const D_Int8* str) : m_data(NULL), m_length(0), m_capacity(0)
 {
-    if (str == NULL)
-    {
-        return;
-    }
-
-    m_data = Buffer::Create(str);
-    if (m_data != NULL)
-    {
-        m_length = Bytemem::Strlen(m_data);
-        m_capacity = m_length;
-    }
+    Assign(str);
 }
 
 String::String(const D_Int8* str, const D_UInt32 len) : m_data(NULL), m_length(0), m_capacity(0)
 {
-    if (str == NULL)
-    {
-        return;
-    }
-
-    m_data = Buffer::Create(str, len);
-    if (m_data != NULL)
-    {
-        m_length = len;
-        m_capacity = m_length;
-    }
+    Assign(str, len);
 }
 
 String::String(const String& str) : m_data(NULL), m_length(0), m_capacity(0)
-{
-    if (str.Length() == 0)
-    {
-        return;
-    }
-
-    m_data = Buffer::Create(str.GetChars(), str.Length());
-    if (m_data != NULL)
-    {
-        m_length = str.Length();
-        m_capacity = str.Capacity();
-    }
+{   
+    Assign(str);   
 }
 
 String::~String()
@@ -92,10 +62,15 @@ D_Bool String::IsEmpty()
 
 void String::Resize(const D_UInt32 size)
 {
-    if (m_data != NULL)    
+    if (m_capacity > size)
     {
-        
+        return;    
     }
+    
+    Release();   
+    m_data = Buffer::Create(size); 
+    m_length = 0;
+    m_capacity = size;
 }
 
 D_Int8* String::GetChars()
@@ -103,87 +78,236 @@ D_Int8* String::GetChars()
     return m_data;
 }
 
+String& String::Append(const D_Int8 ch, const D_UInt32 repeat = 1)
+{
+    D_Int8* tmpBuf = new D_Int8[repeat];
+    Bytemem::Memset(tmpBuf, ch, repeat);
+    String& str = Append(tmpBuf, repeat);  
+
+    delete [] tmpBuf;
+    tmpBuf = NULL;
+    
+    return str;
+}
+
 String& String::Append(const String& str)
 {
+    return Append(str.GetChars(), str.Length());           
 }
 
 String& String::Append(const D_Int8* str)
 {
+    return Append(str, Bytemem::Strlen(str));
 }
 
 String& String::Append(const D_Int8* str, const D_UInt32 len)
 {
-}
+    D_UInt32 oldLen = m_length;
+    D_UInt32 newLen = oldLen + len;
+     
+    if (m_capacity < newLen)
+    {
+        D_Int8* buffer = Buffer::Create(newLen);
+        if (oldLen > 0)
+        {
+            Bytemem::Memcpy(buffer, m_data, oldLen);
+        }
+        
+        Release();
+        m_data = buffer;
+    }
 
-String& String::Append(const D_Int8 ch, const D_UInt32 repeat = 1)
-{
+    Bytemem::Memcpy(m_data + oldLen, str, len);
+    
+    m_length = newLen;
+    m_capacity = newLen;
+
+    return *this;
 }
 
 void String::Assign(const D_Int8* str)
 {
+    Assign(str, Bytemem::Strlen(str));  
 }
 
 void String::Assign(const String& str)
 {
+    Assign(str.GetChars(), str.Length());    
 }
 
 void String::Assign(const D_Int8* str, const D_UInt32 len)
 {
+    Release();
+    
+    if (str == NULL || len == 0)
+    {
+        return;
+    }
+
+    m_data = Buffer::Create(str, len);
+    D_ASSERT(m_data != NULL);
+    
+    if (m_data != NULL)
+    {
+        m_length = len;
+        m_capacity = len;
+    } 
 }
 
-D_UInt32 String::Delete(const D_Int8 ch)
+String& String::Delete(const D_Int8 ch)
 {
+    D_Int8* tmpBuf = new D_Int8[m_length];
+    D_UInt32 k = 0;
+    
+    for (D_UInt32 i = 0; i < m_length; i++)
+    {
+        if (m_data[i]) != ch)
+        {
+            tmpBuf[k++] = m_data[i];    
+        }
+    }
+
+    tmpBuf[k] = '\0';
+
+    if (k != m_length)
+    {
+        Bytemem::Memset(m_data, '\0', m_length);   
+        Bytemem::Memcpy(m_data, tmpBuf, k);
+        m_length = k;
+    }
+
+    delete [] tmpBuf;
+    tmpBuf = NULL;
+
+    return *this;
 }
 
-D_UInt32 String::Delete(const D_UInt32 start, const D_UInt32 end, const D_Bool reverse = false)
+String& String::Delete(const D_UInt32 start, const D_UInt32 end)
 {
-}
+    if (end == String::EndPos)
+    {
+        Bytemem::Memset(m_data + start, '\0', m_length - start);
+        return *this;
+    }
 
-D_Bool String::EndWith(const D_Int8* str)
-{
-}
+    if (start >= m_length || end >= m_length || start >= end)
+    {
+        return *this;    
+    }
 
-D_Bool String::EndWith(const String& str)
-{
+    Bytemem::Memcpy(m_data + start, m_data + end, m_length - end);
+    D_UInt32 leaveLen = start + (m_length - end);
+    Bytemem::Memset(m_data + leaveLen, '\0', m_length - leaveLen);
+    m_length = leaveLen;
+
+    return *this;
 }
 
 D_Bool String::BegWith(const D_Int8* str)
 {
+    return BegWith(str, Bytemem::Strlen(str));        
+}
+
+D_Bool String::BegWith(const D_Int8* str, const D_UInt32 len)
+{
+    D_ASSERT(Bytemem::Strlen(str) == len);
+    
+    if (len > m_length)
+    {
+        return false;
+    }
+    
+    return Bytemem::Memcmp(m_data, str, len) == 0;
 }
 
 D_Bool String::BegWith(const String& str)
 {
+    return BegWith(str.GetChars());
+}
+
+D_Bool String::EndWith(const D_Int8* str)
+{
+    return EndWith(str, Bytemem::Strlen(str));
+}
+
+D_Bool String::EndWith(const D_Int8* str, const D_UInt32 len);
+{
+    D_ASSERT(Bytemem::Strlen(str) == len);
+    
+    if (len > m_length)
+    {
+        return false;
+    }
+    
+    return Bytemem::Strcmp(m_data + (m_length - len), str, len) == 0;    
+}
+
+D_Bool String::EndWith(const String& str)
+{
+    return EndWith(str.GetChars());
 }
 
 D_Int32 String::Compare(const D_Int8* str)
 {
+    return Bytemem::Strcmp(m_data, str);
 }
 
 D_Int32 String::Compare(const String& str)
 {
+    return Bytemem::Memcmp(m_data, str, str.Length());
 }
 
 D_UInt32 String::Find(const D_Int8 ch, const D_Bool reverse = false)
 {
+    return Find(ch, 0, reverse);
 }
 
 D_UInt32 String::Find(const D_Int8 ch, const D_UInt32 start, const D_Bool reverse = false)
 {
+    if (reverse)
+    {
+        for (D_UInt32 i = m_length - start - 1; i >= 0 ; i--)
+        {
+            if (m_data[i] = ch)
+            {
+                return i;
+            }
+        }
+    }
+    else
+    {
+        for (D_UInt32 i = start; i < m_length ; i++)
+        {
+            if (m_data[i] = ch)
+            {
+                return i;
+            }
+        }        
+    }
+
+    return String::EndPos;
 }
 
 D_UInt32 String::Find(const D_Int8* str, const D_Bool reverse = false)
 {
+    return Bytemem::FindSubStr(m_data, str, reverse);
 }
 
 D_UInt32 String::Find(const String& str, const D_Bool reverse = false)
 {
 }
 
-D_UInt32 String::Find(const D_Int8* str, const D_UInt32 start, const D_Bool reverse = false)
+D_UInt32 String::Find(const D_UInt32 start, const D_Int8* str, const D_Bool reverse = false)
 {
+    if (start >= m_length)
+    {
+        return String::EndPos;
+    }
+    
+    return Bytemem::FindSubStr(m_data + start, str, reverse);    
 }
 
-D_UInt32 String::Find(const String& str, const D_UInt32 start, const D_Bool reverse = false)
+D_UInt32 String::Find(const D_UInt32 start, const String& str, const D_Bool reverse = false)
 {
 }
 
@@ -245,6 +369,11 @@ void String::MakeLowercase()
 
 void String::MakeUppercase()
 {
+}
+
+String& String::Reverse() const
+{
+    return *this;
 }
 
 D_Result String::ToInteger(D_Int16& value) const
@@ -329,11 +458,20 @@ void String::ReAllocation(const D_UInt32 size)
 
 void String::Release()
 {
+    if (m_data == NULL)
+    {
+        return;
+    }
+    
     Buffer* buffer = GetBuffer();
     if (buffer != NULL)
     {
         buffer->Destroy();
     }
+
+    m_data = NULL;
+    m_length = 0;
+    m_capacity = 0;    
 }
 
 Buffer* String::GetBuffer()
