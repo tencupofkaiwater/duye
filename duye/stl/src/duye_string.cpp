@@ -149,7 +149,7 @@ void String::Assign(const D_Int8* str, const D_UInt32 len)
     
     if (m_data != NULL)
     {
-        m_length = len;
+        m_length = len;
         m_capacity = len;
     } 
 }
@@ -257,35 +257,25 @@ D_Int32 String::Compare(const String& str)
     return Bytemem::Memcmp(m_data, str, str.Length());
 }
 
-D_UInt32 String::Find(const D_Int8 ch, const D_Bool reverse = false)
+D_UInt32 String::Find(const D_Int8 ch, const D_Bool relaxed = false)
 {
     return Find(ch, 0, reverse);
 }
 
-D_UInt32 String::Find(const D_Int8 ch, const D_UInt32 start, const D_Bool reverse = false)
+D_UInt32 String::Find(const D_Int8 ch, const D_UInt32 start, const D_Bool relaxed = false)
 {
-    if (reverse)
+	if (start >= m_length)
+	{
+		return String::End;
+	}
+	
+	D_Int32 pos = Bytemem::FindCh(m_data + start, ch, relaxed))
+	if (pos != 0)
     {
-        for (D_UInt32 i = m_length - start - 1; i >= 0 ; i--)
-        {
-            if (m_data[i] = ch)
-            {
-                return i;
-            }
-        }
-    }
-    else
-    {
-        for (D_UInt32 i = start; i < m_length ; i++)
-        {
-            if (m_data[i] = ch)
-            {
-                return i;
-            }
-        }        
+    	return String::End;
     }
 
-    return String::EndPos;
+    return pos + start;
 }
 
 D_UInt32 String::Find(const D_Int8* str, const D_Bool reverse = false)
@@ -295,24 +285,40 @@ D_UInt32 String::Find(const D_Int8* str, const D_Bool reverse = false)
 
 D_UInt32 String::Find(const String& str, const D_Bool reverse = false)
 {
+	return Bytemem::FindSubString(m_data, str.GetChars(), reverse)	
 }
 
-D_UInt32 String::Find(const D_UInt32 start, const D_Int8* str, const D_Bool reverse = false)
+D_UInt32 String::Find(const D_Int8* str, const D_UInt32 start, const D_Bool reverse = false)
 {
     if (start >= m_length)
     {
-        return String::EndPos;
+        return String::End;
     }
     
     return Bytemem::FindSubStr(m_data + start, str, reverse);    
 }
 
-D_UInt32 String::Find(const D_UInt32 start, const String& str, const D_Bool reverse = false)
+D_UInt32 String::Find(const String& str, const D_UInt32 start, const D_Bool reverse = false)
 {
+    if (start >= m_length)
+    {
+        return String::End;
+    }
+    
+    return Bytemem::FindSubStr(m_data + start, str.GetChars(), reverse);  	
 }
 
 D_UInt32 String::Insert(const D_Int8 ch, const D_UInt32 start, const D_Bool reverse = false)
 {
+	if (start > m_length)
+	{
+		return String::End;
+	}
+	
+	if (m_length + 2 > m_capacity)
+	{
+		D_Int8* tmpBuf = new D_Int8[]
+	}
 }
 
 D_UInt32 String::Insert(const D_Int8* str, const D_UInt32 start, const D_Bool reverse = false)
