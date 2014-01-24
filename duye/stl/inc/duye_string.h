@@ -32,7 +32,7 @@ public:
     // empty string
     static D_UInt8 EmptyString;
     // string end position
-    static const D_UInt32 EndPos = 0xFFFFFFFF;
+    static const D_UInt32 End = 0xFFFFFFFF;
     
 public:
 	String();
@@ -157,56 +157,55 @@ public:
     
     // brief : find character
     // @para [in]ch : need find character
-    // @para [in]reverse : whether is reverse find, default is false
+    // @para [in]relaxed : whether discriminate capital, default is false
     // return : the index of the first character of the found sub string, 
     // if don't find the character, return String::End      
-    D_UInt32 Find(const D_Int8 ch, const D_Bool reverse = false);     
+    D_UInt32 Find(const D_Int8 ch, const D_Bool relaxed = false);     
 
     // brief : find character
     // @para [in]ch : need find character
     // @para [in]start : start index
-    // @para [in]reverse : whether is reverse find, default is false
+    // @para [in]relaxed : whether discriminate capital, default is false
     // return : the index of the first character of the found sub string, 
     // if don't find the character, return String::End      
-    D_UInt32 Find(const D_Int8 ch, const D_UInt32 start, const D_Bool reverse = false);   
+    D_UInt32 Find(const D_Int8 ch, const D_UInt32 start, const D_Bool relaxed = false);   
     
     // brief : find sub string
     // @para [in]str : the sub string
-    // @para [in]reverse : whether is reverse find, default is false
+    // @para [in]relaxed : whether discriminate capital, default is false
     // return : the index of the first character of the found sub string, 
     // if don't find the character, return String::End 
-    D_UInt32 Find(const D_Int8* str, const D_Bool reverse = false);
-    D_UInt32 Find(const String& str, const D_Bool reverse = false);
+    D_UInt32 Find(const D_Int8* str, const D_Bool relaxed = false);
+    D_UInt32 Find(const String& str, const D_Bool relaxed = false);
 
     // brief : find sub string
     // @para [in]str : the sub string
     // @para [in]start : start index
-    // @para [in]reverse : whether is reverse find, default is false
+    // @para [in]relaxed : whether discriminate capital, default is false
     // return : the index of the first character of the found sub string, 
     // if don't find the character, return String::End    
-    D_UInt32 Find(const D_UInt32 start, const D_Int8* str, const D_Bool reverse = false);
-    D_UInt32 Find(const D_UInt32 start, const String& str, const D_Bool reverse = false);
+    D_UInt32 Find(const D_Int8* str, const D_UInt32 start, const D_Bool relaxed = false);
+    D_UInt32 Find(const String& str, const D_UInt32 start, const D_Bool relaxed = false);
     
     // brief : insert character
     // @para [in]ch : insert character
-    // @para [in]start : insert index
-    // @para [in]reverse : whether is reverse find, default is false
+    // @para [in]start : insert index, default is 0
     // return : the index of the first character of the found sub string, 
     // if don't find the character, return String::End      
-    D_UInt32 Insert(const D_Int8 ch, const D_UInt32 start, const D_Bool reverse = false);    
+    D_UInt32 Insert(const D_Int8 ch, const D_UInt32 start = 0);    
     
     // brief : insert string
     // @para [in]str : insert string
-    // @para [in]start : insert index
-    // @para [in]reverse : whether is reverse find, default is false
+    // @para [in]start : insert index, default is 0
     // return : the index of the first character of the found sub string, 
     // if don't find the character, return String::End    
-    D_UInt32 Insert(const D_Int8* str, const D_UInt32 start, const D_Bool reverse = false);
-    D_UInt32 Insert(const String& str, const D_UInt32 start, const D_Bool reverse = false);
+    D_UInt32 Insert(const D_Int8* str, const D_UInt32 start = 0);
+    D_UInt32 Insert(const String& str, const D_UInt32 start = 0);
  	
 	// brief : replace character
 	// @para [in]dstCh : be replaced character
 	// @para [in]srcCh : replaced character
+	// @para [in]start : insert index, default is 0
 	// return : return new string
     String& Replace(const D_Int8 dstCh, const D_Int8 srcCh, const D_UInt32 start = 0);
     
