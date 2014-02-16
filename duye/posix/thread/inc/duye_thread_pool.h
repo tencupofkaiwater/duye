@@ -17,7 +17,6 @@
 
 #pragma once
 
-#include <duye/stl/inc/duye_list.h>
 #include <duye/posix/inc/duye_posix_def.h>
 #include <duye/posix/thread/inc/duye_thread.h>
 #include <duye/posix/thread/inc/duye_condition.h>

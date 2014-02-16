@@ -18,9 +18,9 @@
 #pragma once
 
 #include <duye/posix/inc/duye_posix_def.h>
-#include <duye/stl/string>
 
 DUYE_POSIX_NS_BEG 
+
 // brief : Pipe base class, be inherited by WritePipe and ReadPipe class
 // 
 class Pipe

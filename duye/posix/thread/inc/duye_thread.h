@@ -20,6 +20,7 @@
 #pragma once
 
 #include <pthread.h> 
+
 #include <duye/posix/inc/duye_posix_def.h>
 
 DUYE_POSIX_NS_BEG
