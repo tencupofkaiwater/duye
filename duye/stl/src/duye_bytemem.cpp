@@ -133,57 +133,81 @@ D_Int32 Bytemem::Memcmp(D_Int8* str1, D_Int8* str2, D_UInt32 compareLen)
 	return 0;
 }
 
-D_Int32 Bytemem::FindSubStr(D_Int8* dstStr, D_Int8* srcStr, const D_Bool reverse)
+D_Int32 Bytemem::FindStr(D_Int8* dstStr, D_Int8* srcStr, const D_Bool relaxed)
 { 
-    return FindSubStr(dstStr, Bytemem::Strlen(dstStr), srcStr, Bytemem::Strlen(srcStr), reverse);
+    return FindStr(dstStr, Bytemem::Strlen(dstStr), srcStr, Bytemem::Strlen(srcStr), relaxed);
 }
 
-D_Int32 Bytemem::MemFindSubStr(D_Int8* dstStr, const D_UInt32 dstStrLen, 
-    D_Int8* srcStr, const D_UInt32 srcStrLen, const D_Bool reverse)
+D_Int32 Bytemem::FindStr(D_Int8* dstStr, 
+    const D_UInt32 dstStrLen, D_Int8* srcStr, 
+    const D_UInt32 srcStrLen, const D_Bool relaxed)
 {
     if (srcStrLen > dstStrLen)
     {
         return -1;
     }
 
-    if (reverse)
+    for (D_UInt32 i = 0; i <= dstStrLen - srcStrLen; i++)
     {
-        for (D_UInt32 i = dstStrLen; i >= srcStrLen; i--)
+        D_UInt32 j = 0;
+        for (; j < srcStrLen; j++)
         {
-            for (D_UInt32 j = srcStrLen; j > 0; j--)
+            if (dstStr[i + j] != srcStr[j])
             {
-                if (dstStr[i - j] != srcStr[srcStrLen - j])
-                {
-                    break;
-                }
-            }
-
-            if (j == 0 && dstStr[i] == srcStr[srcStrLen - 1])
-            {
-                return i;
+                break;
             }
         }
-    }
-    else
-    {
-        for (D_UInt32 i = 0; i < dstStrLen - srcStrLen; i++)
+
+        if (j == 0 && dstStr[i] == srcStr[srcStrLen - 1])
         {
-            for (D_UInt32 j = 0; j < srcStrLen; j++)
-            {
-                if (dstStr[i + j] != srcStr[j])
-                {
-                    break;
-                }
-            }
-
-            if (j == srcStrLen)
-            {
-                return i;
-            }
-        }        
+            return i;
+        }
     }
-
+    
     return -1;
 }
+
+D_Int32 Bytemem::FindChar(D_Int8* str, D_Int8 ch, const D_Bool relaxed)
+{
+    D_UInt32 index = 0;
+    D_UInt32 diffNum = 'a' - 'A';
+    
+    while (1)
+    {
+        D_Int8 curCh = str[index];
+        if (curCh == '\0')
+        {
+            return -1;
+        }
+
+        if (curCh == ch)
+        {
+            return index;
+        }        
+        
+        if (!relaxed)
+        {
+            if (ch >= 'a' && ch <= 'z')
+            {
+                if (ch == curCh + diffNum) 
+                {
+                    return index;
+                }
+            }
+            else if (ch >= 'A' && ch <= 'Z')
+            {
+                if (ch == curCh - diffNum) 
+                {
+                    return index;
+                }
+            }
+        }
+
+        index++;
+    }
+    
+    return -1;
+}
+
 
 DUYE_STL_NS_END

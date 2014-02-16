@@ -14,11 +14,9 @@
 *  1. 2014-01-17 duye Created this file
 * 
 */
-
-#pragma once
-
 #include <duye/stl/inc/duye_stl_def.h>
 #include <duye/stl/inc/duye_bytemem.h>
+#include <duye/stl/inc/duye_buffer.h>
 
 DUYE_STL_NS_BEG
 
@@ -40,7 +38,7 @@ D_Int8* Buffer::Create(const D_Int8* str)
     if (str == NULL)
     {
         return NULL;
-    }
+    }
     
     D_UInt32 length = Bytemem::Strlen(str);
     return Create(str, length);
@@ -80,7 +78,7 @@ Buffer::Buffer(const D_UInt32 size) : m_size(size)
 Buffer* Buffer::Allocate(const D_UInt32 allocated)
 {
     void* mem = ::operator new(sizeof(Buffer) + allocated);
-    return new(mem) Buffer(allocated);    
+    return reinterpret_cast<Buffer*>(mem);  
 }
 
 D_Int8* Buffer::GetStart()

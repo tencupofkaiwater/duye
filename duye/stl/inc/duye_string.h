@@ -53,6 +53,7 @@ public:
 	// brief : get length
 	// return : length
 	D_UInt32 Length(); 	
+	D_UInt32 Length() const; 	
 
 	// brief : get capacity
 	// return : capacity
@@ -69,28 +70,29 @@ public:
     // brief : get C string
     // reutrn : C pointer
     D_Int8* GetChars();  
+    D_Int8* GetChars() const;  
 
 	// brief : append string
 	// @para [in]ch : append character
 	// @para [in]repeat : repeat times
-	// return : new string     
-    String& Append(const D_Int8 ch, const D_UInt32 repeat = 1);
+	// return : string length
+    D_UInt32 Append(const D_Int8 ch, const D_UInt32 repeat = 1);
     
 	// brief : append string
 	// @para [in]str : string
-	// return : new string
-	String& Append(const String& str);
+	// return : string length
+	D_UInt32 Append(const String& str);
 
 	// brief : append string
 	// @para [in]str : C pointer
-	// return : new string 
-    String& Append(const D_Int8* str);
+	// return : string length 
+    D_UInt32 Append(const D_Int8* str);
 
 	// brief : append string
 	// @para [in]str : C pointer
 	// @para [in]len : the length of parameter 'str'
-	// return : new string     
-    String& Append(const D_Int8* str, const D_UInt32 len);
+	// return : string length     
+    D_UInt32 Append(const D_Int8* str, const D_UInt32 len);
 
 	// brief : assign a string
 	// @para [in]str : assign string
@@ -112,7 +114,7 @@ public:
     // @para [in]index : the begin index
     // @para [in]len : delete string length
     // return String::End    
-    String& Delete(const D_UInt32 start, const D_UInt32 end = String::EndPos);
+    String& Delete(const D_UInt32 start, const D_UInt32 end = String::End);
 
     // brief : begin with specific string
     // @para [in]str : compare string
@@ -152,8 +154,8 @@ public:
     //  < 0 , when < str
     //  = 0 , when == str
     //  > 0 , when > str
-    D_Int32 Compare(const D_Int8* str);
-    D_Int32 Compare(const String& str);
+    D_Int32 Compare(const D_Int8* str) const;
+    D_Int32 Compare(const String& str) const;
     
     // brief : find character
     // @para [in]ch : need find character
@@ -165,10 +167,10 @@ public:
     // brief : find character
     // @para [in]ch : need find character
     // @para [in]start : start index
-    // @para [in]relaxed : whether discriminate capital, default is false
+    // @para [in]relaxed : whether discriminate capital, default is true
     // return : the index of the first character of the found sub string, 
     // if don't find the character, return String::End      
-    D_UInt32 Find(const D_Int8 ch, const D_UInt32 start, const D_Bool relaxed = false);   
+    D_UInt32 Find(const D_Int8 ch, const D_UInt32 start, const D_Bool relaxed = true);   
     
     // brief : find sub string
     // @para [in]str : the sub string
@@ -181,11 +183,11 @@ public:
     // brief : find sub string
     // @para [in]str : the sub string
     // @para [in]start : start index
-    // @para [in]relaxed : whether discriminate capital, default is false
+    // @para [in]relaxed : whether discriminate capital, default is true
     // return : the index of the first character of the found sub string, 
     // if don't find the character, return String::End    
-    D_UInt32 Find(const D_Int8* str, const D_UInt32 start, const D_Bool relaxed = false);
-    D_UInt32 Find(const String& str, const D_UInt32 start, const D_Bool relaxed = false);
+    D_UInt32 Find(const D_Int8* str, const D_UInt32 start, const D_Bool relaxed = true);
+    D_UInt32 Find(const String& str, const D_UInt32 start, const D_Bool relaxed = true);
     
     // brief : insert character
     // @para [in]ch : insert character
@@ -250,21 +252,21 @@ public:
 
 	// brief : reverse string
 	// return : 
-	String& Reverse() const;    
+	String& Reverse();    
 
 	// brief : converte to integer
 	// return : true/false
-	D_Result ToInteger(D_Int16& value) const;
-	D_Result ToInteger(D_Int32& value) const;
-	D_Result ToInteger(D_Int64& value) const;
+	D_Bool ToInteger(D_Int16& value) const;
+	D_Bool ToInteger(D_Int32& value) const;
+	D_Bool ToInteger(D_Int64& value) const;
 	
-	D_Result ToInteger(D_UInt16& value) const;
-	D_Result ToInteger(D_UInt32& value) const;
-	D_Result ToInteger(D_UInt64& value) const;
+	D_Bool ToInteger(D_UInt16& value) const;
+	D_Bool ToInteger(D_UInt32& value) const;
+	D_Bool ToInteger(D_UInt64& value) const;
 
 	// brief : converte to float
 	// return : true/false
-	D_Result ToFloat(float& value) const;
+	D_Bool ToFloat(float& value) const;
 
     // brief : make string to uppercase
     const String& Trim();

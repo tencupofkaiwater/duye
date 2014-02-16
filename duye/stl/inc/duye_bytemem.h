@@ -82,20 +82,28 @@ public:
 	// brief : find sub string
 	// @para [in]dstStr : base string
 	// @para [in]srcStr : sub string
-	// @para [in]reverse : reverse find string, default is false
+	// @para [in]relaxed : whether discriminate capital, default is true
 	// @return : index, else if -1
 	// note
-	static D_Int32 FindSubStr(D_Int8* dstStr, D_Int8* srcStr, const D_Bool reverse = false);	
+	static D_Int32 FindStr(D_Int8* dstStr, D_Int8* srcStr, const D_Bool relaxed = true);	
 
 	// brief : find sub string
 	// @para [in]dstStr : base string
 	// @para [in]srcStr : sub string
 	// @para [in]srcStrLen : sub string length
-	// @para [in]reverse : reverse find string, default is false	
+	// @para [in]relaxed : whether discriminate capital, default is true	
 	// @return : index, else if -1
 	// note
-	static D_Int32 MemFindSubStr(D_Int8* dstStr, const D_UInt32 dstStrLen, D_Int8* srcStr, 
-	    const D_UInt32 srcStrLen, const D_Bool reverse = false);
+	static D_Int32 FindStr(D_Int8* dstStr, const D_UInt32 dstStrLen, D_Int8* srcStr, 
+	    const D_UInt32 srcStrLen, const D_Bool relaxed = true);
+
+	// brief : find charactor
+	// @para [in]str : base string
+	// @para [in]ch : charactor
+	// @para [in]relaxed : whether discriminate capital, default is true
+	// @return : index, else if -1
+	// note
+	static D_Int32 FindChar(D_Int8* str, D_Int8 ch, const D_Bool relaxed = true);	    
 };
 
 DUYE_STL_NS_END 
