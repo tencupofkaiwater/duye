@@ -15,9 +15,9 @@
 * 
 */
 
-#pragma once
+#include <duye/posix/socket/inc/duye_socket.h>
 
-#include <duye/posix/socket/duye_socket.h>
+static const D_Int8* LOG_PREFIX = "posix.socket";
 
 DUYE_POSIX_NS_BEG 
 
@@ -36,8 +36,11 @@ Socket::Socket(const D_UInt8* ip, const D_UInt16 port) : m_sockfd(0), m_addrLen(
 
 Socket::Socket(const Socket& socket)
 {
-	SetSockfd(socket.GetSockfd());
-	SetAddr(socket.GetAddr());
+    m_sockfd = socket.m_sockfd;
+    m_addr = socket.m_addr;
+    
+	//SetSockfd(socket.GetSockfd());
+	//SetAddr(socket.GetAddr());
 }
 
 Socket::~Socket()
@@ -52,31 +55,18 @@ D_Bool Socket::InitSocket(const D_Int32 domain, const D_Int32 type)
 	if (m_sockfd != -1)
 	{
 		// init socket option
-		if (!InitOptSet())
+		if (!InitOption())
 		{
-			PrintLog(QS_LOG_WARN, "CWSocket : Init socket option failed");
+			POSIX_WARN(LOG_PREFIX, "CWSocket : Init socket option failed \n");
 		}
 	}
 
 	return m_sockfd != -1;
 }
 
-D_Int32 Socket::Send(const D_Int32 sockfd, 
-    const D_UInt8* msg, 
-    const D_UInt32 msgLen, 
-    const D_Int32 flags)
-{
-	return send(sockfd, msg, msgLen, flags);
-}
-
 D_Int32 Socket::Send(const D_UInt8* msg, const D_UInt32 msgLen, const D_Int32 flags)
 {
 	return send(m_sockfd, msg, msgLen, flags);
-}
-
-D_Int32 Socket::Recv(const D_Int32 sockfd, D_UInt8** buf, const D_UInt32 bufLen, D_Int32 flags)
-{
-	return recv(sockfd, *buf, bufLen, flags);
 }
 
 D_Int32 Socket::Recv(D_UInt8** buf, const D_UInt32 bufLen, const D_Int32 flags)
@@ -105,7 +95,7 @@ void Socket::SetAddr(const D_UInt8* ip, const D_UInt16 port)
 {
 	m_addr.sin_family = AF_INET;		// RF_INET
 	m_addr.sin_port = htons(port);		// port
-	m_addr.sin_addr.s_addr = inet_addr(ip);		// IP
+	m_addr.sin_addr.s_addr = inet_addr((const char*)ip);		// IP
 	bzero(&(m_addr.sin_zero), 8);		// set 0
 	m_addrLen = sizeof(struct sockaddr);
 }
@@ -124,29 +114,9 @@ sockaddr_in Socket::GetAddr() const
 	return m_addr;
 }
 
-void Socket::SetSockfd(D_Int32 sockfd)
-{
-	m_sockfd = sockfd;
-}
-
-D_Int32 Socket::GetSockfd() const
-{
-	return m_sockfd;
-}
-
-void Socket::SetIP(const std::string& ipStr)
-{
-	m_addr.sin_addr.s_addr = inet_addr(ipStr.c_str());	
-}
-
 D_UInt32 Socket::GetIP() const
 {
 	return ntohl(m_addr.sin_addr.s_addr);
-}
-
-void Socket::SetPort(const D_UInt16 port)
-{
-	m_addr.sin_port = htons(port);
 }
 
 D_UInt16 Socket::GetPort() const
@@ -154,7 +124,7 @@ D_UInt16 Socket::GetPort() const
 	return ntohs(m_addr.sin_port);
 }
 
-D_Bool Socket::InitOptSet()
+D_Bool Socket::InitOption()
 {
 	D_Bool ret = true;
 

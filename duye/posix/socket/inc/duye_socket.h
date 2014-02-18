@@ -21,6 +21,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <string.h>
 #include <string>
 
 #include <duye/posix/inc/duye_posix_def.h>
@@ -114,7 +115,7 @@ private:
 	// note			
 	D_Bool InitOption();
 
-protected:
+private:
     // socket file descrition
 	D_Int32         m_sockfd;
 	// address

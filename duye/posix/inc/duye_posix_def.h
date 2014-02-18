@@ -17,4 +17,21 @@
 
 #pragma once
 
+#include <stdio.h>
+
 #include <duye/inc/duye_type.h>
+
+#define POSIX_ERROR(prefix, x) \    
+    printf("<ERROR><%s>%s", prefix, x);
+
+#define POSIX_WARN(prefix, x) \
+    printf("<WARN><%s>%s", prefix, x);
+
+#define POSIX_INFO(prefix, x) \
+    printf("<INFO><%s>%s", prefix, x);
+
+#define POSIX_DEBUG(prefix, x) \
+    printf("<DEBUG><%s>%s", prefix, x);
+
+#define POSIX_TARCE(prefix, x) \
+    printf("<TRACE><%s>%s", prefix, x);    
