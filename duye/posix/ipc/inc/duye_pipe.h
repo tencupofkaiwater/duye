@@ -17,6 +17,11 @@
 
 #pragma once
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 #include <duye/posix/inc/duye_posix_def.h>
 
 DUYE_POSIX_NS_BEG 
@@ -33,8 +38,16 @@ public:
 	// @para [in]pipeName : the pipe name
 	// return : true/false
 	// note
-	virtual D_Bool Open(const stl::String& pipeName) = 0;
-	
+	virtual D_Bool Open(const D_Int8* pipeName) = 0;
+
+protected:
+	// brief : call posix API
+	// @para [in]pipeName : the pipe name
+	// @para [in]mode : open mode
+	// return : true/false
+	// note
+    D_Bool PosixOpen(const D_Int8* pipeName, const D_Int32 mode);
+    
 protected:
 	// pipe descriptor
 	D_Int32		m_pipefd;
@@ -61,14 +74,14 @@ public:
 	// @para [in]pipeName : pipe name
 	// return : true/false
 	// note
-	D_Bool Open(const stl::String& pipeName);	
+	virtual D_Bool Open(const D_Int8* pipeName);	
 	
 	// brief : Write data to pipe
 	// @para [in]data 
 	// @para [in]dataLen 
-	// return : true/false
+	// return : write size, failure return -1
 	// note
-	D_Bool Write(D_Int8* data, const D_UInt32 dataLen);
+	D_Int32 Write(const D_Int8* data, const D_UInt32 dataLen);
 	
 private:
 	// brief : To pervent copy 
@@ -98,14 +111,14 @@ public:
     // @para [in]pipeName : pipe name
     // return : true/false
     // note
-    D_Bool Open(const stl::String& pipeName);
+    virtual D_Bool Open(const D_Int8* pipeName);
 
 	// brief : read data from pipe
 	// @para [out]buffer : template buffer
 	// @para [in]bufferSize : template buffer size
-	// return : true/false
+	// return : read buffer size, failure return -1
 	// note
-	D_Bool Read(D_Int8* buffer, const D_UInt32 bufferSize);    
+	D_Int32 Read(D_Int8* buffer, const D_UInt32 bufferSize);    
 };
 
 DUYE_POSIX_NS_END 
