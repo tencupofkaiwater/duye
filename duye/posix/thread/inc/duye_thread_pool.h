@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <list>
+
 #include <duye/posix/inc/duye_posix_def.h>
 #include <duye/posix/thread/inc/duye_thread.h>
 #include <duye/posix/thread/inc/duye_condition.h>
@@ -53,7 +55,7 @@ class ThreadPool
 {
 public:
     // thread worker queue
-	typedef stl::List<ThreadWorker*> ThreadWorkerList;
+	typedef std::list<ThreadWorker*> ThreadWorkerList;
 
 public:
     // brief : 

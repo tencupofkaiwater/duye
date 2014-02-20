@@ -46,7 +46,7 @@ void ThreadPool::InitThreadPool()
 {
 	for (D_UInt32 i = 0; i < m_threadCount; i++)
 	{
-		m_idleThreadWorkerList.PushBack(new ThreadWorker(i));		
+		m_idleThreadWorkerList.push_back(new ThreadWorker(i));		
 	}
 }
 
@@ -76,6 +76,8 @@ D_Bool ThreadWorker::DoWork(ThreadJob* threadJob, void* userData)
 {
 	m_threadJob = threadJob;
 	m_userData = userData;
+
+	return true;
 }
 
 void ThreadWorker::Run()
