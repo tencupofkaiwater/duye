@@ -4,14 +4,14 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_pipe.cpp
+* @file		duye_shm.cpp
 * @version     
 * @brief      
 * @author   duye
-* @date     2013-12-1
+* @date     2014-02-22
 * @note 
 *
-*  1. 2013-12-1 duye Created this file
+*  1. 2014-02-22 duye Created this file
 * 
 */
 
