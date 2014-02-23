@@ -17,7 +17,7 @@
 
 #include <duye/posix/ipc/inc/duye_pipe.h>
 
-static const D_Int8* LOG_PREFIX = "posix.ipc";
+static const D_Int8* LOG_PREFIX = "posix.ipc.pipe";
 
 DUYE_POSIX_NS_BEG
 

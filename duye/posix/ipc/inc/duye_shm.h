@@ -21,6 +21,8 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
+#include <string>
 
 #include <duye/posix/inc/duye_posix_def.h>
 
@@ -31,89 +33,83 @@ DUYE_POSIX_NS_BEG
 class Shm
 {
 public:
+    typedef enum 
+    { 
+        // open shm failed
+        OPEN_SHM_FAILED = -2,
+        // munmap failed
+        MUNMAP_SHM_FAILED = -3,
+        // mmap failed
+        MMAP_SHM_FAILED = -4,
+        // sync shm failed
+        SYNC_SHM_FAILED = -5,
+        // write shm parameter failed
+        WRITE_SHM_PARA_FAILED = -6,
+        // read shm parameter failed
+        READ_SHM_PARA_FAILED = -7,
+        // shm not init
+        SHM_NO_INIT = -8,
+        // shm path is empty
+        SHM_PATH_EMPTY = -9
+        // uninit
+    } ErrorCode;
+    
+public:
     Shm();
+	// brief : constructor
+	// @para [in]path : shm mapping file path
+	// @para [in]size : shm size
+	// note    
     Shm(const D_Int8* path, const D_UInt32 size);
+    Shm(const std::string& path, const D_UInt32 size);
     ~Shm();
 
-    D_Bool Init()
-    {
-    	D_Int32 fd = open(path, O_RDWR | O_CREAT);
-    	if (fd < 0)
-    	{
-    		return false;
-    	}
+	// brief : set shm mapping file path
+	// note  
+    void SetPath(const D_Int8* path);
+    void SetPath(const std::string& path);
+    const std::string& GetPath() const;
 
-        ftruncate(fd, shmFileSize);
-    	m_pShmAddr = mmap(NULL, shmFileSize, PROT_WRITE | PROT_READ, MAP_SHARED, fd, 0);
-    	if (m_pShmAddr == MAP_FAILED)
-    	{
-    	    close(fd);
-    		BSTM_DEBUG_ERROR(SHM_LOG, "Out %s, shm server init failed(m_pShmAddr == MAP_FAILED). \n", __FUNCTION__);
-    		return false;
-    	}
-
-        close(fd);
-        
-    	m_shmSize = shmFileSize;
-
-    	BSTM_DEBUG_DEBUG(SHM_LOG, "Out %s \n", __FUNCTION__);
-
-    	return true;    
-    }
+	// brief : set/get shm mapping file size
+	// note  
+    void SetSize(const D_UInt32 size);
+    D_UInt32 GetSize() const;    
     
-	bool Uninit()
-    {
-        return !(munmap(m_pShmAddr, m_shmSize) < 0);
-    }
+	// brief : init the shm
+	// return : successed : 0, failed : error code
+	// note  
+    D_Result Init();
 
-    bool Sync()
-    {
-        return !(msync(m_pShmAddr, m_shmSize, MS_SYNC) < 0);
-    } 
+	// brief : uninit the shm
+	// return : successed : 0, failed : error code
+	// note      
+	D_Result Uninit();
 
-    virtual bool WriteData(const unsigned int offset, const char* pData, const unsigned int dataLen)
-    {
-        BSTM_DEBUG_DEBUG(SHM_LOG, "In %s \n", __FUNCTION__);
+ 	// brief : sync the shm
+	// return : successed : 0, failed : error code
+	// note      
+    D_Result Sync();
 
-        BSTM_DEBUG_DEBUG(SHM_LOG, "%s, offset=%d m_shmSize=%d data=%s \n", __FUNCTION__, offset, m_shmSize, pData);
-        
-    	if (offset + dataLen > m_shmSize
-    	    || pData == NULL)
-    	{
-    	    BSTM_DEBUG_ERROR(SHM_LOG, "Out %s, Failed offset + sizeof(FilterShmNode_S) > m_shmSize \n", __FUNCTION__);
-    		return false;
-    	}
+	// brief : write data to shm
+	// @para [in]offset : offset of shm
+	// @para [in]data : input data
+	// @para [in]size : write size
+	// return : successed : 0, failed : error code
+	// note   
+    D_Result Write(const D_UInt32 offset, const D_Int8* data, const D_UInt32 size);
 
-        memcpy((char*)m_pShmAddr + offset, pData, dataLen);
-        
-        BSTM_DEBUG_DEBUG(SHM_LOG, "Out %s \n", __FUNCTION__);
-        
-        return true;        
-    }
+	// brief : read data from shm
+	// @para [in]offset : offset of shm
+	// @para [in]data : output data
+	// @para [in]size : read size
+	// return : successed : 0, failed : error code
+	// note   
+    D_Result Read(const D_UInt32 offset, D_Int8* data, const D_UInt32 size);
 
-    virtual bool ReadData(const unsigned int offset, char*& pData, const unsigned int dataLen)
-    {
-        BSTM_DEBUG_DEBUG(SHM_LOG, "In %s \n", __FUNCTION__);
-
-        BSTM_DEBUG_DEBUG(SHM_LOG, "%s:offset=%d m_shmSize=%d \n", __FUNCTION__, offset, m_shmSize);
-        
-    	if (offset + dataLen > m_shmSize)
-    	{
-    	    BSTM_DEBUG_ERROR(SHM_LOG, "Out %s, Failed offset + sizeof(FilterShmNode_S) > m_shmSize \n", __FUNCTION__);
-    		return false;
-    	}
-
-    	pData = new char[dataLen];
-        memcpy((char*)m_pShmAddr + offset, pData, dataLen);
-        
-    	BSTM_DEBUG_DEBUG(SHM_LOG, "Out %s \n", __FUNCTION__);
-
-    	return true;     
-    }
-
-protected:
-	void* m_pShmAddr;
-	unsigned int m_shmSize;	
+private:
+	std::string     m_shmPath;
+	D_UInt32        m_shmSize;	
+	D_Void*         m_shmAddr;
 };
 
 DUYE_POSIX_NS_END
