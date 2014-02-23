@@ -45,13 +45,12 @@ install:
 
 clean :
 	$(RM) $(BUILD_PATH)/output -rf
-	touch `find . -name "*.cpp" | xargs`
+	@#touch `find . -name "*.cpp" | xargs`
 
 cleanall :
 	$(RM) $(BUILD_PATH)/output -rf
 	$(RM) ../lib/$(TARGET).a -rf
-	touch `find . -name "Makefile" | xargs`
-	#touch `find . -name "*.cpp" | xargs`
+	@#touch `find . -name "*.cpp" | xargs`
 
 ifneq ($(MISSING_DEPS),)
 $(MISSING_DEPS) :

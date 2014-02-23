@@ -25,22 +25,12 @@
 #endif
 
 // limits       
-#define DUYE_INT_MIN 		INT_MIN
-#define DUYE_INT_MAX 	    INT_MAX
-#define DUYE_UINT_MAX 		UINT_MAX
-#define DUYE_LONG_MIN 		LONG_MIN
-#define DUYE_LONG_MAX 		LONG_MAX
-#define DUYE_ULONG_MAX 		ULONG_MAX
-
-// return value define
-#define DUYE_SUCCESS        0
-#define DUYE_FAILURE        (-1)
-
-#ifdef DUYE_ASSERT
-#define D_ASSERT(x)
-#else
-#define D_ASSERT(x) assert(x)
-#endif
+#define D_INT_MIN           INT_MIN
+#define D_INT_MAX           INT_MAX
+#define DUYE_UINT_MAX       UINT_MAX
+#define DUYE_LONG_MIN       LONG_MIN
+#define DUYE_LONG_MAX       LONG_MAX
+#define DUYE_ULONG_MAX      ULONG_MAX
 
 // base type define
 typedef void                D_Void;
@@ -55,7 +45,16 @@ typedef unsigned short int  D_UInt16;
 typedef unsigned int        D_UInt32;
 typedef unsigned long int   D_UInt64;
 
+// return value define
 typedef D_Int32				D_Result;
+#define D_SUCCESS           0
+#define D_FAILURE           (-1)
+
+#ifdef DUYE_ASSERT
+#define D_ASSERT(x)
+#else
+#define D_ASSERT(x)  assert(x)
+#endif
 
 // define all namespace 
 #define DUYE_NS_BEG namespace duye {
@@ -91,3 +90,10 @@ DUYE_UT_NS_END
 
 DUYE_UTIL_NS_BEG
 DUYE_UTIL_NS_END
+
+// util namespace, path : /duye/arithmetic
+#define DUYE_ARITHMETIC_NS_BEG namespace duye { namespace arithmetic {
+#define DUYE_ARITHMETIC_NS_END }}
+
+DUYE_ARITHMETIC_NS_BEG
+DUYE_ARITHMETIC_NS_END

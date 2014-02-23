@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 
-#include <duye/inc/duye_logger_def.h>
+#include <duye/logger/inc/duye_logger_def.h>
 
 #define DUYE_LOG_INIT() \
     DuyeLogger::Init();
