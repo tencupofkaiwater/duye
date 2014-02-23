@@ -1,14 +1,16 @@
-all: dipc dstdio dthread dsocket target
+all: dipc dmemory dstdio dthread dsocket target
 
 clean:
 	$(MAKE) -C ipc clean
+	$(MAKE) -C memory clean
 	$(MAKE) -C stdio clean
 	$(MAKE) -C thread clean
 	$(MAKE) -C posix clean
-	$(MAKE) -C societ clean
+	$(MAKE) -C socket clean
 
 cleanall:
 	$(MAKE) -C ipc cleanall
+	$(MAKE) -C memory cleanall
 	$(MAKE) -C stdio cleanall
 	$(MAKE) -C thread cleanall
 	$(MAKE) -C posix cleanall
@@ -17,6 +19,9 @@ cleanall:
 
 dipc:    
 	$(MAKE) -C ipc
+
+dmemory:    
+	$(MAKE) -C memory 
 
 dstdio:    
 	$(MAKE) -C stdio

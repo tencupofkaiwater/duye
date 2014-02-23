@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_posix_file.cpp
+* @file		duye_stdio.cpp
 * @version     
 * @brief      
 * @author   duye
