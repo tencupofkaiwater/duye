@@ -1,7 +1,8 @@
-all: darithmetic dlogger dposix dstl dutil ut_app
+all: darithmetic dcomponent dlogger dposix dstl dutil ut_app
 
 clean:
 	$(MAKE) -C arithmetic clean
+	$(MAKE) -C component clean
 	$(MAKE) -C logger clean
 	$(MAKE) -C posix clean
 	$(MAKE) -C stl clean
@@ -10,6 +11,7 @@ clean:
 
 cleanall:
 	$(MAKE) -C arithmetic cleanall
+	$(MAKE) -C component cleanall
 	$(MAKE) -C logger cleanall
 	$(MAKE) -C posix cleanall
 	$(MAKE) -C stl cleanall
@@ -20,6 +22,9 @@ cleanall:
 
 darithmetic:
 	$(MAKE) -C arithmetic
+
+dcomponent:
+	$(MAKE) -C component	
 
 dlogger:    
 	$(MAKE) -C logger    

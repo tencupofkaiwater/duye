@@ -4,14 +4,14 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_stl_def.h
+* @file		duye_arithmetic_def.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2013-12-1
+* @date     2014-03-04
 * @note 
 *
-*  1. 2013-12-1 duye Created this file
+*  1. 2014-03-04 duye Created this file
 * 
 */
 

@@ -20,7 +20,7 @@
 #include <limits.h>
 #include <assert.h>
 
-#include <duye/int/duye_base.h>
+#include <duye/inc/duye_base.h>
 
 // define all namespace 
 #define DUYE_NS_BEG namespace duye {
@@ -57,9 +57,16 @@ DUYE_UT_NS_END
 DUYE_UTIL_NS_BEG
 DUYE_UTIL_NS_END
 
-// util namespace, path : /duye/arithmetic
+// arithmetic namespace, path : /duye/arithmetic
 #define DUYE_ARITHMETIC_NS_BEG namespace duye { namespace arithmetic {
 #define DUYE_ARITHMETIC_NS_END }}
 
 DUYE_ARITHMETIC_NS_BEG
 DUYE_ARITHMETIC_NS_END
+
+// component namespace, path : /duye/component
+#define DUYE_COMPONENT_NS_BEG namespace duye { namespace component {
+#define DUYE_COMPONENT_NS_END }}
+
+DUYE_COMPONENT_NS_BEG
+DUYE_COMPONENT_NS_END

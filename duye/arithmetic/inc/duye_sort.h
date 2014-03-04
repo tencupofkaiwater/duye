@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_arithmetic_sort.h
+* @file		duye_sort.h
 * @version     
 * @brief      
 * @author   duye

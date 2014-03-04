@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_arithmetic_sort.cpp
+* @file		duye_sort.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -15,7 +15,7 @@
 * 
 */
 
-#include <duye/arithmetic/inc/duye_arithmetic_sort.h>
+#include <duye/arithmetic/inc/duye_sort.h>
 
 DUYE_ARITHMETIC_NS_BEG
 
