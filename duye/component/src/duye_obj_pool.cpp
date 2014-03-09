@@ -4,27 +4,19 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_stl_ut_main.cpp
+* @file		duye_obj_pool.cpp
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-01-12
+* @date     2014-03-01
 * @note 
 *
-*  1. 2014-01-12 duye Created this file
+*  1. 2014-03-01 duye Created this file
 * 
 */
 
-#include <stdio.h>
-#include <duye/duye_posix>
+#include <duye/component/inc/duye_obj_pool.h>
 
-using namespace duye::posix;
+DUYE_COMPONENT_NS_BEG
 
-int main()
-{
-	printf("hello world!! \n");
-
-	//DuyePosix duyePosix;
-	
-	return 0;
-}
+DUYE_COMPONENT_NS_END

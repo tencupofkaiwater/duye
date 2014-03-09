@@ -28,8 +28,8 @@ static const D_UInt32 MAX_FILE_NAME_SIZE = 127;
 class System
 {
 public:
-    System();
-    ~System();
+    System() {}
+    ~System() {}
 
  	// brief : get max file name size
 	// @para 

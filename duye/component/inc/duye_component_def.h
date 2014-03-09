@@ -4,27 +4,17 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_stl_ut_main.cpp
+* @file		duye_conponent_def.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-01-12
+* @date     2014-03-01
 * @note 
 *
-*  1. 2014-01-12 duye Created this file
+*  1. 2014-03-01 duye Created this file
 * 
 */
 
-#include <stdio.h>
-#include <duye/duye_posix>
+#pragma once
 
-using namespace duye::posix;
-
-int main()
-{
-	printf("hello world!! \n");
-
-	//DuyePosix duyePosix;
-	
-	return 0;
-}
+#include <duye/inc/duye_type.h>

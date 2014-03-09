@@ -15,11 +15,17 @@
 * 
 */
 
-#pragma once
-
 #include <duye/posix/system/inc/duye_system_time.h>
 
 DUYE_POSIX_NS_BEG
+
+SystemTime::SystemTime()
+{
+}
+
+SystemTime::~SystemTime()
+{
+}
 
 D_Bool SystemTime::GetSystemTimeA(D_Int8* sysTime, const D_UInt64 bufSize)
 {
@@ -28,7 +34,7 @@ D_Bool SystemTime::GetSystemTimeA(D_Int8* sysTime, const D_UInt64 bufSize)
         return false;
     }
     
-    D_Int8* curSysTime = "20140309";
+    const D_Int8* curSysTime = "20140309";
     
     sprintf(sysTime, "%s", curSysTime);
 
@@ -42,7 +48,7 @@ D_Bool SystemTime::GetSystemTimeB(D_Int8* sysTime, const D_UInt64 bufSize)
         return false;
     }
     
-    D_Int8* curSysTime = "2014-03-09";
+    const D_Int8* curSysTime = "2014-03-09";
     
     sprintf(sysTime, "%s", curSysTime);
 
@@ -56,7 +62,7 @@ D_Bool SystemTime::GetSystemTimeC(D_Int8* sysTime, const D_UInt64 bufSize)
         return false;
     }
     
-    D_Int8* curSysTime = "2014/03/09";
+    const D_Int8* curSysTime = "2014/03/09";
     
     sprintf(sysTime, "%s", curSysTime);
 
@@ -70,7 +76,7 @@ D_Bool SystemTime::GetSystemTimeD(D_Int8* sysTime, const D_UInt64 bufSize)
         return false;
     }
     
-    D_Int8* curSysTime = "2014.03.09";
+    const D_Int8* curSysTime = "2014.03.09";
     
     sprintf(sysTime, "%s", curSysTime);
 
@@ -84,7 +90,7 @@ D_Bool SystemTime::GetSystemTimeE(D_Int8* sysTime, const D_UInt64 bufSize)
         return false;
     }
     
-    D_Int8* curSysTime = "2014-03-09:999";
+    const D_Int8* curSysTime = "2014-03-09:999";
     
     sprintf(sysTime, "%s", curSysTime);
 

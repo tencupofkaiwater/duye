@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_system.cpp
+* @file		duye_singleton.h
 * @version     
 * @brief      
 * @author   duye
@@ -15,23 +15,29 @@
 * 
 */
 
-#include <duye/posix/system/inc/duye_system.h>
+#pragma once
 
-DUYE_POSIX_NS_BEG
+#include <duye/component/inc/duye_component_def.h>
+#include <list>
 
-D_UInt32 System::GetMaxFileNameSize()
+DUYE_COMPONENT_NS_BEG
+
+template<typename T>
+class Singleton
 {
-    return MAX_FILE_NAME_SIZE;
-}
+public:
+    typedef T object_type;
+    
+public:
+    static T* GetInstance();
+    
+private:
+    Singleton() {}
+    Singleton(const Singleton&);
+    void operator=(const Singleton&);
 
-D_Void System::Sleep(const D_UInt64 time)
-{
-    sleep(time);
-}
+private:
+    static T* m_instance;
+};
 
-D_Void System::Usleep(const D_UInt64 time)
-{
-    usleep(time);
-}
-
-DUYE_POSIX_NS_END
+DUYE_COMPONENT_NS_END

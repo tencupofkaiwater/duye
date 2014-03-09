@@ -1,5 +1,7 @@
 INCLUDES += $(DUYE_ROOT) 	
 
+SLIBS += 
+
 LIBS += 
 
 LIBS_PATH += 
@@ -26,7 +28,7 @@ DEPS := $(patsubst %.o, $(OBJDIR)/%.d, $(CPPSRCS))
 MISSING_DEPS := $(filter-out $(wildcard $(DEPS)), $(DEPS))
 
 $(TARGET) : $(OBJS)
-	$(CC) $(CPPFLAGS) $(OBJS) -o $(BUILD_PATH)/output/bin/$(TARGET) $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
+	$(CC) $(CPPFLAGS) $(OBJS) -o $(BUILD_PATH)/output/bin/$(TARGET) $(addsuffix .a, $(SLIBS)) $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
 	@echo "++++++++++Build $(TARGET) Success++++++++++"
 	$(MAKE) install
 

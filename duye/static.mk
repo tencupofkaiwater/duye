@@ -1,5 +1,7 @@
 INCLUDES += $(DUYE_ROOT) 	
 
+SLIBS += 
+
 LIBS += 
 
 LIBS_PATH += 
@@ -14,9 +16,9 @@ SRCDIR = $(BUILD_PATH)/src
 RM := rm -f
 PS=cpp
 CC=g++
-CPPFLAGS = -Wall -g -O0  -Wall -march=i686
-CPPFLAGS += -shared -fPIC 
-CPPFLAGS += -MMD
+#CPPFLAGS = -Wall -g -O0 -Wall -march=i686
+CPPFLAGS += -fPIC 
+#CPPFLAGS += -MMD
 CPPFLAGS += $(addprefix -I, $(INCLUDES))
 CPPFLAGS += $(addprefix -D, $(PRE_DEFINED))
 
@@ -27,7 +29,7 @@ DEPS := $(patsubst %.o, $(OBJDIR)/%.d, $(CPPSRCS))
 MISSING_DEPS := $(filter-out $(wildcard $(DEPS)), $(DEPS))
 
 $(TARGET) : $(OBJS)
-	ar -r $(BUILD_PATH)/output/lib/$(TARGET).a $(OBJS)
+	ar rcs $(BUILD_PATH)/output/lib/$(TARGET).a $(OBJS)
 	@echo "++++++++++Build $(TARGET).a Success++++++++++"
 	$(MAKE) install
 
