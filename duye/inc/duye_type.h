@@ -18,7 +18,6 @@
 #pragma once
 
 #include <limits.h>
-#include <assert.h>
 
 #include <duye/inc/duye_base.h>
 
