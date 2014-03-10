@@ -3,11 +3,17 @@ TARGET:= lib$(PRONAME)
 PRE_DEFINED := 
 BUILD_PATH := $(shell pwd)
 
-INCLUDES := ../ini/inc \
-			../xml/inc \
+INCLUDES := \
+            ../ini/inc \
+			../xml/inc
 
-LIBS_PATH := ../lib \
+SLIBS := dini dxml
 
-LIBS := dini dxml
+SLIBS := $(addprefix ../lib/lib, $(SLIBS))
+SLIBS := $(addsuffix .a, $(SLIBS))
+
+LIBS :=
+
+LIBS_PATH :=
 
 include ../../shared.mk
