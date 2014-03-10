@@ -30,7 +30,7 @@ DEPS := $(patsubst %.o, $(OBJDIR)/%.d, $(CPPSRCS))
 MISSING_DEPS := $(filter-out $(wildcard $(DEPS)), $(DEPS))
 
 $(TARGET) : $(OBJS)
-	$(CC) -shared $(OBJS) $(SLIBS) -o $(BUILD_PATH)/output/lib/$(TARGET).so $(addprefix -L, $(LIBS_PATH)) $(addprefix -l, $(LIBS)) 
+	$(CC) -shared -o $(BUILD_PATH)/output/lib/$(TARGET).so $(OBJS) -Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive $(addprefix -L, $(LIBS_PATH)) $(addprefix -l, $(LIBS)) 
 	@echo "++++++++++Build $(TARGET).so Success++++++++++"
 	$(MAKE) install
 
