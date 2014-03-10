@@ -16,15 +16,10 @@
 */
 
 #include <stdio.h>
-#include <duye/duye_posix>
-
-using namespace duye::posix;
 
 int main()
 {
 	printf("hello world!! \n");
-
-	//DuyePosix duyePosix;
 	
 	return 0;
 }
