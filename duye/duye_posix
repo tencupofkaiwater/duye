@@ -17,7 +17,6 @@
 
 #pragma once
 
-#include <duye/posix/posix/inc/duye_posix.h>
 #include <duye/posix/duye_ipc>
 #include <duye/posix/duye_memory>
 #include <duye/posix/duye_socket>
