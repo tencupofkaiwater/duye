@@ -16,9 +16,9 @@ SRCDIR = $(BUILD_PATH)/src
 RM := rm -f
 PS=cpp
 CC=g++
-#CPPFLAGS = -Wall -g -O0 -Wall -march=i686
+CPPFLAGS = -Wall -g -O0 -Wall -march=i686
 CPPFLAGS += -fPIC 
-#CPPFLAGS += -MMD
+CPPFLAGS += -MMD
 CPPFLAGS += $(addprefix -I, $(INCLUDES))
 CPPFLAGS += $(addprefix -D, $(PRE_DEFINED))
 
@@ -30,9 +30,10 @@ DEPS := $(patsubst %.o, $(OBJDIR)/%.d, $(CPPSRCS))
 MISSING_DEPS := $(filter-out $(wildcard $(DEPS)), $(DEPS))
 
 $(TARGET) : $(OBJS)
-	$(CC) -shared -o $(BUILD_PATH)/output/lib/$(TARGET).so $(OBJS) -Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive $(addprefix -L, $(LIBS_PATH)) $(addprefix -l, $(LIBS)) 
-	@echo "++++++++++Build $(TARGET).so Success++++++++++"
-	$(MAKE) install
+	$(CC) -shared -o $(BUILD_PATH)/output/lib/$(TARGET).$(VERSION).so $(OBJS) -Wl,--whole-archive $(SLIBS) -Wl,--no-whole-archive $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
+	mkdir $(DUYE_LIB) -p
+	cp -ax $(BUILD_PATH)/output/lib/$(TARGET).$(VERSION).so $(DUYE_LIB)
+	@echo "++++++++++Build $(TARGET).$(VERSION).so Success++++++++++"
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 	@echo $<, `more $<|wc -l` lines
@@ -41,10 +42,12 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 .PHONY : all install clean cleanall 
 
 install :
-	@echo "start install $(TARGET).so ..."
-	mkdir $(DUYE_LIB) -p
-	cp -ax $(BUILD_PATH)/output/lib/$(TARGET).so $(DUYE_LIB)
-	@echo 'install $(TARGET).so complete ...'
+	@echo "start install $(TARGET).$(VERSION).so ..."
+	#copy head files
+	#copy library
+	cp -ax $(BUILD_PATH)/output/lib/$(TARGET).$(VERSION).so $(DUYE_LIB)
+	ln -s $(DUYE_LIB)/$(TARGET).$(VERSION).so $(DUYE_LIB)/$(TARGET).so
+	@echo 'install $(TARGET).$(VERSION).so complete ...'
 
 clean :
 	$(RM) $(BUILD_PATH)/output -rf

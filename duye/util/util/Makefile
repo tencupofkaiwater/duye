@@ -1,19 +1,21 @@
-PRONAME:= dutil
-TARGET:= lib$(PRONAME)
-PRE_DEFINED := 
-BUILD_PATH := $(shell pwd)
+PS=cpp
+PRONAME:=dutil
+VERSION:=1.0.0
+TARGET:=lib$(PRONAME)
+PRE_DEFINED:= 
+BUILD_PATH:=$(shell pwd)
 
-INCLUDES := \
-            ../ini/inc \
-			../xml/inc
+INCLUDES:=\
+        ../ini/inc \
+		../xml/inc
 
-SLIBS := dini dxml
+SLIBS:=dini dxml
 
-SLIBS := $(addprefix ../lib/lib, $(SLIBS))
-SLIBS := $(addsuffix .a, $(SLIBS))
+SLIBS:=$(addprefix ../lib/lib, $(SLIBS))
+SLIBS:=$(addsuffix .a, $(SLIBS))
 
-LIBS :=
+LIBS:=
 
-LIBS_PATH :=
+LIBS_PATH:=
 
 include ../../shared.mk

@@ -1,13 +1,14 @@
 PS=cpp
-PRONAME:= dstl
-TARGET:= lib$(PRONAME)
-PRE_DEFINED := 
-BUILD_PATH := $(shell pwd)
+PRONAME:=dstl
+VERSION:=1.0.0
+TARGET:=lib$(PRONAME)
+PRE_DEFINED:= 
+BUILD_PATH:=$(shell pwd)
 
-INCLUDES := $(BUILD_PATH)/inc \
+INCLUDES:=$(BUILD_PATH)/inc \
 
-LIBS_PATH := 
+LIBS_PATH:= 
 
-LIBS := 
+LIBS:= 
 
 include ../shared.mk

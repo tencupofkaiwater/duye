@@ -28,9 +28,8 @@ DEPS := $(patsubst %.o, $(OBJDIR)/%.d, $(CPPSRCS))
 MISSING_DEPS := $(filter-out $(wildcard $(DEPS)), $(DEPS))
 
 $(TARGET) : $(OBJS)
-	$(CC) $(CPPFLAGS) $(OBJS) -o $(BUILD_PATH)/output/bin/$(TARGET) $(addsuffix .a, $(SLIBS)) $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
-	@echo "++++++++++Build $(TARGET) Success++++++++++"
-	$(MAKE) install
+	$(CC) $(CPPFLAGS) $(OBJS) -o $(BUILD_PATH)/output/bin/$(TARGET).$(VERSION) $(SLIBS) $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
+	@echo "++++++++++Build $(TARGET).$(VERSION) Success++++++++++"
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 	@echo $<, `more $<|wc -l` lines
@@ -39,10 +38,10 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 .PHONY : all install clean 
 
 install :
-	@echo "start install $(TARGET) ..."
+	@echo "start install $(TARGET).$(VERSION) ..."
 	mkdir $(DUYE_BIN) -p
-	cp -ax $(BUILD_PATH)/output/bin/$(TARGET) $(DUYE_BIN)
-	@echo 'install $(TARGET) complete ...'
+	cp -ax $(BUILD_PATH)/output/bin/$(TARGET).$(VERSION) $(DUYE_BIN)
+	@echo 'install $(TARGET).$(VERSION) complete ...'
 
 clean :
 	$(RM) $(BUILD_PATH)/output -rf
@@ -50,7 +49,7 @@ clean :
 
 cleanall :
 	$(RM) $(BUILD_PATH)/output -rf
-	$(RM) $(DUYE_BIN)/$(TARGET) -rf
+	$(RM) $(DUYE_BIN)/$(TARGET).$(VERSION) -rf
 	#@touch `find . -name "*.cpp" | xargs`
 
 ifneq ($(MISSING_DEPS),)

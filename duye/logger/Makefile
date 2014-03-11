@@ -1,13 +1,14 @@
 PS=cpp
-PRONAME:= dlogger
-TARGET:= lib$(PRONAME)
-PRE_DEFINED := 
-BUILD_PATH := $(shell pwd)
+PRONAME:=dlogger
+VERSION:=1.0.0
+TARGET:=lib$(PRONAME)
+PRE_DEFINED:=
+BUILD_PATH:=$(shell pwd)
 
-INCLUDES := $(BUILD_PATH)/inc \
+INCLUDES:=$(BUILD_PATH)/inc \
 
-LIBS_PATH := 
+LIBS_PATH:=
 
-LIBS := 
+LIBS:=
 
 include ../shared.mk

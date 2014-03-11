@@ -30,8 +30,9 @@ MISSING_DEPS := $(filter-out $(wildcard $(DEPS)), $(DEPS))
 
 $(TARGET) : $(OBJS)
 	ar rcs $(BUILD_PATH)/output/lib/$(TARGET).a $(OBJS)
+	mkdir ../lib -p
+	cp -ax $(BUILD_PATH)/output/lib/$(TARGET).a ../lib
 	@echo "++++++++++Build $(TARGET).a Success++++++++++"
-	$(MAKE) install
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 	@echo compile file $<, `more $<|wc -l` lines ....

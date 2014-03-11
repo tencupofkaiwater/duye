@@ -1,23 +1,24 @@
-PRONAME:= dposix
-TARGET:= lib$(PRONAME)
-PRE_DEFINED := 
-BUILD_PATH := $(shell pwd)
+PRONAME:=dposix
+VERSION:=1.0.0
+TARGET:=lib$(PRONAME)
+PRE_DEFINED:=
+BUILD_PATH:=$(shell pwd)
 
-INCLUDES := \
-            ../ips/inc \
-            ../memory/inc \
-            ../socekt/inc \
-			../stdio/inc \
-			../system/inc \
-            ../thread/inc \
+INCLUDES:=\
+          ../ips/inc \
+          ../memory/inc \
+          ../socekt/inc \
+		  ../stdio/inc \
+		  ../system/inc \
+          ../thread/inc 
 
-SLIBS := dsystem dipc dmemory dsocket dstdio dthread
+SLIBS:=dsystem dipc dmemory dsocket dstdio dthread
 
-SLIBS := $(addprefix ../lib/lib, $(SLIBS))
-SLIBS := $(addsuffix .a, $(SLIBS))
+SLIBS:=$(addprefix ../lib/lib, $(SLIBS))
+SLIBS:=$(addsuffix .a, $(SLIBS))
 
-LIBS :=
+LIBS:=
 
-LIBS_PATH := 
+LIBS_PATH:= 
 
 include ../../shared.mk
