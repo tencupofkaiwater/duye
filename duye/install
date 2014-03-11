@@ -1,0 +1,51 @@
+#!/bin/sh
+
+INSTALL_NAME=duye
+INSTALL_DIR=/usr
+INSTALL_INC_DIR=$INSTALL_DIR/include/$INSTALL_NAME
+INSTALL_LIB_DIR=$INSTALL_DIR/lib
+INSTALL_BIN_DIR=$INSTALL_DIR/bin
+
+mkdir $INSTALL_INC_DIR -p
+
+#copy head files
+cp duye_* $INSTALL_INC_DIR
+cp ./inc $INSTALL_INC_DIR -rf
+
+mkdir $INSTALL_INC_DIR/arithmetic -p
+cp ./arithmetic/duye_* $INSTALL_INC_DIR/arithmetic 
+cp ./arithmetic/inc $INSTALL_INC_DIR/arithmetic -rf
+
+mkdir $INSTALL_INC_DIR/component -p
+cp ./component/duye_* $INSTALL_INC_DIR/component
+cp ./component/inc $INSTALL_INC_DIR/component -rf
+
+mkdir $INSTALL_INC_DIR/logger -p
+cp ./logger/inc $INSTALL_INC_DIR/logger -rf
+
+mkdir $INSTALL_INC_DIR/posix -p
+mkdir $INSTALL_INC_DIR/posix/ipc -p
+mkdir $INSTALL_INC_DIR/posix/memory -p
+mkdir $INSTALL_INC_DIR/posix/socket -p
+mkdir $INSTALL_INC_DIR/posix/stdio -p
+mkdir $INSTALL_INC_DIR/posix/system -p
+mkdir $INSTALL_INC_DIR/posix/thread -p
+cp ./posix/duye_* $INSTALL_INC_DIR/posix/
+cp ./posix/inc $INSTALL_INC_DIR/posix/ -rf
+cp ./posix/ipc/inc $INSTALL_INC_DIR/posix/ipc -rf
+cp ./posix/memory/inc $INSTALL_INC_DIR/posix/memory -rf
+cp ./posix/socket/inc $INSTALL_INC_DIR/posix/socket -rf
+cp ./posix/stdio/inc $INSTALL_INC_DIR/posix/stdio -rf
+cp ./posix/system/inc $INSTALL_INC_DIR/posix/system -rf
+cp ./posix/thread/inc $INSTALL_INC_DIR/posix/thread -rf
+
+mkdir $INSTALL_INC_DIR/stl -p
+cp ./stl/duye_* $INSTALL_INC_DIR/stl 
+cp ./stl/inc $INSTALL_INC_DIR/stl -rf
+
+mkdir $INSTALL_INC_DIR/util -p
+cp ./util/duye_* $INSTALL_INC_DIR/util 
+cp ./util/inc $INSTALL_INC_DIR/util -rf
+
+#copy library
+cp ./lib/* $INSTALL_LIB_DIR -rf
