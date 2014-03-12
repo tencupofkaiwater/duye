@@ -22,7 +22,7 @@
 #include <duye/component/inc/duye_component_def.h>
 
 
-DUYE_COMPONENT_NS_BEG
+DUYE_STL_NS_BEG
 
 /*
 class ObjPoolUserIf
@@ -115,4 +115,4 @@ void ObjPool<T>::ReleaseObjPool()
     
 }
 
-DUYE_COMPONENT_NS_END
+DUYE_STL_NS_END

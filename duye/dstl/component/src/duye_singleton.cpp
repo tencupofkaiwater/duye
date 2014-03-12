@@ -15,7 +15,7 @@
 * 
 */
 
-#include <duye/component/inc/duye_singleton.h>
+#include <duye/dstl/component/inc/duye_singleton.h>
 
 DUYE_COMPONENT_NS_BEG
 

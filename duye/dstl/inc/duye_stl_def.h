@@ -4,19 +4,17 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_obj_pool.cpp
+* @file		duye_stl_def.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-03-01
+* @date     2013-12-1
 * @note 
 *
-*  1. 2014-03-01 duye Created this file
+*  1. 2013-12-1 duye Created this file
 * 
 */
 
-#include <duye/dstl/component/inc/duye_obj_pool.h>
+#pragma once
 
-DUYE_COMPONENT_NS_BEG
-
-DUYE_COMPONENT_NS_END
+#include <duye/inc/duye_type.h>

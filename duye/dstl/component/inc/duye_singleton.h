@@ -20,7 +20,7 @@
 #include <duye/component/inc/duye_component_def.h>
 #include <list>
 
-DUYE_COMPONENT_NS_BEG
+DUYE_STL_NS_BEG
 
 template<typename T>
 class Singleton
@@ -40,4 +40,4 @@ private:
     static T* m_instance;
 };
 
-DUYE_COMPONENT_NS_END
+DUYE_STL_NS_END

@@ -19,7 +19,7 @@
 
 #include <duye/arithmetic/inc/duye_arithmetic_def.h>
 
-DUYE_ARITHMETIC_NS_BEG
+DUYE_STL_NS_BEG
 
 // brief : arithmetic wrapper class
 class Sort
@@ -27,4 +27,4 @@ class Sort
     static void BubbleSort();
 };
 
-DUYE_ARITHMETIC_NS_END
+DUYE_STL_NS_END

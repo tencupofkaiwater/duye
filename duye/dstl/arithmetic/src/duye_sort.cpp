@@ -15,13 +15,13 @@
 * 
 */
 
-#include <duye/arithmetic/inc/duye_sort.h>
+#include <duye/dstl/arithmetic/inc/duye_sort.h>
 
-DUYE_ARITHMETIC_NS_BEG
+DUYE_STL_NS_BEG
 
 void Sort::BubbleSort()
 {
     
 }
 
-DUYE_ARITHMETIC_NS_END
+DUYE_STL_NS_END
