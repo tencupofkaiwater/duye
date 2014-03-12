@@ -43,10 +43,6 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 
 install :
 	@echo "start install $(TARGET).$(VERSION).so ..."
-	#copy head files
-	#copy library
-	cp -ax $(BUILD_PATH)/output/lib/$(TARGET).$(VERSION).so $(DUYE_LIB)
-	ln -s $(DUYE_LIB)/$(TARGET).$(VERSION).so $(DUYE_LIB)/$(TARGET).so
 	@echo 'install $(TARGET).$(VERSION).so complete ...'
 
 clean :

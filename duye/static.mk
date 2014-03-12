@@ -42,8 +42,6 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 
 install:
 	@echo "start install $(TARGET).a ..."
-	mkdir ../lib -p
-	cp -ax $(BUILD_PATH)/output/lib/$(TARGET).a ../lib
 	@echo "install $(TARGET).a complete ..."
 
 clean :

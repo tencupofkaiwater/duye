@@ -29,6 +29,8 @@ MISSING_DEPS := $(filter-out $(wildcard $(DEPS)), $(DEPS))
 
 $(TARGET) : $(OBJS)
 	$(CC) $(CPPFLAGS) $(OBJS) -o $(BUILD_PATH)/output/bin/$(TARGET).$(VERSION) $(SLIBS) $(addprefix -l, $(LIBS)) $(addprefix -L, $(LIBS_PATH))
+	mkdir $(DUYE_BIN) -p
+	cp -ax $(BUILD_PATH)/output/bin/$(TARGET).$(VERSION) $(DUYE_BIN)    
 	@echo "++++++++++Build $(TARGET).$(VERSION) Success++++++++++"
 
 $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
@@ -39,8 +41,6 @@ $(OBJDIR)/%.o:$(SRCDIR)/%.cpp
 
 install :
 	@echo "start install $(TARGET).$(VERSION) ..."
-	mkdir $(DUYE_BIN) -p
-	cp -ax $(BUILD_PATH)/output/bin/$(TARGET).$(VERSION) $(DUYE_BIN)
 	@echo 'install $(TARGET).$(VERSION) complete ...'
 
 clean :

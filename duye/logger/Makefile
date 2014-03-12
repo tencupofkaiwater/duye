@@ -1,4 +1,3 @@
-PS=cpp
 PRONAME:=dlogger
 VERSION:=1.0.0
 TARGET:=lib$(PRONAME)

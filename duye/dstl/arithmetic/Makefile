@@ -1,5 +1,4 @@
 PRONAME:=darithmetic
-VERSION:=1.0.0
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:=
 BUILD_PATH:=$(shell pwd)
@@ -10,4 +9,4 @@ LIBS_PATH:=
 
 LIBS:=
 
-include ../shared.mk
+include ../../static.mk
