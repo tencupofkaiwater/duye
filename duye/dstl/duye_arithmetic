@@ -17,7 +17,4 @@
 
 #pragma once
 
-#include <duye/posix/thread/inc/duye_condition.h>
-#include <duye/posix/thread/inc/duye_lock.h>
-#include <duye/posix/thread/inc/duye_thread.h>
-#include <duye/posix/thread/inc/duye_thread_pool.h>
+#include <duye/dstl/arithmetic/inc/duye_sort.h>
