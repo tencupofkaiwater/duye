@@ -1,10 +1,10 @@
-all: dstl 
+all: dstl_t 
 
 clean:
-	$(MAKE) -C stl clean
+	$(MAKE) -C dstl clean
 
 cleanall:
 	$(MAKE) -C stl cleanall
 
-dstl:    
-	$(MAKE) -C stl
+dstl_t:    
+	$(MAKE) -C dstl
