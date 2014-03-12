@@ -16,7 +16,7 @@
 */
 #pragma once
 
-#include <duye/stl/inc/duye_stl_def.h>
+#include <duye/dstl/inc/duye_stl_def.h>
 
 DUYE_STL_NS_BEG
 

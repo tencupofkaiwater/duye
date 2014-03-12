@@ -14,7 +14,7 @@
 *  1. 2014-01-13 duye Created this file
 * 
 */
-#include <duye/stl/inc/duye_list.h>
+#include <duye/dstl/vector/inc/duye_list.h>
 
 DUYE_STL_NS_BEG
 DUYE_STL_NS_END

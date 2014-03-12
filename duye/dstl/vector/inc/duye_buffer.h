@@ -17,8 +17,8 @@
 
 #pragma once
 
-#include <duye/stl/inc/duye_stl_def.h>
-#include <duye/stl/inc/duye_bytemem.h>
+#include <duye/dstl/inc/duye_stl_def.h>
+#include <duye/dstl/vector/inc/duye_bytemem.h>
 
 DUYE_STL_NS_BEG
 

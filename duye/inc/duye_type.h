@@ -28,8 +28,8 @@
 DUYE_NS_BEG
 DUYE_NS_END
 
-// stl namespace, path : /duye/stl
-#define DUYE_STL_NS_BEG namespace duye { namespace stl {
+// stl namespace, path : /duye/dstl
+#define DUYE_STL_NS_BEG namespace duye { namespace dstl {
 #define DUYE_STL_NS_END }}
 
 DUYE_STL_NS_BEG
@@ -55,17 +55,3 @@ DUYE_UT_NS_END
 
 DUYE_UTIL_NS_BEG
 DUYE_UTIL_NS_END
-
-// arithmetic namespace, path : /duye/arithmetic
-#define DUYE_ARITHMETIC_NS_BEG namespace duye { namespace arithmetic {
-#define DUYE_ARITHMETIC_NS_END }}
-
-DUYE_ARITHMETIC_NS_BEG
-DUYE_ARITHMETIC_NS_END
-
-// component namespace, path : /duye/component
-#define DUYE_COMPONENT_NS_BEG namespace duye { namespace component {
-#define DUYE_COMPONENT_NS_END }}
-
-DUYE_COMPONENT_NS_BEG
-DUYE_COMPONENT_NS_END

@@ -17,7 +17,7 @@
 
 #include <duye/dstl/component/inc/duye_singleton.h>
 
-DUYE_COMPONENT_NS_BEG
+DUYE_STL_NS_BEG
 
 template<typename T> typename Singleton<T>::object_type* Singleton<T>::m_instance = NULL;
 
@@ -33,4 +33,4 @@ T* Singleton<T>::GetInstance()
     return m_instance;
 }
 
-DUYE_COMPONENT_NS_END
+DUYE_STL_NS_END

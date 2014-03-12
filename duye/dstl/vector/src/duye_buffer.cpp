@@ -14,9 +14,9 @@
 *  1. 2014-01-17 duye Created this file
 * 
 */
-#include <duye/stl/inc/duye_stl_def.h>
-#include <duye/stl/inc/duye_bytemem.h>
-#include <duye/stl/inc/duye_buffer.h>
+#include <duye/dstl/inc/duye_stl_def.h>
+#include <duye/dstl/vector/inc/duye_bytemem.h>
+#include <duye/dstl/vector/inc/duye_buffer.h>
 
 DUYE_STL_NS_BEG
 

@@ -17,6 +17,6 @@
 
 #include <duye/dstl/component/inc/duye_obj_pool.h>
 
-DUYE_COMPONENT_NS_BEG
+DUYE_STL_NS_BEG
 
-DUYE_COMPONENT_NS_END
+DUYE_STL_NS_END

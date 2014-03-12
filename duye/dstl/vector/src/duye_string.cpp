@@ -15,7 +15,7 @@
 * 
 */
 
-#include <duye/stl/inc/duye_string.h>
+#include <duye/dstl/vector/inc/duye_string.h>
 
 DUYE_STL_NS_BEG
 

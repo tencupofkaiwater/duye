@@ -15,7 +15,7 @@
 * 
 */
 
-#include <duye/stl/inc/duye_bytemem.h>
+#include <duye/dstl/vector/inc/duye_bytemem.h>
 
 DUYE_STL_NS_BEG
 

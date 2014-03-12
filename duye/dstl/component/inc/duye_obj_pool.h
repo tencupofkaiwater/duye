@@ -18,9 +18,7 @@
 #pragma once
 
 #include <list>
-
-#include <duye/component/inc/duye_component_def.h>
-
+#include <duye/dstl/inc/duye_stl_def.h>
 
 DUYE_STL_NS_BEG
 
