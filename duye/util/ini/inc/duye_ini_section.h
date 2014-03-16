@@ -4,40 +4,38 @@
 *
 ************************************************************************************/
 /**
-* @file		duye_ini.h
+* @file		duye_ini_section.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2013-11-15
+* @date     2014-03-15
 * @note 
 *
-*  1. 2013-11-15 duye Created this file
+*  1. 2014-03-15 duye Created this file
 * 
 */
 
 #pragma once
 
-#include <list>
+#include <map>
 #include <duye/util/inc/duye_util_def.h>
 
 DUYE_UTIL_NS_BEG
 
-typedef std::list<Section*> SectionList;
+typedef std::map<std::string, std::string> KeyValueMap;
 
-class IniParser
+class Section
 {
 public:
-    IniParser();
-    IniParser(const std::string& filePath);
-    ~IniParser();
+    Section();
+    ~Section();
 
-    D_Result LoadFile(const std::string& filePath);
-    D_Result ImportBuffer(const std::string& buffer);
+    void AddKeyValue(const std::string& key, const std::string& value);
 
-    const SectionList& GetSectionList() const;
+    const KeyValueMap& GetKeyValueMap() const;
 
 private:
-    SectionList     m_sectionList;
+    KeyValueMap     m_keyValueMap;
 };
 
 DUYE_UTIL_NS_END

@@ -54,18 +54,19 @@ cp ./util/duye_* $INSTALL_INC_DIR/util
 cp ./util/inc $INSTALL_INC_DIR/util -rf
 
 #copy library
+rm $INSTALL_LIB_DIR/libdlogger.* -f
+rm $INSTALL_LIB_DIR/libdposix.* -f
+rm $INSTALL_LIB_DIR/libdstl.* -f
+rm $INSTALL_LIB_DIR/libdutil.* -f
+
 cp ./lib/* $INSTALL_LIB_DIR -f
 
-rm $INSTALL_LIB_DIR/libdlogger.* -f
 ln -s $INSTALL_LIB_DIR/libdlogger.1.0.0.so $INSTALL_LIB_DIR/libdlogger.so
 
-rm $INSTALL_LIB_DIR/libdposix.* -f
 ln -s $INSTALL_LIB_DIR/libdposix.1.0.0.so $INSTALL_LIB_DIR/libdposix.so
 
-rm $INSTALL_LIB_DIR/libdstl.* -f
 ln -s $INSTALL_LIB_DIR/libdstl.1.0.0.so $INSTALL_LIB_DIR/libdstl.so
 
-rm $INSTALL_LIB_DIR/libdutil.* -f
 ln -s $INSTALL_LIB_DIR/libdutil.1.0.0.so $INSTALL_LIB_DIR/libdutil.so
 
 echo "lib list    = libdlogger.so libdposix.so libdstl.so libdutil.so"

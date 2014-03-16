@@ -4,7 +4,6 @@ clean:
 	$(MAKE) -C dstl clean
 	$(MAKE) -C logger clean
 	$(MAKE) -C posix clean
-	$(MAKE) -C stl clean
 	$(MAKE) -C util clean
 	$(MAKE) -C ut clean
 
