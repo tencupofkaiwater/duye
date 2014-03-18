@@ -17,5 +17,5 @@
 
 #pragma once
 
-#include <duye/dstl/vector/duye_string>
-#include <duye/dstl/vector/duye_list>
+#include <duye/dstl/vector/inc/duye_string.h>
+#include <duye/dstl/vector/inc/duye_list.h>

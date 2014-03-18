@@ -31,10 +31,10 @@ public:
 public:
     static T* GetInstance();
     
-private:
+protected:
     Singleton() {}
     Singleton(const Singleton&);
-    void operator=(const Singleton&);
+    Singleton& operator=(const Singleton&);
 
 private:
     static T* m_instance;

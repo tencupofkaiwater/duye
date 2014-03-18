@@ -18,3 +18,4 @@
 #pragma once
 
 #include <duye/inc/duye_base.h>
+#include <duye/inc/duye_type.h>
