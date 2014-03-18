@@ -15,9 +15,7 @@
 * 
 */
 
-#pragma once
-
-#include <duye/util/inc/duye_ini.h>
+#include <duye/util/ini/inc/duye_ini_section.h>
 
 DUYE_UTIL_NS_BEG
 

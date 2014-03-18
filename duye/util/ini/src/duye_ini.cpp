@@ -25,7 +25,7 @@ IniParser::IniParser()
 
 IniParser::IniParser(const std::string& filePath)
 {
-    return LoadFile(filePath);
+    LoadFile(filePath);
 }
 
 IniParser::~IniParser()
@@ -37,7 +37,7 @@ D_Result IniParser::LoadFile(const std::string& filePath)
     return D_SUCCESS;
 }
 
-D_Result IniParser::ReadBuffer(const std::string& buffer)
+D_Result IniParser::ImportContent(const std::string& content)
 {
     return D_SUCCESS;
 }

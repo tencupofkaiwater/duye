@@ -18,6 +18,7 @@
 #pragma once
 
 #include <map>
+#include <string>
 #include <duye/util/inc/duye_util_def.h>
 
 DUYE_UTIL_NS_BEG

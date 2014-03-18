@@ -18,7 +18,9 @@
 #pragma once
 
 #include <list>
+#include <string>
 #include <duye/util/inc/duye_util_def.h>
+#include <duye/util/ini/inc/duye_ini_section.h>
 
 DUYE_UTIL_NS_BEG
 
@@ -32,7 +34,7 @@ public:
     ~IniParser();
 
     D_Result LoadFile(const std::string& filePath);
-    D_Result ImportBuffer(const std::string& buffer);
+    D_Result ImportContent(const std::string& content);
 
     const SectionList& GetSectionList() const;
 
