@@ -17,5 +17,6 @@
 
 #pragma once
 
-#include <duye/posix/duye_list>
-#include <duye/posix/duye_string>
+#include <duye/dstl/duye_arithmetic>
+#include <duye/dstl/duye_component>
+#include <duye/dstl/duye_vector>
