@@ -40,6 +40,8 @@ private:
     static T* m_instance;
 };
 
+template<typename T> typename Singleton<T>::object_type* Singleton<T>::m_instance = NULL;
+
 template<typename T>
 T* Singleton<T>::GetInstance()
 {

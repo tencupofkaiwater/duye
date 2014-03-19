@@ -44,7 +44,6 @@ public:
     ~ObjPool();
 
     void SetCount(const D_UInt32 count);
-    
 
 private:
     ObjPool(const ObjPool<T>&);
