@@ -40,4 +40,16 @@ private:
     static T* m_instance;
 };
 
+template<typename T>
+T* Singleton<T>::GetInstance()
+{
+    if (m_instance == NULL)
+    {
+        static T instance;
+        m_instance = &instance;
+    }
+
+    return m_instance;
+}
+
 DUYE_STL_NS_END

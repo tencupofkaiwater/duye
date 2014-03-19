@@ -21,6 +21,7 @@ DUYE_STL_NS_BEG
 
 template<typename T> typename Singleton<T>::object_type* Singleton<T>::m_instance = NULL;
 
+/*
 template<typename T>
 T* Singleton<T>::GetInstance()
 {
@@ -32,5 +33,6 @@ T* Singleton<T>::GetInstance()
 
     return m_instance;
 }
+*/
 
 DUYE_STL_NS_END
