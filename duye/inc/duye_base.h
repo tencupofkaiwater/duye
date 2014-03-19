@@ -50,8 +50,8 @@ typedef D_Int32				D_Result;
 #define D_SUCCESS           0
 #define D_FAILURE           (-1)
 
-#define D_RETYES(ret) { return ret == D_SUCCESS; }
-#define D_RETNO(ret) { return ret != D_SUCCESS; }
+#define D_RETYES(ret) (ret) == D_SUCCESS 
+#define D_RETNO(ret) (ret) != D_SUCCESS
 
 #ifdef DUYE_ASSERT
 #define D_ASSERT(x)

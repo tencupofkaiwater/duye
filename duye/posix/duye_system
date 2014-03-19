@@ -19,3 +19,4 @@
 
 #include <duye/posix/system/inc/duye_system.h>
 #include <duye/posix/system/inc/duye_system_time.h>
+#include <duye/posix/system/inc/duye_shared_library.h>
