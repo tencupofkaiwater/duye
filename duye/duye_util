@@ -17,5 +17,5 @@
 
 #pragma once
 
-#include <duye/util/inc/ini/duye_ini.h>
-#include <duye/util/inc/xml/duye_xml.h>
+#include <duye/util/duye_ini>
+#include <duye/util/duye_xml>

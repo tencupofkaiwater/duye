@@ -46,12 +46,15 @@ cp ./dstl/duye_* $INSTALL_INC_DIR/dstl -f
 cp ./dstl/inc $INSTALL_INC_DIR/dstl -rf
 cp ./dstl/arithmetic/inc $INSTALL_INC_DIR/dstl/arithmetic -rf
 cp ./dstl/component/inc $INSTALL_INC_DIR/dstl/component -rf
-cp ./dstl/vector/duye_* $INSTALL_INC_DIR/dstl/vector -f
 cp ./dstl/vector/inc $INSTALL_INC_DIR/dstl/vector -rf
 
 mkdir $INSTALL_INC_DIR/util -p
-cp ./util/duye_* $INSTALL_INC_DIR/util 
+mkdir $INSTALL_INC_DIR/util/ini -p
+mkdir $INSTALL_INC_DIR/util/xml -p
+cp ./util/duye_* $INSTALL_INC_DIR/util -f
 cp ./util/inc $INSTALL_INC_DIR/util -rf
+cp ./util/ini/inc $INSTALL_INC_DIR/util/ini -rf
+cp ./util/xml/inc $INSTALL_INC_DIR/util/xml -rf
 
 #copy library
 rm $INSTALL_LIB_DIR/libdlogger.* -f
