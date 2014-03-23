@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_stdio.h
+* @file		duye_file.h
 * @version     
 * @brief      
 * @author   duye
@@ -20,4 +20,12 @@
 #include <duye/posix/inc/duye_posix_def.h>
 
 DUYE_POSIX_NS_BEG
+
+class File
+{
+public:
+    File();
+    ~File();
+};
+
 DUYE_POSIX_NS_END
