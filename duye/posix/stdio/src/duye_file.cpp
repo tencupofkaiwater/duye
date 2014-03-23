@@ -4,7 +4,7 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_stdio.cpp
+* @file		duye_file.cpp
 * @version     
 * @brief      
 * @author   duye
@@ -18,4 +18,9 @@
 #include <duye/posix/stdio/inc/duye_stdio.h>
 
 DUYE_POSIX_NS_BEG
+
+File::File() {}
+
+File::~File() {}
+
 DUYE_POSIX_NS_END
