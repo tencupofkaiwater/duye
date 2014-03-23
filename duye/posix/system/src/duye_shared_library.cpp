@@ -32,9 +32,9 @@ D_Void* SharedLibrary::OpenLib(const std::string& libFilePath, const D_Int32 fla
     return dlopen(libFilePath.c_str(), flags);
 }
 
-D_Int32 SharedLibrary::CloseLib(D_Void* handle)
+D_Bool SharedLibrary::CloseLib(D_Void* handle)
 {
-    return dlclose(handle);    
+    return dlclose(handle) == 0 ? true : false;    
 }
 
 DUYE_POSIX_NS_END

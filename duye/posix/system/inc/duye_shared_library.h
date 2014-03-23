@@ -41,7 +41,7 @@ public:
  	// brief : close shared library
 	// @para [in]handle : library handle
 	// @return 0 on success, or -1 on error    
-    static D_Int32 CloseLib(D_Void* handle);
+    static D_Bool CloseLib(D_Void* handle);
 };
 
 DUYE_POSIX_NS_END
