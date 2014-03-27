@@ -31,6 +31,8 @@
 #define D_LONG_MAX       LONG_MAX
 #define D_ULONG_MAX      ULONG_MAX
 
+#define D_PATH_MAX  256
+
 // base type define
 typedef void                D_Void;
 typedef bool                D_Bool;

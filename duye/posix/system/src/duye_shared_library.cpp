@@ -27,9 +27,9 @@ SharedLibrary::~SharedLibrary()
 {
 }
 
-D_Void* SharedLibrary::OpenLib(const std::string& libFilePath, const D_Int32 flags)
+D_Void* SharedLibrary::OpenLib(const D_Int8* libFilePath, const D_Int32 flags)
 {
-    return dlopen(libFilePath.c_str(), flags);
+    return dlopen(libFilePath, flags);
 }
 
 D_Bool SharedLibrary::CloseLib(D_Void* handle)

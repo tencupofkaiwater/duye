@@ -17,6 +17,11 @@
 
 #pragma once
 
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+
 #include <duye/posix/inc/duye_posix_def.h>
 
 DUYE_POSIX_NS_BEG
@@ -83,7 +88,7 @@ private:
 	D_Bool OrgOpen(const D_Int8* filePath, const D_Int32 flags);
 
 private:
-    File*       m_handle;
+    D_Int32     m_fd;
     D_Int8      m_path[D_PATH_MAX];
     D_Int32     m_flags;
 };
