@@ -21,7 +21,7 @@ trunk
                      |----- src
                      |----- Makefile
               |----- Makefile                             // 生成posix子模块动态库Makefile
-       |----- stl                                         // 动态库子模块，标准容器实现源码目录
+       |----- dstl                                         // 动态库子模块，标准容器实现源码目录
               |----- inc
               |----- src
               |----- Makefile           
