@@ -1,21 +1,13 @@
-all: dini dxml target
+PRONAME:=dcomponent
+VERSION:=1.0.0
+TARGET:=lib$(PRONAME)
+PRE_DEFINED:= 
+BUILD_PATH:=$(shell pwd)
 
-clean:
-	$(MAKE) -C ini clean
-	$(MAKE) -C xml clean
-	$(MAKE) -C util clean
+INCLUDES:=$(BUILD_PATH)/inc \
 
-cleanall:
-	$(MAKE) -C ini cleanall
-	$(MAKE) -C xml cleanall
-	$(MAKE) -C util cleanall
-	rm ./lib -rf
+LIBS_PATH:= 
 
-dini:    
-	$(MAKE) -C ini 
+LIBS:= 
 
-dxml:    
-	$(MAKE) -C xml 
-
-target:    
-	$(MAKE) -C util 
+include ../../static.mk
