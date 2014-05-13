@@ -1,10 +1,10 @@
-all: dstl_t 
+all: duye 
 
 clean:
-	$(MAKE) -C dstl clean
+	$(MAKE) -C duye_ut clean
 
 cleanall:
-	$(MAKE) -C dstl cleanall
+	$(MAKE) -C duye_ut cleanall
 
-dstl_t:    
-	$(MAKE) -C dstl
+duye:    
+	$(MAKE) -C duye_ut
