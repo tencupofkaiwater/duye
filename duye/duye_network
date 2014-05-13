@@ -4,19 +4,17 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_stl
+* @file	    duye_network
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-02-23
+* @date     2014-05-13
 * @note 
 *
-*  1. 2014-02-23 duye Created this file
+*  1. 2014-05-13 duye Created this file
 * 
 */
 
 #pragma once
 
-#include <duye/dstl/duye_arithmetic>
-#include <duye/dstl/duye_component>
-#include <duye/dstl/duye_vector>
+#include <duye/network/inc/duye_network.h>

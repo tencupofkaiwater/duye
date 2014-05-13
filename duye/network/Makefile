@@ -1,4 +1,4 @@
-PRONAME:=dcomponent
+PRONAME:=dnetwork
 VERSION:=1.0.0
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
@@ -10,4 +10,4 @@ LIBS_PATH:=
 
 LIBS:= 
 
-include ../../static.mk
+include ../shared.mk

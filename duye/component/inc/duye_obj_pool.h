@@ -18,9 +18,9 @@
 #pragma once
 
 #include <list>
-#include <duye/dstl/inc/duye_stl_def.h>
+#include <duye/inc/duye_type.h>
 
-DUYE_STL_NS_BEG
+DUYE_COMPONENT_NS_BEG
 
 /*
 class ObjPoolUserIf
@@ -112,4 +112,4 @@ void ObjPool<T>::ReleaseObjPool()
     
 }
 
-DUYE_STL_NS_END
+DUYE_COMPONENT_NS_END

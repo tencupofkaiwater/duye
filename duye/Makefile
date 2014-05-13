@@ -1,14 +1,16 @@
-all: dstllib dlogger dposix dutil ut_app
+all: dnetwork dcomponent dlogger dposix dutil ut_app
 
 clean:
-	$(MAKE) -C dstl clean
+	$(MAKE) -C network clean
+	$(MAKE) -C component clean
 	$(MAKE) -C logger clean
 	$(MAKE) -C posix clean
 	$(MAKE) -C util clean
 	$(MAKE) -C ut clean
 
 cleanall:
-	$(MAKE) -C dstl cleanall
+	$(MAKE) -C network cleanall
+	$(MAKE) -C component cleanall
 	$(MAKE) -C logger cleanall
 	$(MAKE) -C posix cleanall
 	$(MAKE) -C util cleanall
@@ -16,8 +18,11 @@ cleanall:
 	rm $(DUYE_LIB) -rf
 	rm $(DUYE_BIN) -rf
 
-dstllib:
-	$(MAKE) -C dstl
+dnetwork:
+	$(MAKE) -C network 
+
+dcomponent:
+	$(MAKE) -C component
 
 dlogger:    
 	$(MAKE) -C logger    

@@ -10,16 +10,19 @@ INSTALL_LIB_DIR=$INSTALL_DIR/lib
 echo "include dir = $INSTALL_INC_DIR"
 echo "lib dir     = $INSTALL_LIB_DIR"
 
+rm $INSTALL_INC_DIR -rf
 mkdir $INSTALL_INC_DIR -p
 
 #copy head files
 cp duye_* $INSTALL_INC_DIR
 cp ./inc $INSTALL_INC_DIR -rf
 
+# logger
 rm $INSTALL_INC_DIR/logger -rf
 mkdir $INSTALL_INC_DIR/logger -p
 cp ./logger/inc $INSTALL_INC_DIR/logger -rf
 
+# posix
 rm $INSTALL_INC_DIR/posix -rf
 mkdir $INSTALL_INC_DIR/posix -p
 mkdir $INSTALL_INC_DIR/posix/ipc -p
@@ -37,17 +40,7 @@ cp ./posix/stdio/inc $INSTALL_INC_DIR/posix/stdio -rf
 cp ./posix/system/inc $INSTALL_INC_DIR/posix/system -rf
 cp ./posix/thread/inc $INSTALL_INC_DIR/posix/thread -rf
 
-rm $INSTALL_INC_DIR/dstl -rf
-mkdir $INSTALL_INC_DIR/dstl -p
-mkdir $INSTALL_INC_DIR/dstl/arithmetic -p
-mkdir $INSTALL_INC_DIR/dstl/component -p
-mkdir $INSTALL_INC_DIR/dstl/vector -p
-cp ./dstl/duye_* $INSTALL_INC_DIR/dstl -f
-cp ./dstl/inc $INSTALL_INC_DIR/dstl -rf
-cp ./dstl/arithmetic/inc $INSTALL_INC_DIR/dstl/arithmetic -rf
-cp ./dstl/component/inc $INSTALL_INC_DIR/dstl/component -rf
-cp ./dstl/vector/inc $INSTALL_INC_DIR/dstl/vector -rf
-
+# util
 mkdir $INSTALL_INC_DIR/util -p
 mkdir $INSTALL_INC_DIR/util/ini -p
 mkdir $INSTALL_INC_DIR/util/xml -p
@@ -56,21 +49,28 @@ cp ./util/inc $INSTALL_INC_DIR/util -rf
 cp ./util/ini/inc $INSTALL_INC_DIR/util/ini -rf
 cp ./util/xml/inc $INSTALL_INC_DIR/util/xml -rf
 
+# network 
+mkdir $INSTALL_INC_DIR/network -p
+cp ./network/inc $INSTALL_INC_DIR/network -rf
+
+# component 
+mkdir $INSTALL_INC_DIR/component -p
+cp ./component/inc $INSTALL_INC_DIR/component -rf
+
 #copy library
 rm $INSTALL_LIB_DIR/libdlogger.* -f
 rm $INSTALL_LIB_DIR/libdposix.* -f
-rm $INSTALL_LIB_DIR/libdstl.* -f
 rm $INSTALL_LIB_DIR/libdutil.* -f
+rm $INSTALL_LIB_DIR/libdnetwork.* -f
+rm $INSTALL_LIB_DIR/libdcomponent.* -f
 
 cp ./lib/* $INSTALL_LIB_DIR -f
 
 ln -s $INSTALL_LIB_DIR/libdlogger.1.0.0.so $INSTALL_LIB_DIR/libdlogger.so
-
 ln -s $INSTALL_LIB_DIR/libdposix.1.0.0.so $INSTALL_LIB_DIR/libdposix.so
-
-ln -s $INSTALL_LIB_DIR/libdstl.1.0.0.so $INSTALL_LIB_DIR/libdstl.so
-
 ln -s $INSTALL_LIB_DIR/libdutil.1.0.0.so $INSTALL_LIB_DIR/libdutil.so
+ln -s $INSTALL_LIB_DIR/libdnetwork.1.0.0.so $INSTALL_LIB_DIR/libdnetwork.so
+ln -s $INSTALL_LIB_DIR/libdcomponent.1.0.0.so $INSTALL_LIB_DIR/libdcomponent.so
 
-echo "lib list    = libdlogger.so libdposix.so libdstl.so libdutil.so"
+echo "lib list    = libdlogger.so libdposix.so libdutil.so libdnetwork.so libdcomponent.so"
 echo "++++++++install duye library success+++++++++"

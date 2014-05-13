@@ -18,7 +18,6 @@
 #pragma once
 
 #include <limits.h>
-
 #include <duye/inc/duye_base.h>
 
 // define all namespace 
@@ -28,14 +27,23 @@
 DUYE_NS_BEG
 DUYE_NS_END
 
-// stl namespace, path : /duye/dstl
-//#define DUYE_STL_NS_BEG namespace duye { namespace dstl {
+// network namespace, path : /duye/network
+//#define DUYE_STL_NS_BEG namespace duye { namespace network {
 //#define DUYE_STL_NS_END }}
-#define DUYE_STL_NS_BEG namespace duye {
-#define DUYE_STL_NS_END }
+#define DUYE_NETWORK_NS_BEG namespace duye {
+#define DUYE_NETWORK_NS_END }
 
-DUYE_STL_NS_BEG
-DUYE_STL_NS_END
+DUYE_NETWORK_NS_BEG
+DUYE_NETWORK_NS_END
+
+// component namespace, path : /duye/component
+//#define DUYE_STL_NS_BEG namespace duye { namespace component {
+//#define DUYE_STL_NS_END }}
+#define DUYE_COMPONENT_NS_BEG namespace duye {
+#define DUYE_COMPONENT_NS_END }
+
+DUYE_COMPONENT_NS_BEG
+DUYE_COMPONENT_NS_END
 
 // posix namespace, path : /duye/posix
 //#define DUYE_POSIX_NS_BEG namespace duye { namespace dposix {

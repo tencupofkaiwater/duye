@@ -17,10 +17,9 @@
 
 #pragma once
 
-#include <list>
-#include <duye/dstl/inc/duye_stl_def.h>
+#include <duye/inc/duye_type.h>
 
-DUYE_STL_NS_BEG
+DUYE_COMPONENT_NS_BEG
 
 template<typename T>
 class Singleton
@@ -54,4 +53,4 @@ T* Singleton<T>::GetInstance()
     return m_instance;
 }
 
-DUYE_STL_NS_END
+DUYE_COMPONENT_NS_END

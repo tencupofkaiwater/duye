@@ -4,19 +4,21 @@
 *
 *************************************************************************************/
 /**
-* @file		duye_obj_pool.cpp
+* @file		duye_network.h
 * @version     
 * @brief      
 * @author   duye
-* @date     2014-03-01
+* @date     2014-05-13
 * @note 
 *
-*  1. 2014-03-01 duye Created this file
+*  1. 2014-05-13 duye Created this file
 * 
 */
 
-#include <duye/component/inc/duye_obj_pool.h>
+#pragma once
 
-DUYE_COMPONENT_NS_BEG
+#include <duye/inc/duye_type.h>
 
-DUYE_COMPONENT_NS_END
+DUYE_NETWORK_NS_BEG
+
+DUYE_NETWORK_NS_END
