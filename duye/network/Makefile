@@ -1,5 +1,5 @@
 PRONAME:=dnetwork
-VERSION:=1.0.0
+VERSION := $(shell cat VERSION|awk '{print $$2}'|cut -c 2-)
 TARGET:=lib$(PRONAME)
 PRE_DEFINED:= 
 BUILD_PATH:=$(shell pwd)
