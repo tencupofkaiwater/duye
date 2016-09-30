@@ -1,0 +1,30 @@
+<!--
+duye_rpc : root node
+--function : rpc function define node
+  --name : function name
+  --para : parameter node
+    --name : parameter name
+    --type : parameter type(bool, int, uint, string)
+    --from : input/output
+-->
+
+<?xml version="1.0" encoding="utf-8"?>
+<duye_rpc_msg>  
+	<function name="hearbeat">
+		<para type="string" from="input">client_address</para>
+		<para type="string" from="output">client_address</para>
+	</function>	
+	<function name="user_load">
+		<para type="string" from="input">name</para>
+		<para type="string" from="input">pwd_md5</para>
+		<para type="bool" from="output">result</para>
+	</function>
+	<function name="set_pwd">
+		<para type="string" from="input">name</para>
+		<para type="string" from="input">pwd_md5</para>
+		<para type="bool" from="output">isload</para>
+	</function>	
+	<function name="get_sys_conf">
+		<para type="string" from="output">sys_conf</para>
+	</function>	
+</duye_rpc_msg>

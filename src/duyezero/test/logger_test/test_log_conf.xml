@@ -1,0 +1,21 @@
+<!--
+usage:
+<toplevel> 	--print level, default is info, value can setting to : trace debug info warn error null
+<maxfilenum> 	--the max number of log files, default is 10
+<maxfilesize>	--the size of one log file, unit is MB, default 10
+<autoworkwrap> 	--automatic wordwrap, default is true
+<module>	--each module can addition one module tag
+	--name 		: module name
+	--level 	: print level(null/error/warn/info/debug/trace)
+	--format	: print format(basic/more/full)
+	--outo		: print log output to 'outo', maybe value(stderr/stdout/file)
+	--prefix 	: file name prefix. e.g : xxx_1.glog
+	--path 		: file save path. '.' is current directory, default is '.'
+-->
+<glogconf>  
+	<toplevel>trace</toplevel>
+	<maxfilenum>10</maxfilenum>
+	<maxfilesize>10</maxfilesize> 
+	<autowordwrap>true</autowordwrap>
+	<module name="duye.test" level="trace" format="basic" outo="stdout" />
+</glogconf>

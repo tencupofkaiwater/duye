@@ -1,0 +1,36 @@
+<!--
+usage:
+<toplevel> 	--print level, default is info, value can setting to : trace debug info warn error null
+<maxfilenum> 	--the max number of log files, default is 10
+<maxfilesize>	--the size of one log file, unit is MB, default 10
+<autoworkwrap> 	--automatic wordwrap, default is true
+<module>	--each module can addition one module tag
+	--name 		: module name
+	--level 	: print level(null/error/warn/info/debug/trace)
+	--format	: print format(basic/more/full)
+		--basic, time + log string
+		--more,  time + log string + file name
+		--full,  time + log string + file name + function + line
+	--outo		: print log output to 'outo', maybe value(stderr/stdout/file)
+	--prefix 	: file name prefix. e.g : xxx_1.glog
+	--path 		: file save path. '.' is current directory, default is '.'
+-->
+
+<glogconf>  
+	<toplevel>debug</toplevel>
+	<maxfilenum>10<maxfilenum>
+	<maxfilesize>10</maxfilesize> 
+	<autowordwrap>true</autowordwrap>
+	<module name="module.null.basic.stdout" level="null" format="basic" outo="stdout">
+	<module name="module.error.more.stdout" level="error" format="more" outo="stdout">
+	<module name="module.warn.more.stdout" level="warn" format="more" outo="stdout">
+	<module name="module.info.full.stdout" level="info" format="full" outo="stdout">
+	<module name="module.debug.basic.stdout" level="debug" format="basic" outo="stdout">
+	<module name="module.trace.basic.stdout" level="trace" format="basic" outo="stdout">
+	<module name="module.null.basic.file" level="null" format="basic" outo="file" prefix="mylog.a" path=".">
+	<module name="module.error.more.file" level="error" format="more" outo="file" prefix="mylog.a" path=".">
+	<module name="module.warn.more.file" level="warn" format="more" outo="file" prefix="mylog.a" path=".">
+	<module name="module.info.full.file" level="info" format="full" outo="file" prefix="mylog.b" path=".">
+	<module name="module.debug.basic.file" level="debug" format="basic" outo="file" prefix="mylog.b" path=".">
+	<module name="module.trace.basic.file" level="trace" format="basic" outo="file" prefix="mylog.b" path=".">
+</glogconf>  

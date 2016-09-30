@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<duyetwo>  
+	<!--support max client connections-->
+	<max_con>10000</max_con>
+	<!--service address ipv4-->
+	<server_ip>192.168.1.144</server_ip>
+	<!--main service port-->
+	<server_port>10000</server_port>
+	<!--file service port-->
+	<file_server_port>10001</file_server_port>
+	<!--DB service address-->
+	<db_addr>192.168.1.144</db_addr>
+	<!--DB service port-->
+	<db_port>4488</db_port>
+	<!--DB user-->
+	<db_user>root</db_user>
+	<!--DB pwd-->
+	<db_pwd>123456</db_pwd>
+	<!--DB uinx socket file-->
+	<db_socket>/tmp/duyedb.socket</db_socket>
+	<!--rpc function xml file path-->
+	<rpc_fun_file>/etc/duyetwo/duyetwo_rpc.xml</rpc_fun_file>
+</duyetwo>

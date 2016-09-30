@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<duyedbserver>  
+	<!--service address ipv4, isn't needed, can setting empty-->
+	<server_ip></server_ip>
+	<!--service bind physical network card, take effect when server_ip is empty-->
+	<physical_nc></physical_nc>
+	<!--main service port, is needed value range is 1025~65534-->
+	<server_port>4488</server_port>
+	<!--support max client connections, isn't needed, can setting empty, value range is 1~100000-->
+	<max_con>1000</max_con>
+	<!--DB uinx socket file, is needed-->
+	<db_socket>/etc/duyedbserver/duyedb.socket</db_socket>
+	<!--DB root directory, is needed-->
+	<db_root>/etc/duyedbserver</db_root>
+	<!--DB file init size, uint is MB, is needed, value range is 64~16384(16G)-->
+	<db_size>1024</db_size>	
+</duyedbserver>

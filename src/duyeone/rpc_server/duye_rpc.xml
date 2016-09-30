@@ -1,0 +1,23 @@
+<!--
+duye_rpc : root node
+--function : rpc function define node
+  --name : function name
+  --para : parameter node
+    --name : parameter name
+    --type : parameter type(bool, int, uint, string)
+    --from : input/output
+-->
+
+<?xml version="1.0" encoding="utf-8"?>
+<duye_rpc>  
+	<function>
+		<name>function_name</name>
+		<para type="string" from="input">para_name</para>
+		<para type="bool" from="output">para_name</para>
+	</function>
+	<function>
+		<name>function_name</name>
+		<para type="string" from="input">para_name</para>
+		<para type="bool" from="output">para_name</para>
+	</function>	
+</duye_rpc>

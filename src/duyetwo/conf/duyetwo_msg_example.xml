@@ -1,0 +1,36 @@
+<!--where=(server, client)-->
+<!--fun_name=(user define)-->
+<!--parameter.type=(bool, int, uint, string)-->
+<!--parameter.name=(user define)-->
+
+<!--client hearbeat request message-->
+<?xml version="1.0" encoding="utf-8"?>
+<duye_rpc_msg where="client" fun_name="hearbeat">
+    <parameter type="string" name="clientip">192.168.1.1</parameter>
+</duye_rpc_msg>
+
+<!--server hearbeat response message-->
+<?xml version="1.0" encoding="utf-8"?>
+<duye_rpc_msg where="server" fun_name="hearbeat">
+    <parameter type="string" name="clientip">192.168.1.1</parameter>
+</duye_rpc_msg>
+
+<!--server error response message-->
+<?xml version="1.0" encoding="utf-8"?>
+<duye_rpc_msg where="server" fun_name="server_error">
+    <parameter type="uint" name="error_id">100</parameter>
+    <parameter type="string" name="error_desp">error</parameter>
+</duye_rpc_msg>
+
+<!--client user load request message-->
+<?xml version="1.0" encoding="utf-8"?>
+<duye_rpc_msg where="client" fun_name="user_load">
+    <parameter type="string" name="name">admin</parameter>
+    <parameter type="string" name="pwd_md5">e10adc3949ba59abbe56e057f20f883e</parameter>
+</duye_rpc_msg>
+
+<!--server user load response message-->
+<?xml version="1.0" encoding="utf-8"?>
+<duye_rpc_msg where="server" fun_name="user_load">
+    <parameter type="bool" name="isload">true/false</parameter>
+</duye_rpc_msg>
