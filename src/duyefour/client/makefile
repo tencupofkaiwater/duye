@@ -12,8 +12,8 @@ SUBDIRS:=./
 
 INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
 	../clientsdk \
-	$(INS_INC_DIR)/duyezero \
-	$(INS_INC_DIR)/duyeone
+	$(INC_DIR)/duyezero \
+	$(INC_DIR)/duyeone
 
 SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
 	../clientsdk
