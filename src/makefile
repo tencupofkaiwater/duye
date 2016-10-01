@@ -1,8 +1,8 @@
 all:
 	cd duyezero; make; cd -
+	cd duyefour; make; cd -
 	cd duyeone; make; cd -
 	cd duyetwo; make; cd -
-	cd duyefour; make; cd -
 	@echo '===== lib code total lines '`find -name \*.[c,h]* | xargs cat | wc -l` '====='
 
 clean:

@@ -15,7 +15,7 @@ echo "LIB_DIR=$LIB_DIR"
 export INC_DIR=$RELEASE_DIR/include
 echo "INC_DIR=$INC_DIR"
 
-export INS_INC_DIR=/usr/include
+export INS_INC_DIR=/usr/local/include/duye
 echo "INS_INC_DIR=$INS_INC_DIR"
 
 export INS_LIB_DIR=/usr/lib

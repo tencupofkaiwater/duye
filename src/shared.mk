@@ -48,13 +48,12 @@ all:$(TARGET)
 
 $(TARGET):$(OBJS)
 	@$(CC) -shared -o $(TARGET_FILE) $(OBJS) $(SLIB_FLAGS) $(LIB_FLAGS)
-ifdef VERSION
-	@cd $(OUTPUT)/lib && ln -snf $(TARGET).so.$(VERSION) $(TARGET).so
-endif	
 	@mkdir -p $(INC_DIR)  
+	@mkdir -p $(INC_DIR)/$(MODULE) 
 	@mkdir -p $(LIB_DIR)     
-	@cp -ax $(OUTPUT)/lib/$(TARGET).so* $(LIB_DIR)
-	@cp -ax $(OUT_HEADS) $(INC_DIR)
+	@cp -f $(TARGET_FILE) $(LIB_DIR)
+	@cd $(LIB_DIR) && ln -snf $(TARGET).so.$(VERSION) $(TARGET).so
+	@cp -f $(OUT_HEADS) $(INC_DIR)/$(MODULE)
 	@echo 'Build $(TARGET_FILE) Success'
 
 $(OBJDIR)/%.o:%.$(PS)
@@ -79,15 +78,15 @@ ifdef VERSION
 	@echo "Start Install `basename $(TARGET_FILE)`"
 	@mkdir -p $(INS_INC_DIR)/$(MODULE)  
 	@mkdir -p $(INS_LIB_DIR)/$(MODULE)    
-	@cp -ax $(INC_DIR)/* $(INS_INC_DIR)/$(MODULE)
-	@cp -ax $(LIB_DIR)/$(TARGET).so* $(INS_LIB_DIR)/$(MODULE)
+	@cp -f $(INC_DIR)/* $(INS_INC_DIR)/$(MODULE)
+	@cp -f $(LIB_DIR)/$(TARGET).so.$(VERSION) $(INS_LIB_DIR)/$(MODULE)
 	@cd $(INS_LIB_DIR) && ln -snf $(MODULE)/$(TARGET).so.$(VERSION) $(TARGET).so
 	@echo "Install `basename $(TARGET_FILE)` to $(INS_LIB_DIR)/$(MODULE) Complete"
 endif	
 
 uninstall:
 	@echo "Start uninstall `basename $(TARGET_FILE)`"
-	rm -rf $(INS_INC_DIR)/$(MODULE)  
-	rm -rf $(INS_LIB_DIR)/$(MODULE)    
-	rm -f $(INS_LIB_DIR)/$(TARGET).so*
+	@rm -rf $(INS_INC_DIR)/$(MODULE)  
+	@rm -rf $(INS_LIB_DIR)/$(MODULE)    
+	@rm -f $(INS_LIB_DIR)/$(TARGET).so*
 	@echo "Uninstall `basename $(TARGET_FILE)` to $(INS_LIB_DIR)/$(MODULE) Complete"
