@@ -11,7 +11,7 @@ BUILD_PATH:=$(shell pwd)
 SUBDIRS:= ./ 
 
 INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
-	$(INC_DIR)/duyezero
+	$(INC_DIR)/duyebase
 
 SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir))
 
@@ -19,7 +19,7 @@ LIBS_PATH:=
 
 LIBS:= 
 
-SLIBS:=$(LIB_DIR)/libduyezero.a
+SLIBS:=$(LIB_DIR)/libduyebase.a
 
 OUT_HEADS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/*.h)
 

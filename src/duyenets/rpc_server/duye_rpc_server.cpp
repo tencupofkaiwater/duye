@@ -20,7 +20,7 @@
 #include <duye_hcn_server.h>
 #include <duye_rpc_server.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyeone.rpc.server";
+static const int8* DUYE_LOG_PREFIX = "duyenets.rpc.server";
 
 namespace duye {
     

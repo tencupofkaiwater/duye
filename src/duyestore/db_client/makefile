@@ -12,15 +12,15 @@ SUBDIRS:=./
 
 INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
 	../clientsdk \
-	$(INC_DIR)/duyezero \
-	$(INC_DIR)/duyeone
+	$(INC_DIR)/duyebase \
+	$(INC_DIR)/duyenets
 
 SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
 	../clientsdk
 
 LIBS_PATH:=
 
-LIBS:=duyezero duyeone
+LIBS:=duyebase duyenets
 
 SLIBS:=
 

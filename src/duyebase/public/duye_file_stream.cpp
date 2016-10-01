@@ -20,7 +20,7 @@
 #include <duye_logger.h>
 #include <duye_file_stream.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyezero.public.filestream";
+static const int8* DUYE_LOG_PREFIX = "duyebase.public.filestream";
 
 namespace duye {
 

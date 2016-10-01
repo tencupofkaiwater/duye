@@ -19,5 +19,5 @@ usage:
 	<maxfilesize>10</maxfilesize> 
 	<autowordwrap>true</autowordwrap>
 	<module name="duye" level="debug" format="full" outo="stdout" />
-	<module name="duyeone" level="debug" format="full" outo="stdout" />
+	<module name="duyenets" level="debug" format="full" outo="stdout" />
 </logconf>

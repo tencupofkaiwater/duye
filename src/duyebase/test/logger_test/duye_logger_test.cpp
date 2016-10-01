@@ -22,7 +22,7 @@ static const int8* DUYE_LOG_PREFIX = "duye.test.logger";
 
 int main()
 {
-	if (!DUYE_LOG_INIT("/root/work/duyezero/test/logger_test/test_log_conf.xml"))
+	if (!DUYE_LOG_INIT("/root/work/duye/src/duyebase/test/logger_test/test_log_conf.xml"))
     {
         printf("%s \n", DUYE_LOG_EDESP());
         return -1;

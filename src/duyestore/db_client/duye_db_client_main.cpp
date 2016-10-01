@@ -18,7 +18,7 @@
 #include <duye_process.h>
 #include <duye_db_client.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyefour.db.client";
+static const int8* DUYE_LOG_PREFIX = "duyestore.db.client";
 
 class DBClientProcessSignal : public duye::ProcessIf
 {

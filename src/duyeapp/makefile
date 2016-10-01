@@ -11,15 +11,15 @@ BUILD_PATH:=$(shell pwd)
 SUBDIRS:=./
 
 INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
-	$(INC_DIR)/duyezero \
-	$(INC_DIR)/duyeone \
+	$(INC_DIR)/duyebase \
+	$(INC_DIR)/duyenets \
 	$(INC_DIR)/duyedbclient
 
 SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) 
 
 LIBS_PATH:=
 
-LIBS:=duyezero duyeone duyedbclient
+LIBS:=duyebase duyenets duyedbclient
 
 SLIBS:=
 

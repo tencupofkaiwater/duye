@@ -18,5 +18,5 @@ usage:
 	<maxfilesize>10</maxfilesize> 
 	<autowordwrap>true</autowordwrap>
 	<module name="duye" level="debug" format="more" outo="stdout" />
-	<module name="duyeone" level="debug" format="more" outo="stdout" />
+	<module name="duyenets" level="debug" format="more" outo="stdout" />
 </glogconf>

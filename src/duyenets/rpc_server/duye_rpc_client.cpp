@@ -18,7 +18,7 @@
 #include <duye_logger.h>
 #include <duye_rpc_client.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyeone.rpc.client";
+static const int8* DUYE_LOG_PREFIX = "duyenets.rpc.client";
 
 namespace duye {
     

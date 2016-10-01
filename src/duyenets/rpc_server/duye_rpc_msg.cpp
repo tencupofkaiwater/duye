@@ -19,7 +19,7 @@
 #include <duye_helper.h>
 #include <duye_rpc_msg.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyeone.rpc.msg";
+static const int8* DUYE_LOG_PREFIX = "duyenets.rpc.msg";
 
 namespace duye {
 

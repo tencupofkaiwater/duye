@@ -16,7 +16,7 @@
 #include <duye_logger.h>
 #include <duye_db_client.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyefour.db.clientsdk";
+static const int8* DUYE_LOG_PREFIX = "duyestore.db.clientsdk";
 
 namespace duye {
 

@@ -11,13 +11,13 @@ BUILD_PATH:=$(shell pwd)
 SUBDIRS:=./
 
 INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
-	$(INC_DIR)/duyezero
+	$(INC_DIR)/duyebase
 
 SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir))
 
 LIBS_PATH:=
 
-LIBS:=duyezero 
+LIBS:=duyebase 
 
 SLIBS:=
 

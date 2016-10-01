@@ -19,7 +19,7 @@
 #include <duye_process.h>
 #include <duye_file_server.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyeone.test.fileserver";
+static const int8* DUYE_LOG_PREFIX = "duyenets.test.fileserver";
 
 class FileServerProcessSignal : public duye::ProcessIf
 {
@@ -45,7 +45,7 @@ public:
 
 int main()
 {
-	if (!DUYE_LOG_INIT("/root/work/duyeone/test/file_server_test/test_file_server_log.xml"))
+	if (!DUYE_LOG_INIT("/root/work/duye/src/duyenets/test/file_server_test/test_file_server_log.xml"))
     {
         printf("%s \n", DUYE_LOG_EDESP());
         return -1;

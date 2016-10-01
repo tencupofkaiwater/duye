@@ -19,7 +19,7 @@
 #include <duye_file_transfer.h>
 #include <duye_file_server.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyeone.fileserver";
+static const int8* DUYE_LOG_PREFIX = "duyenets.fileserver";
 
 namespace duye {
     
