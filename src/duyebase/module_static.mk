@@ -1,4 +1,4 @@
-MODULE:=duyezero
+MODULE:=duyebase
 
 VERSION:=1.0.0
 

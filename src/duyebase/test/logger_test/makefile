@@ -10,13 +10,13 @@ BUILD_PATH:=$(shell pwd)
 
 SUBDIRS:=
 
-INCLUDES:=$(INC_DIR)/duyezero
+INCLUDES:=$(INC_DIR)/duyebase
 
 SRCDIRS:=$(BUILD_PATH)
 
 LIBS_PATH:=$(LIB_DIR)
 
-LIBS:=duyezero
+LIBS:=duyebase
 
 SLIBS:=
 
