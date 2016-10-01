@@ -11,12 +11,12 @@ BUILD_PATH:=$(shell pwd)
 SUBDIRS:=
 
 INCLUDES:= \
- 	$(INC_DIR) \
-	$(INS_INC_DIR)/duyezero \
+	$(INC_DIR)/duyezero \
+	$(INC_DIR)/duyeone
 
 SRCDIRS:=$(BUILD_PATH)
 
-LIBS_PATH:=$(LIB_DIR) $(INS_LIB_DIR)
+LIBS_PATH:=$(LIB_DIR)
 
 LIBS:=duyezero duyeone
 

@@ -13,7 +13,7 @@ SUBDIRS:= \
 	rpc_server
 
 INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
-	$(INS_INC_DIR)/duyezero
+	$(INC_DIR)/duyezero
 
 SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir))
 
@@ -21,7 +21,7 @@ LIBS_PATH:=
 
 LIBS:= 
 
-SLIBS:=$(INS_LIB_DIR)/libduyezero.a
+SLIBS:=$(LIB_DIR)/libduyezero.a
 
 OUT_HEADS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/*.h)
 
