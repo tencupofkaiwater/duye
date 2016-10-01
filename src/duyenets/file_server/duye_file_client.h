@@ -59,7 +59,7 @@ public:
     int64 send(const int8* data, const uint64 len);
 
 private:
-    TcpClient  m_tcpClient;
+    TcpClient       m_tcpClient;
     std::string     m_serverIP;
     uint16          m_serverPort;
     bool            m_isConnected;
