@@ -1,25 +1,32 @@
+sub_dirs=duyebase duyestore duyenets
+
 all:
-	cd duyebase; make; cd -
-	cd duyestore; make; cd -
-	cd duyenets; make; cd -
+	@for subdir in $(sub_dirs);\
+	do\
+		cd $$subdir;make;cd -;\
+	done
 	@echo '===== lib code total lines '`find -name \*.[c,h]* | xargs cat | wc -l` '====='
 
 clean:
-	cd duyebase; make clean; cd -
-	cd duyestore; make clean; cd -
-	cd duyenets; make clean; cd -
+	@for subdir in $(sub_dirs);\
+	do\
+		cd $$subdir;make clean;cd -;\
+	done
 
 cleanall:
-	cd duyebase; make cleanall; cd -
-	cd duyestore; make cleanall; cd -
-	cd duyenets; make cleanall; cd -
+	@for subdir in $(sub_dirs);\
+	do\
+		cd $$subdir;make cleanall;cd -;\
+	done
 
 install:
-	cd duyebase; make install; cd -
-	cd duyestore; make install; cd -
-	cd duyenets; make install; cd -
+	@for subdir in $(sub_dirs);\
+	do\
+		cd $$subdir;make install;cd -;\
+	done
 
 uninstall:
-	cd duyebase; make uninstall; cd -
-	cd duyestore; make uninstall; cd -
-	cd duyenets; make uninstall; cd -
+	@for subdir in $(sub_dirs);\
+	do\
+		cd $$subdir;make uninstall;cd -;\
+	done
