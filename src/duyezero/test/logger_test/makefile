@@ -10,7 +10,7 @@ BUILD_PATH:=$(shell pwd)
 
 SUBDIRS:=
 
-INCLUDES:=$(INC_DIR)
+INCLUDES:=$(INC_DIR)/duyezero
 
 SRCDIRS:=$(BUILD_PATH)
 
