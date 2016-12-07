@@ -220,7 +220,7 @@ public:
      * @return error string
      * @note 
      */		
-    int8* error();		
+    int8* error();
 	
 private:
     /**

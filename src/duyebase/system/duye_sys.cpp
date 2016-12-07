@@ -61,26 +61,104 @@ int64 System::pformat(int8* buffer, const uint64 size, const int8* args, ...)
     return strLen; 
 }
 
-bool System::shell(const int8* cmd, int8* buffer, const uint32 size)
+int32 System::shell(const int8* cmd, int8* buffer, const uint32 size)
 {
     if (cmd == NULL)
-        return false;
+        return -1;
 
     FILE* file = popen(cmd, "r");
     if (file == NULL)
-        return false;
+        return -1;
 
     if (buffer == NULL || size == 0)
     {
         pclose(file);
-        return true;
+        return 0;
     }
 
     memset(buffer, 0, size);
-    fread(buffer, sizeof(char), size, file);
+    size_t bytes = fread(buffer, sizeof(char), size, file);
     pclose(file);
 
-    return true; 
+    return bytes;
+}
+
+int32 System::shell(const int8* args, ...) {
+	int8 cmd[1024] = {0};
+	
+    va_list vaList;
+    va_start(vaList, args);
+    uint64 strLen = vsnprintf(cmd, 1024, args, vaList);
+    va_end(vaList);	
+	cmd[strLen] = 0;
+
+	return System::shell(cmd, NULL);
+}
+
+int32 System::shell(const uint32 cmd_len, const int8* args, ...) {
+	int8* cmd = new int8[cmd_len];
+	memset(cmd, 0, cmd_len);
+	
+    va_list vaList;
+    va_start(vaList, args);
+    uint64 strLen = vsnprintf(cmd, cmd_len, args, vaList);
+    va_end(vaList);	
+	cmd[strLen] = 0;
+
+	return System::shell(cmd, NULL);
+}
+
+int32 System::shell(std::string& result, const int8* args, ...) {
+	int8 cmd[1024] = {0};
+	
+    va_list vaList;
+    va_start(vaList, args);
+    uint64 strLen = vsnprintf(cmd, 1024, args, vaList);
+    va_end(vaList);	
+	cmd[strLen] = 0;
+
+	int8 ret[4096] = {0};
+	int32 len = System::shell(cmd, ret, sizeof(ret));
+	if (len > 0) {
+		result.assign(ret);
+	}
+	
+	return len;
+}
+
+int32 System::shell(const uint32 cmd_len, std::string& result, const int8* args, ...) {
+	int8* cmd = new int8[cmd_len];
+	memset(cmd, 0, cmd_len);
+	
+    va_list vaList;
+    va_start(vaList, args);
+    uint64 strLen = vsnprintf(cmd, cmd_len, args, vaList);
+    va_end(vaList);	
+	cmd[strLen] = 0;
+
+	int8 ret[4096] = {0};
+	int32 len = System::shell(cmd, ret, sizeof(ret));
+	if (len > 0) {
+		result.assign(ret);
+	}
+	
+	delete [] cmd;
+	return len;
+}
+
+int32 System::shell(const uint32 cmd_len, int8* result, const uint32 result_size, const int8* args, ...) {
+	int8* cmd = new int8[cmd_len];
+	memset(cmd, 0, cmd_len);
+	
+    va_list vaList;
+    va_start(vaList, args);
+    uint64 strLen = vsnprintf(cmd, cmd_len, args, vaList);
+    va_end(vaList);	
+	cmd[strLen] = 0;
+	
+	int32 len = System::shell(cmd, result, result_size);
+	delete [] cmd;
+	return len;
 }
 
 uint64 System::sysTime()
@@ -199,6 +277,28 @@ void System::daemonize()
 	open("/dev/null", O_RDWR);
 	dup(0);
 	dup(0);
+}
+
+bool System::limitCpu(const char* process_name, const uint16 cpu_percent) {
+	if (cpu_percent < 1 || cpu_percent > 99) {
+        return false;
+    }
+	
+	std::string conf_dir_base;
+	if (access("/sys/fs/cgroup/cpu/cpu.cfs_period_us", F_OK) == 0) {
+		conf_dir_base = "/sys/fs/cgroup/cpu/";
+	} else if (access("/cgroup/cpu/cpu.cfs_period_us", F_OK) == 0) {
+		conf_dir_base = "/cgroup/cpu/";
+	} else {
+		return false;
+	}
+
+	pid_t pid = getpid();
+    std::string conf_dir = conf_dir_base + process_name;
+    uint32 quota = cpu_percent * 1000;
+
+    return System::shell("mkdir -p %s; echo %u > %s/cpu.cfs_quota_us; echo %d > %s/tasks", 
+		conf_dir.c_str(), quota, pid, conf_dir.c_str()) == 0;
 }
 
 bool System::getIPAddrByDevName(const std::string& phyCardName, std::string& ipAddr)

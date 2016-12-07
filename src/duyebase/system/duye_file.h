@@ -50,10 +50,25 @@ typedef enum
 class FileUtil
 {
 public:
-    static bool createFile(const int8* filePath, const uint64& initSize = 0);    
+    /**
+     * @brief create file.
+     * @param [in] filePath : file path.
+     * @param [in] initSize : initial size, default is zero. 
+     * @return true/false
+     * @note 
+     */		
+    static bool createFile(const int8* filePath, const uint64& initSize = 0); 
 	
     /**
-     * @brief judge file whether is exist
+     * @brief create directory.
+     * @param [in] dirPath : directory path.
+     * @return true/false
+     * @note 
+     */	
+	static bool createDir(const int8* dirPath); 
+	
+    /**
+     * @brief judge file whether is exist.
      * @param [in] filePath : file path
      * @return true/false
      * @note 

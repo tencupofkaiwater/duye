@@ -50,6 +50,10 @@ bool FileUtil::createFile(const int8* filePath, const uint64& initSize)
     return true;
 }
 
+bool FileUtil::createDir(const int8* dirPath) {
+	return System::shell("mkdir -p %s", dirPath) == 0;
+}
+
 bool FileUtil::isExist(const int8* filePath)
 {
     if (filePath == NULL)
@@ -57,7 +61,7 @@ bool FileUtil::isExist(const int8* filePath)
     	return false;
     }
     
-    if (access(filePath, 0) < 0)
+    if (access(filePath, F_OK) != 0)
     {
     	return false;
     }
@@ -71,10 +75,9 @@ bool FileUtil::removeFile(const int8* filePath)
     {
     	return false;
     }
-	
-    int8 cmd[128] = {0};
-    sprintf(cmd, "rm %s -f", filePath);
-    return System::shell(cmd);
+
+	remove(filePath);
+	return true;
 }
 
 File::File() : m_fd(-1), m_flags(0), m_pathLen(0), m_error(NULL)

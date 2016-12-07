@@ -72,7 +72,7 @@ public:
     static void usleep(const uint64& time);
     
     /**
-     * @brief usleep
+     * @brief format
      * @param [out] buffer : out buffer
      * @param [in] size : out buffer size
      * @param [in] args : parameters
@@ -82,14 +82,30 @@ public:
     static int64 pformat(int8* buffer, const uint64 size, const int8* args, ...);   
     
     /**
-     * @brief execute system command line
-     * @param [in] cmd : command
-     * @param [out] buffer : output buffer
-     * @param [in] size : output buffer size
-     * @return true/false
+     * @brief execute shell command
+     * @param [in] cmd : shell command
+     * @param [out] result : output buffer
+     * @param [in] result_size : output buffer size
+     * @return : On success, return the number of read bytes. The number equals to zero when shell 
+     *	         execute print empty. or -1 if an error occurred.
      */
-    static bool shell(const int8* cmd, int8* buffer = NULL, const uint32 size = 0);   
-    
+    static int32 shell(const int8* cmd, int8* result = NULL, const uint32 result_size = 0);
+	
+    /**
+     * @brief execute shell command
+     * @param [out] cmd_len : command length
+     * @param [out] result : output buffer
+     * @param [in] result_size : output buffer size
+     * @param [in] args : args list
+     * @return : On success, return the number of read bytes. The number equals to zero when shell 
+     *	         execute print empty. or -1 if an error occurred.
+     */	
+    static int32 shell(const int8* args, ...);
+	static int32 shell(const uint32 cmd_len, const int8* args, ...);
+	static int32 shell(std::string& result, const int8* args, ...);
+	static int32 shell(const uint32 cmd_len, std::string& result, const int8* args, ...);
+	static int32 shell(const uint32 cmd_len, int8* result, const uint32 result_size, const int8* args, ...);
+	
     /**
      * @brief get system time
      * @return time(microsecond)
@@ -98,7 +114,7 @@ public:
     static uint64 sysTime();
     
     /**
-     * @brief getopt
+     * @brief get options
      * @param [in] argc : argument count
      * @param [in] argv : argument list
      * @param [in] cmd : need parser command
@@ -110,11 +126,19 @@ public:
     static bool optArg(int32 argc, int8** argv, int8* cmd, std::string& value);
 
     /**
-     * @brief get system time
-     * @return time(microsecond)
+     * @brief create daemon process
      * @note 
      */		
     static void daemonize();
+
+    /**
+     * @brief limit process CPU resource usage
+     * @param [in] process_name : process name
+     * @param [in] cpu_percent : CPU limit percent
+     * @return true/false
+     * @note 
+     */	
+    static bool limitCpu(const char* process_name, const uint16 cpu_percent);
     
     /**
      * @brief get ip address by physical network card name
@@ -139,6 +163,6 @@ public:
      * @return true/false
      * @note 
      */	
-    static bool getNetworkCards(std::map<std::string, std::string>& networkCards);    
+    static bool getNetworkCards(std::map<std::string, std::string>& networkCards);
 };
 }
