@@ -21,11 +21,9 @@
 #include <duye_sys.h>
 #include <duye_socket.h>
 
-#define ERROR_DUYE_LOG(args...) System::pformat(m_error->errorLog, m_error->errorBufSize, ##args);
-static const int8* DUYE_LOG_PREFIX = "duye.socket";
-
 namespace duye {
 
+static const int8* DUYE_LOG_PREFIX = "duye.socket";
 const struct in6_addr IN6ADDR_ANY = IN6ADDR_ANY_INIT;
 
 IPv4Addr::IPv4Addr() : IPv4Addr(INADDR_ANY, 0) {}
@@ -136,7 +134,7 @@ uint16 IPv6Addr::addrLen() const
 
 Socket::Socket() : m_sockfd(-1), m_isInit(false), m_error(NULL) 
 {
-	m_error = new Error(DUYE_LOG_PREFIX);
+	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
 Socket::~Socket() { close(); }

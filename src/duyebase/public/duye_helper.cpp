@@ -388,6 +388,33 @@ bool StrHelper::endWith(const int8* str, const int8* subStr, const bool ignore)
 	return compare(str + (strLen - subStrLen), subStr, subStrLen, ignore);
 }
 
+void StrHelper::trim(std::string& inStr) {
+	std::string temp_str;
+	for (int i = 0; i < inStr.length(); i++) {
+		if (inStr[i] == ' ')
+			continue;
+		temp_str = inStr.substr(i);
+		break;
+	}
+
+	for (int i = temp_str.length() - 1; i >= 0; i--) {
+		if (temp_str[i] == ' ')
+			continue;
+		temp_str = temp_str.substr(0, i + 1);
+		break;
+	}
+
+	inStr = temp_str;
+}
+
+void StrHelper::trimEnter(std::string& inStr) {
+	if (StrHelper::endWith(inStr, "\n")) {
+		inStr = inStr.substr(0, inStr.length() - (sizeof("\n") - 1));
+	} else if (StrHelper::endWith(inStr, "\r\n")) {
+		inStr = inStr.substr(0, inStr.length() - (sizeof("\r\n") - 1));
+	}
+}
+
 void StrHelper::split(const std::string& inStr, const uint8 separator, std::vector<std::string>& outArray)
 {
 	uint32 begPos = 0;
@@ -405,6 +432,56 @@ void StrHelper::split(const std::string& inStr, const uint8 separator, std::vect
 	{
 		outArray.push_back(inStr.substr(begPos));
 	}
+}
+
+bool StrHelper::getLine(const std::string& inStr, const uint8* sepStr, std::list<std::string>& lineList) {
+	if (inStr.empty() || sepStr == NULL) {
+		return false;
+	}
+	
+	int32 i = 0;
+	size_t beg_pos = 0;
+	size_t end_pos = 0;
+	
+	while (inStr[i] != 0) {
+		end_pos = inStr.find(sepStr, beg_pos);
+		if (end_pos != std::string::npos) {
+			lineList.push_back(inStr.substr(beg_pos, end_pos - beg_pos));
+			beg_pos = end_pos + 1;
+			end_pos = beg_pos;
+			i = end_pos;
+			continue;
+		}
+
+		i++;
+	}
+
+	return true;
+}
+
+bool StrHelper::getLine(const std::string& inStr, const uint8* sepStr, std::set<std::string>& lineSet) {
+	if (inStr.empty() || sepStr == NULL) {
+		return false;
+	}
+	
+	int32 i = 0;
+	size_t beg_pos = 0;
+	size_t end_pos = 0;
+	
+	while (inStr[i] != 0) {
+		end_pos = inStr.find(sepStr, beg_pos);
+		if (end_pos != std::string::npos) {
+			lineSet.insert(inStr.substr(beg_pos, end_pos - beg_pos));
+			beg_pos = end_pos + 1;
+			end_pos = beg_pos;
+			i = end_pos;
+			continue;
+		}
+
+		i++;
+	}
+
+	return true;
 }
 
 std::string StrHelper::basename(const std::string& inFilePath)

@@ -22,25 +22,31 @@
 
 #include <duye_type.h>
 
+#define ERROR_DUYE_LOG(args...) System::pformat(m_error.errorLog, m_error.errorBufSize, ##args);
+#define ERROR_DUYE_LOGE(err, args...) System::pformat(err.errorLog, err.errorBufSize, ##args);
+
 namespace duye {
 
 class Error
 {
 public:
-	explicit Error(const int8* prefix) : errorLog(NULL), errorBufSize(0) 
-	{
-		uint32 size = 0;
-		if (prefix != NULL)
-			size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m<%s>", prefix);
-		else
-			size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m");
-		
+	Error() : errorLog(NULL), errorBufSize(0) {
+		uint32 size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m");		
 		error[size] = 0;
 		errorBufSize = ERROR_BUF_SIZE - size - 1;
 		errorLog = error + size;	
 	}
 	
 	~Error() {}
+
+	void setPrefix(const int8* prefix) {
+		if (prefix == NULL) return;
+		
+		uint32 size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m<%s>", prefix);		
+		error[size] = 0;
+		errorBufSize = ERROR_BUF_SIZE - size - 1;
+		errorLog = error + size;
+	}
 
 	int8	error[ERROR_BUF_SIZE];	
 	int8*	errorLog;
@@ -84,13 +90,28 @@ public:
     /**
      * @brief execute shell command
      * @param [in] cmd : shell command
-     * @param [out] buffer : output buffer
-     * @param [in] size : output buffer size
+     * @param [out] result : output buffer
+     * @param [in] result_size : output buffer size
      * @return : On success, return the number of read bytes. The number equals to zero when shell 
      *	         execute print empty. or -1 if an error occurred.
      */
-    static int32 shell(const int8* cmd, int8* buffer = NULL, const uint32 size = 0);
-    
+    static int32 shell(const int8* cmd, int8* result = NULL, const uint32 result_size = 0);
+	
+    /**
+     * @brief execute shell command
+     * @param [out] cmd_len : command length
+     * @param [out] result : output buffer
+     * @param [in] result_size : output buffer size
+     * @param [in] args : args list
+     * @return : On success, return the number of read bytes. The number equals to zero when shell 
+     *	         execute print empty. or -1 if an error occurred.
+     */	
+    static int32 shell(const int8* args, ...);
+	static int32 shell(const uint32 cmd_len, const int8* args, ...);
+	static int32 shell(std::string& result, const int8* args, ...);
+	static int32 shell(const uint32 cmd_len, std::string& result, const int8* args, ...);
+	static int32 shell(const uint32 cmd_len, int8* result, const uint32 result_size, const int8* args, ...);
+	
     /**
      * @brief get system time
      * @return time(microsecond)

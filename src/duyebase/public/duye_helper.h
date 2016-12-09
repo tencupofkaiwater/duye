@@ -18,6 +18,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 #include <duye_type.h>
 
 namespace duye {
@@ -143,6 +144,9 @@ public:
 	static bool begWith(const int8* str, const int8* subStr, const bool ignore = false);
 	static bool endWith(const int8* str, const int8* subStr, const bool ignore = false);	
 
+	void trim(std::string& inStr);
+	void trimEnter(std::string& inStr);
+
 	/**
 	 * @brief compare string
 	 * @para [in] inStr : full string.
@@ -151,6 +155,15 @@ public:
 	 */   
 	static void split(const std::string& inStr, const uint8 separator, std::vector<std::string>& outArray);
 
+	/**
+	 * @brief get line.
+	 * @para [in] inStr : full string.
+	 * @para [in] sepStr : separator string.
+	 * @para [in] outArray : output string array.
+	 */   
+	static bool getLine(const std::string& inStr, const uint8* sepStr, std::list<std::string>& lineList);
+	static bool getLine(const std::string& inStr, const uint8* sepStr, std::set<std::string>& lineSet);
+	
 	/**
 	 * @brief get file path basename
 	 * @para [in] inFilePath : file full path.

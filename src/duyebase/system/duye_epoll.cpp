@@ -20,17 +20,16 @@
 #include <duye_sys.h>
 #include <duye_epoll.h>
 
-#define ERROR_DUYE_LOG(args...) System::pformat(m_error->errorLog, m_error->errorBufSize, ##args);
-static const int8* DUYE_LOG_PREFIX = "duye.system.epoll";
-
 namespace duye {
+
+static const int8* DUYE_LOG_PREFIX = "duye.system.epoll";
 
 Epoll::Epoll() : m_epollfd(-1)
     , m_maxEvents(0)
     , m_sysEvents(NULL)
     , m_error(NULL)
 {
-    m_error = new Error(DUYE_LOG_PREFIX);
+    m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
 Epoll::~Epoll() 

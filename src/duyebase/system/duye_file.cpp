@@ -20,10 +20,9 @@
 #include <string.h>
 #include <duye_file.h>
 
-#define ERROR_DUYE_LOG(args...) System::pformat(m_error->errorLog, m_error->errorBufSize, ##args);
-static const int8* DUYE_LOG_PREFIX = "duye.system.file";
-
 namespace duye {
+
+static const int8* DUYE_LOG_PREFIX = "duye.system.file";
 
 // default create file permissions
 static const uint32 FILE_MASK = 0x775;
@@ -80,15 +79,25 @@ bool FileUtil::removeFile(const int8* filePath)
 	return true;
 }
 
+uint64 FileUtil::fileSize(const std::string& filePath)
+{
+	FILE* fp = fopen(filePath.c_str(), "r");
+	if (!fp) return 0;
+	fseek(fp, 0L, SEEK_END);
+	int size = ftell(fp);
+	fclose(fp);
+	return size;
+}
+
 File::File() : m_fd(-1), m_flags(0), m_pathLen(0), m_error(NULL)
 {
-	m_error = new Error(DUYE_LOG_PREFIX);
+	m_error.setPrefix(DUYE_LOG_PREFIX);
     m_path[0] = 0;		
 }
 
 File::File(const int8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0), m_error(NULL)
 {
-	m_error = new Error(DUYE_LOG_PREFIX);	
+	m_error.setPrefix(DUYE_LOG_PREFIX);	
     setFilePath(filePath);       
 }
 

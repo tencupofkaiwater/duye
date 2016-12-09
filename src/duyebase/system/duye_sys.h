@@ -22,19 +22,16 @@
 
 #include <duye_type.h>
 
+#define ERROR_DUYE_LOG(args...) System::pformat(m_error.errorLog, m_error.errorBufSize, ##args);
+#define ERROR_DUYE_LOGE(err, args...) System::pformat(err.errorLog, err.errorBufSize, ##args);
+
 namespace duye {
 
 class Error
 {
 public:
-	explicit Error(const int8* prefix) : errorLog(NULL), errorBufSize(0) 
-	{
-		uint32 size = 0;
-		if (prefix != NULL)
-			size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m<%s>", prefix);
-		else
-			size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m");
-		
+	Error() : errorLog(NULL), errorBufSize(0) {
+		uint32 size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m");		
 		error[size] = 0;
 		errorBufSize = ERROR_BUF_SIZE - size - 1;
 		errorLog = error + size;	
@@ -42,9 +39,18 @@ public:
 	
 	~Error() {}
 
+	void setPrefix(const int8* prefix) {
+		if (prefix == NULL) return;
+		
+		uint32 size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m<%s>", prefix);		
+		error[size] = 0;
+		errorBufSize = ERROR_BUF_SIZE - size - 1;
+		errorLog = error + size;
+	}
+
 	int8	error[ERROR_BUF_SIZE];	
-	int8*	errorLog;
-	uint32  errorBufSize;	
+	uint8*	errorLog;
+	uint32  errorBufSize;
 };
 
 class System

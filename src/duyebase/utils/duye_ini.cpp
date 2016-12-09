@@ -17,21 +17,19 @@
 #include <duye_ini_section.h>
 #include <duye_ini.h>
 
-#define ERROR_DUYE_LOG(args...) System::pformat(m_error->errorLog, m_error->errorBufSize, ##args);
-static const int8* DUYE_LOG_PREFIX = "duye.system.file";
-
 namespace duye {
 
+static const int8* DUYE_LOG_PREFIX = "duye.system.file";
 static const uint64 INI_TMP_BUF_SIZE = 1024 * 10;
 
 IniFile::IniFile() : m_error(NULL)
 {
-    m_error = new Error(DUYE_LOG_PREFIX);
+	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
 IniFile::IniFile(const std::string& filePath) : m_error(NULL)
 {
-	m_error = new Error(DUYE_LOG_PREFIX);
+	m_error.setPrefix(DUYE_LOG_PREFIX);
     loadFile(m_filePath);
 }
 

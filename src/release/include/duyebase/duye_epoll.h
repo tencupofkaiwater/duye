@@ -19,6 +19,7 @@
 #include <sys/epoll.h>
 #include <stdio.h>
 #include <list>
+#include <duye_sys.h>
 #include <duye_type.h>
 
 namespace duye {
@@ -74,8 +75,6 @@ private:
 	int32           m_fd;	
 	EpollEventType  m_type;
 };
-
-class Error;
 
 /**
  * @brief epoll socket server
@@ -151,6 +150,6 @@ private:
     int32       m_epollfd; 
     uint32      m_maxEvents;
     SysEvent*	m_sysEvents;
-	Error*      m_error;	
+	Error       m_error;	
 };
 }

@@ -23,11 +23,9 @@
 #include <duye_helper.h>
 #include <duye_logger.h>
 
-#define ERROR_DUYE_LOG(args...) System::pformat(m_error->errorLog, m_error->errorBufSize, ##args);
-static const int8* DUYE_LOG_PREFIX = "duye.logger";
-
 namespace duye {
 
+static const int8* DUYE_LOG_PREFIX = "duye.logger";
 static const int8* DEF_CONF_FILE_NAME = "duye_log_conf.xml";
 
 LogGlobalRule::LogGlobalRule() 
@@ -242,22 +240,22 @@ bool LogFile::open()
 
 Logger::Logger() : m_isUseDefConf(false), m_error(NULL)
 {
-		m_logLevelMap.insert(std::make_pair(LOG_NULL, "null"));
-		m_logLevelMap.insert(std::make_pair(LOG_ERROR, "error"));
-		m_logLevelMap.insert(std::make_pair(LOG_WARN, "warn"));
-		m_logLevelMap.insert(std::make_pair(LOG_INFO, "info"));
-		m_logLevelMap.insert(std::make_pair(LOG_DEBUG, "debug"));
-		m_logLevelMap.insert(std::make_pair(LOG_TRACE, "trace"));
-		     
-		m_printFormatMap.insert(std::make_pair(PRINT_BASIC, "basic"));
-		m_printFormatMap.insert(std::make_pair(PRINT_MORE, "more"));
-		m_printFormatMap.insert(std::make_pair(PRINT_FULL, "full"));
-		 
-		m_saveWayMap.insert(std::make_pair(SAVE_STDOUT, "stdout"));
-		m_saveWayMap.insert(std::make_pair(SAVE_STDERR, "stderr"));
-		m_saveWayMap.insert(std::make_pair(SAVE_FILE, "file"));
+	m_logLevelMap.insert(std::make_pair(LOG_NULL, "null"));
+	m_logLevelMap.insert(std::make_pair(LOG_ERROR, "error"));
+	m_logLevelMap.insert(std::make_pair(LOG_WARN, "warn"));
+	m_logLevelMap.insert(std::make_pair(LOG_INFO, "info"));
+	m_logLevelMap.insert(std::make_pair(LOG_DEBUG, "debug"));
+	m_logLevelMap.insert(std::make_pair(LOG_TRACE, "trace"));
+	     
+	m_printFormatMap.insert(std::make_pair(PRINT_BASIC, "basic"));
+	m_printFormatMap.insert(std::make_pair(PRINT_MORE, "more"));
+	m_printFormatMap.insert(std::make_pair(PRINT_FULL, "full"));
+	 
+	m_saveWayMap.insert(std::make_pair(SAVE_STDOUT, "stdout"));
+	m_saveWayMap.insert(std::make_pair(SAVE_STDERR, "stderr"));
+	m_saveWayMap.insert(std::make_pair(SAVE_FILE, "file"));
 
-		m_error = new Error(DUYE_LOG_PREFIX);
+	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
 Logger::~Logger() 

@@ -82,6 +82,14 @@ public:
      * @note 
      */	
     static bool removeFile(const int8* filePath);
+	
+    /**
+     * @brief get file size
+     * @param [in] filePath : file path
+     * @return true/false
+     * @note 
+     */	
+	static uint64 fileSize(const std::string& filePath);	
 };
 
 /** 
@@ -196,6 +204,6 @@ private:
     int32   m_flags;
     int8    m_path[PATH_MAX];
     uint32  m_pathLen;
-	Error* m_error;
+	Error   m_error;
 };
 }
