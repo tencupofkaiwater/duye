@@ -256,7 +256,7 @@ public:
 	 * @brief : uninit
 	 * @return : error description
 	 */
-	char* error();   
+	uint8* error();   
 
     /**
      * @brief : print log
@@ -301,7 +301,7 @@ private:
 	LogModuleRuleMap	m_moduleRuleMap;
 	LogFileMap			m_logFileMap;
     bool                m_isUseDefConf;
-	Error*				m_error;
+	Error				m_error;
 	Mutex				m_logMutex;
 };
 }

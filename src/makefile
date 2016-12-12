@@ -18,6 +18,7 @@ cleanall:
 	do\
 		cd $$subdir;make cleanall;cd -;\
 	done
+	@rm -rf ./release
 
 install:
 	@for subdir in $(sub_dirs);\

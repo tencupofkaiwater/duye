@@ -140,7 +140,7 @@ public:
      * @return error string
      * @note 
      */		
-    int8* error();	
+    uint8* error();	
     
 private:
     // create epoll

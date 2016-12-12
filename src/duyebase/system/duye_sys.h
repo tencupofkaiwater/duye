@@ -22,8 +22,8 @@
 
 #include <duye_type.h>
 
-#define ERROR_DUYE_LOG(args...) System::pformat(m_error.errorLog, m_error.errorBufSize, ##args);
-#define ERROR_DUYE_LOGE(err, args...) System::pformat(err.errorLog, err.errorBufSize, ##args);
+#define ERROR_DUYE_LOG(args...) System::pformat((char*)m_error.errorLog, m_error.errorBufSize, ##args);
+#define ERROR_DUYE_LOGE(err, args...) System::pformat((char*)err.errorLog, err.errorBufSize, ##args);
 
 namespace duye {
 
@@ -31,10 +31,10 @@ class Error
 {
 public:
 	Error() : errorLog(NULL), errorBufSize(0) {
-		uint32 size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m");		
+		uint32 size = snprintf((char*)error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m");		
 		error[size] = 0;
 		errorBufSize = ERROR_BUF_SIZE - size - 1;
-		errorLog = error + size;	
+		errorLog = error + size;
 	}
 	
 	~Error() {}
@@ -42,13 +42,13 @@ public:
 	void setPrefix(const int8* prefix) {
 		if (prefix == NULL) return;
 		
-		uint32 size = snprintf(error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m<%s>", prefix);		
+		uint32 size = snprintf((char*)error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m<%s>", prefix);		
 		error[size] = 0;
 		errorBufSize = ERROR_BUF_SIZE - size - 1;
 		errorLog = error + size;
 	}
 
-	int8	error[ERROR_BUF_SIZE];	
+	uint8	error[ERROR_BUF_SIZE];	
 	uint8*	errorLog;
 	uint32  errorBufSize;
 };
@@ -95,7 +95,7 @@ public:
      * @return : On success, return the number of read bytes. The number equals to zero when shell 
      *	         execute print empty. or -1 if an error occurred.
      */
-    static int32 shell(const int8* cmd, int8* result = NULL, const uint32 result_size = 0);
+    static int32 shell(const int8* cmd, int8* result , const uint32 result_size);
 	
     /**
      * @brief execute shell command

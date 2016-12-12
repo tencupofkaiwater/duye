@@ -22,12 +22,12 @@ namespace duye {
 static const int8* DUYE_LOG_PREFIX = "duye.system.file";
 static const uint64 INI_TMP_BUF_SIZE = 1024 * 10;
 
-IniFile::IniFile() : m_error(NULL)
+IniFile::IniFile()
 {
 	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
-IniFile::IniFile(const std::string& filePath) : m_error(NULL)
+IniFile::IniFile(const std::string& filePath)
 {
 	m_error.setPrefix(DUYE_LOG_PREFIX);
     loadFile(m_filePath);
@@ -35,11 +35,6 @@ IniFile::IniFile(const std::string& filePath) : m_error(NULL)
 
 IniFile::~IniFile()
 {
-	if (m_error)
-	{
-		delete m_error;
-		m_error = NULL;
-	}
 }
 
 bool IniFile::loadFile(const std::string& filePath)
@@ -235,9 +230,9 @@ bool IniFile::saveFile(const std::string& filePath)
     return true;
 }
 
-int8* IniFile::error()
+uint8* IniFile::error()
 {
-    return m_error->error;
+    return m_error.error;
 }
 
 void IniFile::cleanSectionMap()

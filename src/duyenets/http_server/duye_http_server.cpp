@@ -4,49 +4,47 @@
 *
 ************************************************************************************/
 /**
-* @file	    duye_rpc_server.cpp
+* @file	    duye_http_server.cpp
 * @version     
 * @brief      
 * @author   duye
-* @date	    2016-04-11
+* @date	    2016-12-12
 * @note 
 *
-* 1. 2016-04-11 duye Created this file
+* 1. 2016-12-12 duye Created this file
 */
 
 #include <duye_logger.h>
-#include <duye_rpc_msg.h>
-#include <duye_rpc_proxy.h>
 #include <duye_hcn_server.h>
-#include <duye_rpc_server.h>
-
-static const int8* DUYE_LOG_PREFIX = "duyenets.rpc.server";
+#include <duye_http_server.h>
 
 namespace duye {
+
+static const int8* DUYE_LOG_PREFIX = "duyenets.http.server";
     
-RpcServer::RpcServer() : NetServer("FileServer"), m_user(NULL) {}
-RpcServer::~RpcServer() 
+HttpServer::HttpServer() : NetServer("HttpServer"), m_user(NULL) {}
+HttpServer::~HttpServer() 
 { 
     stopServer();
 }
 
-bool RpcServer::initServer(RpcServerUserIf* user, const NetServerPara& fileServerPara)
+bool HttpServer::initServer(HttpServerUserIf* user, const NetServerPara& fileServerPara)
 {
     if (user == NULL)
         return false;
 
     m_user = user;
     
-    DUYE_INFO("start RpcServer::initServer");
+    DUYE_INFO("start HttpServer::initServer");
     m_serverPara = fileServerPara;
-    DUYE_INFO("RpcServer::initServer [OK]");
+    DUYE_INFO("HttpServer::initServer [OK]");
     
     return true;
 }
 
-bool RpcServer::startServer()
+bool HttpServer::startServer()
 {
-    DUYE_INFO("start RpcServer::startServer");
+    DUYE_INFO("start HttpServer::startServer");
     
     NetServerPara tcpServerPara;
     tcpServerPara.localDevName = m_serverPara.localDevName;
@@ -67,22 +65,16 @@ bool RpcServer::startServer()
         return false;
     }
     
-    DUYE_INFO("RpcServer::startServer %s:%d [OK]", tcpServerPara.bindAddr.c_str(), tcpServerPara.port);
+    DUYE_INFO("HttpServer::startServer %s:%d [OK]", tcpServerPara.bindAddr.c_str(), tcpServerPara.port);
     
     return true;
 }
 
-bool RpcServer::stopServer()
+bool HttpServer::stopServer()
 {
-    DUYE_INFO("start RpcServer::stopServer");
+    DUYE_INFO("start HttpServer::stopServer");
 
-    bool ret = true;
-    if (!cleanProxy())
-    {
-        ret = false;
-        DUYE_WARN("cleanProxy failed");
-    }
-        
+    bool ret = true;        
     if (!m_tcpServer.stopServer())
     {
         ret = false;
@@ -91,19 +83,20 @@ bool RpcServer::stopServer()
     
     setServerStatus(SERVER_STOPED);
 
-	DUYE_INFO("RpcServer.stopServer [OK]");
+	DUYE_INFO("HttpServer.stopServer [OK]");
 	
     return ret;
 }
 
-bool RpcServer::registRpcMsg(const std::string& filePath)
+/*
+bool HttpServer::registRpcMsg(const std::string& filePath)
 {
-    DUYE_INFO("start RpcServer::registRpcMsg");
+    DUYE_INFO("start HttpServer::registRpcMsg");
     
     XmlDocument xmlDoc;
     if (!xmlDoc.loadFile(filePath.c_str()))
     {
-        DUYE_ERROR("RpcServer::registRpcMsg load xml file '%s' failed", filePath.c_str());
+        DUYE_ERROR("HttpServer::registRpcMsg load xml file '%s' failed", filePath.c_str());
         return false;
     }
 
@@ -160,28 +153,34 @@ bool RpcServer::registRpcMsg(const std::string& filePath)
         m_rpcFunMap.insert(std::make_pair(rpcFun.name, rpcFun));
     }
 
-    DUYE_INFO("RpcServer.registRpcMsg [OK]");
+    DUYE_INFO("HttpServer.registRpcMsg [OK]");
     
     return true;
 }
+*/
 
-bool RpcServer::onNewcon(const IPv4Addr& clientAddr, const int32 clientSockfd)
+bool HttpServer::onNewcon(const IPv4Addr& clientAddr, const int32 clientSockfd)
 {
     DUYE_INFO("accept client : %s:%d sockfd=%d", clientAddr.ipStr(), clientAddr.port(), clientSockfd);
 
+	/*
     RpcProxy* rpcProxy = new RpcProxy(this, clientAddr, AcceptSocket(clientSockfd));
     if (rpcProxy == NULL)
     {
         DUYE_ERROR("create new rpc proxy failed.");
         return false;
     }
-
+    
 	return addProxy(clientSockfd, rpcProxy);
+	*/
+
+	return true;
 }
 
-bool RpcServer::onDiscon(const int32 clientSockfd)
+bool HttpServer::onDiscon(const int32 clientSockfd)
 {
-    DUYE_DEBUG("RpcServer::onDiscon sockfd=%d", clientSockfd);
+    DUYE_DEBUG("HttpServer::onDiscon sockfd=%d", clientSockfd);
+	/*
     RpcProxy* rpcProxy = proxy(clientSockfd);
     if (rpcProxy == NULL)
     {
@@ -192,10 +191,13 @@ bool RpcServer::onDiscon(const int32 clientSockfd)
     DUYE_DEBUG("client %s:%d disconnect, sockfd=%d", rpcProxy->clientAddr().ipStr(), rpcProxy->clientAddr().port(), clientSockfd);
     
     return delProxy(clientSockfd);
+    */
+    return true;
 }
 
-bool RpcServer::onRecved(const int32 clientSockfd, const int8* data, const uint64 len)
+bool HttpServer::onRecved(const int32 clientSockfd, const int8* data, const uint64 len)
 {
+	/*
     RpcProxy* rpcProxy = proxy(clientSockfd);
     if (rpcProxy == NULL)
     {
@@ -206,9 +208,12 @@ bool RpcServer::onRecved(const int32 clientSockfd, const int8* data, const uint6
     DUYE_TRACE("%s", data);
     
     return rpcProxy->handleReq(data, len);
+    */
+    return true;
 }
 
-bool RpcServer::notifyUser(RpcProxy* rpcProxy, RpcReqMsg* rpcReqMsg)
+/*
+bool HttpServer::notifyUser(RpcProxy* rpcProxy, RpcReqMsg* rpcReqMsg)
 {
     if (m_user == NULL || rpcProxy == NULL || rpcReqMsg == NULL)
         return false;   
@@ -221,5 +226,6 @@ bool RpcServer::notifyUser(RpcProxy* rpcProxy, RpcReqMsg* rpcReqMsg)
 
     return m_user->onMsg(rpcProxy, rpcReqMsg);
 }
+*/
 
 }

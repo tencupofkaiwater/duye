@@ -238,7 +238,7 @@ bool LogFile::open()
 	return true;
 }
 
-Logger::Logger() : m_isUseDefConf(false), m_error(NULL)
+Logger::Logger() : m_isUseDefConf(false) 
 {
 	m_logLevelMap.insert(std::make_pair(LOG_NULL, "null"));
 	m_logLevelMap.insert(std::make_pair(LOG_ERROR, "error"));
@@ -259,12 +259,7 @@ Logger::Logger() : m_isUseDefConf(false), m_error(NULL)
 }
 
 Logger::~Logger() 
-{
-	if (m_error)
-	{
-		delete m_error;
-		m_error = NULL;
-	}
+{ 
 }
 
 Logger& Logger::instance()
@@ -317,9 +312,9 @@ bool Logger::uninit()
 	return true;
 }
 
-char* Logger::error()
+uint8* Logger::error()
 {
-    return m_error->error;
+    return m_error.error;
 }
 
 void Logger::printLog(const LogLevel logLevel, 

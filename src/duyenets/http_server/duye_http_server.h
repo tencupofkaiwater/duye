@@ -8,10 +8,10 @@
 * @version     
 * @brief      
 * @author   duye
-* @date	    2016-04-11
+* @date	    2016-12-12
 * @note 
 *
-* 1. 2016-04-11 duye Created this file
+* 1. 2016-12-12 duye Created this file
 */
 
 #pragma once
@@ -21,16 +21,14 @@
 #include <duye_net_server.h>
 #include <duye_tcp_server.h>
 #include <duye_hcn_server.h>
-#include <duye_rpc_msg.h>
-#include <duye_rpc_proxy.h>
 
 namespace duye {
 
-class RpcServerUserIf
+class HttpServerUserIf
 {
 public:
-    virtual ~RpcServerUserIf() {}
-    virtual bool onMsg(RpcProxy* proxy, RpcReqMsg* rpcReqMsg) = 0;
+    virtual ~HttpServerUserIf() {}
+    virtual bool onMsg(void* proxy, void* rpcReqMsg) = 0;
 };
 
 class HcnServer;
@@ -38,28 +36,23 @@ class HcnServer;
 /**
  * @brief network rpc server
  * @example:
- * RpcServer rpcServer;
- * if (rpcServer.initServer())
+ * HttpServer httpServer;
+ * if (httpServer.initServer())
  * {
  *      return false;
  * }
- * if (rpcServer.startServer())
+ * if (httpServer.startServer())
  * {
  *      return false;
  * }
  *
- * rpcServer.stopServer(fd);
+ * httpServer.stopServer(fd);
  */
-class RpcServer : public NetServer, public TcpServerIf, public ClientProxy<RpcProxy>
+class HttpServer : public NetServer, public TcpServerIf
 {
 public:
-    // <sockfd, RpcProxy*>
-    typedef std::map<int32, RpcProxy*> RpcProxyMap;
-    typedef std::list<int32> DestroyProxyList;
-    
-public:
-    RpcServer();
-    virtual ~RpcServer();
+    HttpServer();
+    virtual ~HttpServer();
 
     /**
      * @brief start server, from NetServer
@@ -67,7 +60,7 @@ public:
      * @param [in] serverPara : server parameters
      * @return : true/false
      */
-    bool initServer(RpcServerUserIf* user, const NetServerPara& serverPara);
+    bool initServer(HttpServerUserIf* user, const NetServerPara& serverPara);
     
     /**
      * @brief start server, from NetServer
@@ -86,7 +79,7 @@ public:
      * @param [in] filePath : RPC xml conf file path
      * @return : true/false
      */   
-    bool registRpcMsg(const std::string& filePath);  
+    //bool registRpcMsg(const std::string& filePath);  
 
 protected:
     // implementation TcpServerIf interface
@@ -98,14 +91,12 @@ private:
     // add new client
     bool acceptClient();
     // notify user data received
-    bool notifyUser(RpcProxy* rpcProxy, RpcReqMsg* rpcReqMsg);
+    //bool notifyUser(RpcProxy* rpcProxy, RpcReqMsg* rpcReqMsg);
 
-private:
-    friend class RpcProxy;
-    
+private:   
     NetServerPara       m_serverPara;
     TcpServer           m_tcpServer;
-    RpcServerUserIf*    m_user;  
-    RpcFunMap           m_rpcFunMap;
+    HttpServerUserIf*   m_user;  
 };
+
 }

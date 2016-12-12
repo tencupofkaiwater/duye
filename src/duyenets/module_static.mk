@@ -9,8 +9,7 @@ PRE_DEFINED:=
 BUILD_PATH:=$(shell pwd)
 
 SUBDIRS:= \
-	file_server \
-	rpc_server
+	http_server 
 
 INCLUDES:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)) \
 	$(INC_DIR)/duyebase
@@ -19,9 +18,9 @@ SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir))
 
 LIBS_PATH:=
 
-LIBS:= 
+LIBS:=duyebase 
 
-SLIBS:=$(LIB_DIR)/libduyebase.a
+SLIBS:=
 
 OUT_HEADS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/*.h)
 

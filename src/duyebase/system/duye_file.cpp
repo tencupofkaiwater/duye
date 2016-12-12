@@ -89,26 +89,21 @@ uint64 FileUtil::fileSize(const std::string& filePath)
 	return size;
 }
 
-File::File() : m_fd(-1), m_flags(0), m_pathLen(0), m_error(NULL)
+File::File() : m_fd(-1), m_flags(0), m_pathLen(0)
 {
 	m_error.setPrefix(DUYE_LOG_PREFIX);
     m_path[0] = 0;		
 }
 
-File::File(const int8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0), m_error(NULL)
+File::File(const int8* filePath) : m_fd(-1), m_flags(0), m_pathLen(0)
 {
 	m_error.setPrefix(DUYE_LOG_PREFIX);	
-    setFilePath(filePath);       
+    setFilePath(filePath);   
 }
 
 File::~File() 
 {
     close();
-	if (m_error)
-	{
-		delete m_error;
-		m_error = NULL;
-	}
 }
 
 bool File::open(const FileOpenFlags fileOpenFlags)
@@ -260,9 +255,9 @@ int64 File::write(const int8* data, const uint64 length)
     return ::write(m_fd, data, length);
 }
 
-int8* File::error()
+uint8* File::error()
 {
-    return m_error->error;
+    return m_error.error;
 }
 
 bool File::orgOpen(const int32 flags, const uint32 mode)

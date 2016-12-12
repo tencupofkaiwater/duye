@@ -30,11 +30,11 @@ public:
 	HttpRes(const Buffer& html);
 	~HttpRes();
 
-	void parseResHtml(const Buffer& html);
+	bool parseResHtml(const Buffer& html);
 	const HttpResHeader& getHeader() const;
 	const Buffer& getBody() const;
-	bool getJsonParaValue(const std::string& name, const std::string& value);
-	bool getJsonParaMap(const std::string& name, const std::string& value);
+	bool getJsonParaValue(const std::string& name, std::string& value);
+	const ParamPairs& getJsonParaMap() const;
 
 	/**
 	 * @brief get error description.

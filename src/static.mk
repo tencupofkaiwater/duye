@@ -70,7 +70,8 @@ ifneq ($(SOURCE),)
 endif
 
 cleanall:clean
-	rm $(RELEASE_DIR) -rf
+	rm -rf $(RELEASE_DIR)/include/$(MODULE)
+	rm -f $(RELEASE_DIR)/lib/$(TARGET).so*
 
 install:uninstall
 ifdef VERSION

@@ -18,12 +18,14 @@
 
 namespace duye {
 
-static const g_http_protocol = "";
+static const int8* DUYE_LOG_PREFIX = "duyenets.http.req";
 
 HttpReq::HttpReq() {
+	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
 HttpReq::HttpReq(const HttpReqHeader& http_header) : m_header(http_header) {
+	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
 HttpReq::~HttpReq() {
@@ -35,6 +37,7 @@ void HttpReq::setHeader(const HttpReqHeader& http_header) {
 
 bool HttpReq::addJsonPara(const std::string& name, const std::string& value) {
 	m_jsons[name] = value;
+	return true;
 }
 
 /*
@@ -75,6 +78,10 @@ std::string HttpReq::getReqString(std::string& error) {
 	}
 	
 	return req_str;
+}
+
+uint8* HttpReq::error() {
+	return m_error.error;
 }
 
 }

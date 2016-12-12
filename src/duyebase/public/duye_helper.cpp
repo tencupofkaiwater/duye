@@ -390,14 +390,14 @@ bool StrHelper::endWith(const int8* str, const int8* subStr, const bool ignore)
 
 void StrHelper::trim(std::string& inStr) {
 	std::string temp_str;
-	for (int i = 0; i < inStr.length(); i++) {
+	for (uint32 i = 0; i < inStr.length(); i++) {
 		if (inStr[i] == ' ')
 			continue;
 		temp_str = inStr.substr(i);
 		break;
 	}
 
-	for (int i = temp_str.length() - 1; i >= 0; i--) {
+	for (uint32 i = temp_str.length() - 1; i >= 0; i--) {
 		if (temp_str[i] == ' ')
 			continue;
 		temp_str = temp_str.substr(0, i + 1);
@@ -408,15 +408,16 @@ void StrHelper::trim(std::string& inStr) {
 }
 
 void StrHelper::trimEnter(std::string& inStr) {
-	if (StrHelper::endWith(inStr, "\n")) {
+	if (StrHelper::endWith(inStr.c_str(), "\n")) {
 		inStr = inStr.substr(0, inStr.length() - (sizeof("\n") - 1));
-	} else if (StrHelper::endWith(inStr, "\r\n")) {
+	} else if (StrHelper::endWith(inStr.c_str(), "\r\n")) {
 		inStr = inStr.substr(0, inStr.length() - (sizeof("\r\n") - 1));
 	}
 }
 
-void StrHelper::split(const std::string& inStr, const uint8 separator, std::vector<std::string>& outArray)
+void StrHelper::split(const std::string& inStr, const int8 separator, std::vector<std::string>& outArray)
 {
+	outArray.clear();
 	uint32 begPos = 0;
 
 	for (uint32 i = 0; i < inStr.length(); i++)
@@ -434,7 +435,25 @@ void StrHelper::split(const std::string& inStr, const uint8 separator, std::vect
 	}
 }
 
-bool StrHelper::getLine(const std::string& inStr, const uint8* sepStr, std::list<std::string>& lineList) {
+void StrHelper::split(const std::string& inStr, const std::string& separator, std::vector<std::string>& outArray)
+{
+	if (inStr.empty() || separator.empty()) return;
+	
+	outArray.clear();
+	size_t start_pos = 0;
+	size_t end_pos = 0;
+	
+	for (;;)
+	{
+		end_pos = inStr.find(separator, start_pos);
+		if (end_pos == std::string::npos) break;
+		if (start_pos != end_pos)
+			outArray.push_back(inStr.substr(start_pos, end_pos - start_pos));
+		start_pos = end_pos + separator.length();
+	}
+}
+
+bool StrHelper::getLine(const std::string& inStr, const int8* sepStr, std::list<std::string>& lineList) {
 	if (inStr.empty() || sepStr == NULL) {
 		return false;
 	}
@@ -459,7 +478,7 @@ bool StrHelper::getLine(const std::string& inStr, const uint8* sepStr, std::list
 	return true;
 }
 
-bool StrHelper::getLine(const std::string& inStr, const uint8* sepStr, std::set<std::string>& lineSet) {
+bool StrHelper::getLine(const std::string& inStr, const int8* sepStr, std::set<std::string>& lineSet) {
 	if (inStr.empty() || sepStr == NULL) {
 		return false;
 	}
@@ -512,7 +531,7 @@ std::string StrHelper::filedir(const int8* inFilePath)
     return filedir(std::string(inFilePath));
 }
 
-uint8* ByteHelper::findSubBytes(const uint8* data, const uint32 dataLen, const uint8* sub, const uint32 subLen)
+int8* ByteHelper::findSubBytes(const int8* data, const uint32 dataLen, const int8* sub, const uint32 subLen)
 {
 	if (subLen > dataLen)
 		return NULL;
@@ -528,40 +547,40 @@ uint8* ByteHelper::findSubBytes(const uint8* data, const uint32 dataLen, const u
 
 		if (j == subLen)
 		{
-			return (uint8*)(data + i);
+			return (int8*)(data + i);
 		}
 	}
 
 	return NULL;
 }
 
-uint8* ByteHelper::findByte(const uint8* data, const uint32 dataLen, const uint8 byte)
+int8* ByteHelper::findByte(const int8* data, const uint32 dataLen, const int8 byte)
 {
 	for (uint32 i = 0; i < dataLen; i++)
 	{
 		if (data[i] == byte)
 		{
-			return (uint8*)(data + i);
+			return (int8*)(data + i);
 		}
 	}
 
 	return NULL;
 }
 
-uint8* ByteHelper::findByteR(const uint8* data, const uint32 dataLen, const uint8 byte)
+int8* ByteHelper::findByteR(const int8* data, const uint32 dataLen, const int8 byte)
 {
 	for (uint32 i = dataLen; i > 0; i--)
 	{
 		if (data[i] == byte)
 		{
-			return (uint8*)(data + i);
+			return (int8*)(data + i);
 		}
 	}
 
 	return NULL;
 }
 
-std::string ByteHelper::toHexStr(const uint8* data, const uint32 dataLen)
+std::string ByteHelper::toHexStr(const int8* data, const uint32 dataLen)
 {
 	std::string hexStr;
 	uint8 temp[4] = {0};

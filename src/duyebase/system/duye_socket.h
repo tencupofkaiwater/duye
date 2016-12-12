@@ -220,7 +220,7 @@ public:
      * @return error string
      * @note 
      */		
-    int8* error();
+    uint8* error();
 	
 private:
     /**
@@ -234,7 +234,7 @@ private:
 private:
     int32   m_sockfd;	
     bool    m_isInit;
-	Error*	m_error;
+	Error	m_error;
 };
 
 /**

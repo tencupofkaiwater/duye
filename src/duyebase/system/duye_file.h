@@ -184,7 +184,7 @@ public:
      * @return true/false
      * @note 
      */		
-    int8* error();	
+    uint8* error();	
 
 private:
     /**

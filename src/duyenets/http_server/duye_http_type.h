@@ -21,8 +21,6 @@
 
 namespace duye {
 
-static const int8* DUYE_LOG_PREFIX = "duyenets.http.header";
-
 enum HttpMethodType {
 	HTTP_GET,
 	HTTP_HEAD,
@@ -77,14 +75,19 @@ class HttpMethod {
 public:
 	HttpMethod()
 	{
-		m_method_names[HTTP_GET] = "get";
-		m_method_names[HTTP_HEAD] = "head";
-		m_method_names[HTTP_PUT] = "put";
-		m_method_names[HTTP_DELETE] = "delete";
-		m_method_names[HTTP_POST] = "post";
+		m_method_names.insert(std::make_pair(HTTP_GET, "get"));
+		m_method_names.insert(std::make_pair(HTTP_HEAD, "head"));
+		m_method_names.insert(std::make_pair(HTTP_PUT, "put"));
+		m_method_names.insert(std::make_pair(HTTP_DELETE, "delete"));
+		m_method_names.insert(std::make_pair(HTTP_POST, "post"));
+	}
+
+	static HttpMethod& ins() {
+		static HttpMethod ins;
+		return ins;
 	}
 	
-	static std::string getName(const HttpMethodType& type, std::string& error) {
+	std::string getName(const HttpMethodType& type, std::string& error) {
 		error.clear();
 		
 		if (type < HTTP_GET || type > HTTP_POST) {
@@ -96,7 +99,7 @@ public:
 	}
 
 private:
-	static MethodNames m_method_names;
+	MethodNames m_method_names;
 };
 
 class HttpHeaderData {
@@ -111,43 +114,48 @@ public:
 	HttpHeaderData()
 	{
 		// common 
-		m_header_names[HTTP_CONNECTION] = "Connection";
+		m_header_names.insert(std::make_pair(HTTP_CONNECTION, "Connection"));
 
 		// request
-		m_header_names[HTTP_REQ_HOST] = "Host";		
-		m_header_names[HTTP_REQ_USER_AGENT] = "User-Agent";
-		m_header_names[HTTP_REQ_ACCEPT] = "Accept";
-		m_header_names[HTTP_REQ_REFERER] = "Referer";
-		m_header_names[HTTP_REQ_ACCEPT_ENCODING] = "Accept-Encoding";
-		m_header_names[HTTP_REQ_LANGUAGE] = "Accept-Language";
+		m_header_names.insert(std::make_pair(HTTP_REQ_HOST, "Host"));
+		m_header_names.insert(std::make_pair(HTTP_REQ_USER_AGENT, "User-Agent"));
+		m_header_names.insert(std::make_pair(HTTP_REQ_ACCEPT, "Accept"));
+		m_header_names.insert(std::make_pair(HTTP_REQ_REFERER, "Referer"));
+		m_header_names.insert(std::make_pair(HTTP_REQ_ACCEPT_ENCODING, "Accept-Encoding"));
+		m_header_names.insert(std::make_pair(HTTP_REQ_LANGUAGE, "Accept-Language"));
 
 		// reponse
-		m_header_names[HTTP_RES_DATE] = "Date";		
-		m_header_names[HTTP_RES_SERVER] = "Server";
-		m_header_names[HTTP_RES_LAST_MODIFIED] = "Last-Modified";
-		m_header_names[HTTP_RES_ETAG] = "ETag";
-		m_header_names[HTTP_RES_ACCEPT_RANGES] = "Accept-Ranges";
-		m_header_names[HTTP_RES_CONTENT_LENGTH] = "Content-Length";
-		m_header_names[HTTP_RES_KEEP_ALIVE] = "Keep-Alive";
-		m_header_names[HTTP_RES_CONTENT_TYPE] = "Content-Type";
+		m_header_names.insert(std::make_pair(HTTP_RES_DATE, "Date"));
+		m_header_names.insert(std::make_pair(HTTP_RES_SERVER, "Server"));
+		m_header_names.insert(std::make_pair(HTTP_RES_LAST_MODIFIED, "Last-Modified"));
+		m_header_names.insert(std::make_pair(HTTP_RES_ETAG, "ETag"));
+		m_header_names.insert(std::make_pair(HTTP_RES_ACCEPT_RANGES, "Accept-Ranges"));
+		m_header_names.insert(std::make_pair(HTTP_RES_CONTENT_LENGTH, "Content-Length"));
+		m_header_names.insert(std::make_pair(HTTP_RES_KEEP_ALIVE, "Keep-Alive"));
+		m_header_names.insert(std::make_pair(HTTP_RES_CONTENT_TYPE, "Content-Type"));
 
 		// common
-		m_default_values[HTTP_PROTOCOL] = "HTTP/1.1";
-		m_default_values[HTTP_CONNECTION] = "keep-alive";
+		m_header_names.insert(std::make_pair(HTTP_PROTOCOL, "HTTP/1.1"));
+		m_header_names.insert(std::make_pair(HTTP_CONNECTION, "keep-alive"));
 		// request
-		m_default_values[HTTP_REQ_ACCEPT] = "text/css,*/*;q=0.1";
-		m_default_values[HTTP_REQ_LANGUAGE] = "zh-CN,zh;q=0.8";
+		m_header_names.insert(std::make_pair(HTTP_REQ_ACCEPT, "text/css,*/*;q=0.1"));
+		m_header_names.insert(std::make_pair(HTTP_REQ_LANGUAGE, "zh-CN,zh;q=0.8"));
 		// response
-		m_default_values[HTTP_RES_CODE] = "200";
-		m_default_values[HTTP_RES_ACCEPT_RANGES] = "bytes";
+		m_header_names.insert(std::make_pair(HTTP_RES_CODE, "200"));
+		m_header_names.insert(std::make_pair(HTTP_RES_ACCEPT_RANGES, "bytes"));
 
 		HeaderNames::iterator iter = m_header_names.begin();
 		for (; iter != m_header_names.end(); ++iter) {
-			m_name_headers[iter->second] = iter->first;	
+			m_name_headers[iter->second] = iter->first;
 		}
 	}
+
+	static HttpHeaderData& ins() {
+		static HttpHeaderData ins;
+		return ins;
+	}
 	
-	static std::string getName(const HttpHeaderType& type, std::string& error) {
+	std::string getName(const HttpHeaderType& type, std::string& error) {
 		error.clear();
 
 		if (type == HTTP_METHOD || type == HTTP_PROTOCOL || type == HTTP_REQ_URL || type == HTTP_RES_CODE) {
@@ -163,7 +171,7 @@ public:
 		return m_header_names[type];
 	}
 
-	static std::string getDefValue(const HttpHeaderType& type, std::string& error) {
+	std::string getDefValue(const HttpHeaderType& type, std::string& error) {
 		error.clear();
 		DefaultValues::iterator iter = m_default_values.find(type);
 		if (iter == m_default_values.end()) {
@@ -171,10 +179,10 @@ public:
 			return "";
 		}
 
-		iter->second;
+		return iter->second;
 	}
 
-	static HttpHeaderType getHeaderType(const std::string& name) {
+	HttpHeaderType getHeaderType(const std::string& name) {
 		NameHeaders::iterator iter = m_name_headers.find(name);
 		if (iter == m_name_headers.end()) {
 			return HTTP_HEADER_MAX;
@@ -184,19 +192,20 @@ public:
 	}
 
 private:
-	static HeaderNames m_header_names;
-	static NameHeaders m_name_headers;
-	static DefaultValues m_default_values;
+	HeaderNames m_header_names;
+	NameHeaders m_name_headers;
+	DefaultValues m_default_values;
 };
 
 class HttpReqHeader {
 public:
 	HttpReqHeader()
 	{
-		m_protocol = HttpHeaderData::getDefValue(HTTP_PROTOCOL);
-		m_connection = HttpHeaderData::getDefValue(HTTP_CONNECTION);
-		m_accept = HttpHeaderData::getDefValue(HTTP_REQ_ACCEPT);
-		m_language = HttpHeaderData::getDefValue(HTTP_REQ_LANGUAGE);
+		std::string error;
+		m_protocol = HttpHeaderData::ins().getDefValue(HTTP_PROTOCOL, error);
+		m_connection = HttpHeaderData::ins().getDefValue(HTTP_CONNECTION, error);
+		m_accept = HttpHeaderData::ins().getDefValue(HTTP_REQ_ACCEPT, error);
+		m_language = HttpHeaderData::ins().getDefValue(HTTP_REQ_LANGUAGE, error);
 	}
 	
 	void setMethod(const HttpMethodType& type, std::string& error) {
@@ -235,14 +244,14 @@ public:
 	}
 
 	void addQueryPara(const std::string& name, const std::string& value) {
-		m_querys.insert[name] = value;
+		m_querys[name] = value;
 	}
 	
-	std::string getValue(const HttpMethodType& type, std::string& error) {
+	std::string getValue(const HttpHeaderType& type, std::string& error) {
 		error.clear();
 		
 		switch (type) {
-			case HTTP_METHOD : return HttpMethod::getName(m_method);
+			case HTTP_METHOD : return HttpMethod::ins().getName(m_method, error);
 			case HTTP_PROTOCOL : return m_protocol;
 			case HTTP_REQ_URL : return m_url;
 			case HTTP_REQ_HOST : return m_host;
@@ -262,7 +271,7 @@ public:
 		error.clear();
 		std::string header_string;
 		
-		if (m_method.empty()) {
+		if (m_method == HTTP_METHOD_MAX) {
 			error = "HTTP_METHOD is empty";
 			return header_string;
 		}
@@ -272,7 +281,8 @@ public:
 			return header_string;
 		}
 
-		header_string.append(m_method);
+		header_string.append(HttpMethod::ins().getName(m_method, error));
+		if (error.empty()) return "";		
 		header_string.append(" " + m_url);
 		if (!m_querys.empty()) {
 			header_string.append("?");
@@ -287,19 +297,19 @@ public:
 		}
 		header_string.append(" " + m_protocol + "\n");
 		if (!m_host.empty())
-			header_string.append(HttpHeaderData::getName(HTTP_REQ_HOST) + ": " + m_host + "\n");
+			header_string.append(HttpHeaderData::ins().getName(HTTP_REQ_HOST, error) + ": " + m_host + "\n");
 		if (!m_connection.empty())
-			header_string.append(HttpHeaderData::getName(HTTP_CONNECTION) + ": " + m_connection + "\n");	
+			header_string.append(HttpHeaderData::ins().getName(HTTP_CONNECTION, error) + ": " + m_connection + "\n");	
 		if (!m_user_agent.empty())
-			header_string.append(HttpHeaderData::getName(HTTP_REQ_USER_AGENT) + ": " + m_user_agent + "\n");		
+			header_string.append(HttpHeaderData::ins().getName(HTTP_REQ_USER_AGENT, error) + ": " + m_user_agent + "\n");		
 		if (!m_accept.empty())
-			header_string.append(HttpHeaderData::getName(HTTP_REQ_ACCEPT) + ": " + m_accept + "\n");	
+			header_string.append(HttpHeaderData::ins().getName(HTTP_REQ_ACCEPT, error) + ": " + m_accept + "\n");	
 		if (!m_referer.empty())
-			header_string.append(HttpHeaderData::getName(HTTP_REQ_REFERER) + ": " + m_referer + "\n");	
+			header_string.append(HttpHeaderData::ins().getName(HTTP_REQ_REFERER, error) + ": " + m_referer + "\n");	
 		if (!m_accept_encoding.empty())
-			header_string.append(HttpHeaderData::getName(HTTP_REQ_ACCEPT_ENCODING) + ": " + m_accept_encoding + "\n");	
+			header_string.append(HttpHeaderData::ins().getName(HTTP_REQ_ACCEPT_ENCODING, error) + ": " + m_accept_encoding + "\n");	
 		if (!m_language.empty())
-			header_string.append(HttpHeaderData::getName(HTTP_REQ_LANGUAGE) + ": " + m_language + "\n");		
+			header_string.append(HttpHeaderData::ins().getName(HTTP_REQ_LANGUAGE, error) + ": " + m_language + "\n");
 
 		return header_string;
 	}
@@ -323,12 +333,9 @@ class HttpResHeader {
 	typedef std::map<HttpHeaderType, const std::string> HeaderMap;
 	
 public:
-	HttpResHeader() {
-		m_error.setPrefix(DUYE_LOG_PREFIX);
-	}	
+	HttpResHeader() {}	
 	
 	HttpResHeader(const std::string& header_html) {
-		m_error.setPrefix(DUYE_LOG_PREFIX);
 		parse(header_html);
 	}
 	
@@ -336,7 +343,7 @@ public:
 		std::list<std::string> lineList;
 		StrHelper::getLine(header_html, "\r\n", lineList);
 		if (lineList.empty()) {
-			ERROR_DUYE_LOG("http response header error");
+			//ERROR_DUYE_LOG("http response header error");
 			return false;
 		}
 
@@ -344,16 +351,16 @@ public:
 		std::list<std::string>::iterator iter = lineList.begin();
 		for (; iter != lineList.end(); ++iter) {
 			if (!get_protocol) {
-				if (StrHelper::begWith(*iter, "HTTP/")) {
+				if (StrHelper::begWith(iter->c_str(), "HTTP/")) {
 					std::vector<std::string> split_array;
 					StrHelper::split(*iter, ' ', split_array);
 					if (split_array.size() != 3) {
-						ERROR_DUYE_LOG("get http protocol error");
+						//ERROR_DUYE_LOG("get http protocol error");
 						return false;
 					} else {
-						m_header_map[HTTP_PROTOCOL] = split_array[0];
-						m_header_map[HTTP_RES_CODE] = split_array[1];
-						m_header_map[HTTP_RES_CODE_DESC] = split_array[2];
+						m_header_map.insert(std::make_pair(HTTP_PROTOCOL, split_array[0]));
+						m_header_map.insert(std::make_pair(HTTP_RES_CODE, split_array[1]));
+						m_header_map.insert(std::make_pair(HTTP_RES_CODE_DESC, split_array[2]));
 					}					
 				}
 
@@ -364,11 +371,11 @@ public:
 				std::string name;
 				std::string value;
 				if (getPair(*iter, name, value)) {
-					ERROR_DUYE_LOG("get pair from '%s' error", iter->c_str());
+					//ERROR_DUYE_LOG("get pair from '%s' error", iter->c_str());
 					return false;
 				} else {
 					if (setPair(name, value)) {
-						ERROR_DUYE_LOG("set pair name:'%s', value:'%s' error", name.c_str(), value.c_str());
+						//ERROR_DUYE_LOG("set pair name:'%s', value:'%s' error", name.c_str(), value.c_str());
 						return false;
 					}
 				}
@@ -384,16 +391,18 @@ public:
 
 	std::string getHeaderValue(const HttpHeaderType& header_type) {
 		if (header_type < HTTP_METHOD || header_type >= HTTP_HEADER_MAX) {
-			ERROR_DUYE_LOG("input parameter header_type error");
+			//ERROR_DUYE_LOG("input parameter header_type error");
 			return "";
 		}
 		
 		return m_header_map[header_type];
 	}
 
+	/*
 	uint8* error() {
 		return m_error.error;
 	}
+	*/
 
 private:
 	bool getPair(const std::string& in_str, std::string& name, std::string& value) {
@@ -410,17 +419,17 @@ private:
 	}
 
 	bool setPair(const std::string& name, const std::string& value) {
-		HttpHeaderType header_type = HttpHeaderData::getHeaderType(name);
+		HttpHeaderType header_type = HttpHeaderData::ins().getHeaderType(name);
 		if (header_type == HTTP_HEADER_MAX) {
 			return false;
 		}
 
-		m_header_map[header_type] = value;
+		m_header_map.insert(std::make_pair(header_type, value));
 		return true;
 	}
 
 private:
-	Error m_error;
+	//Error m_error;
 	HeaderMap m_header_map;
 };
 

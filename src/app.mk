@@ -68,7 +68,7 @@ ifneq ($(SOURCE),)
 endif
 
 cleanall:clean
-	rm $(RELEASE_DIR) -rf
+	rm $(RELEASE_DIR)/bin/$(TARGET) -rf
 
 install:uninstall
 	@echo "Start Install `basename $(TARGET_FILE)`"

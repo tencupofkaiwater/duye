@@ -25,14 +25,18 @@ class Buffer {
 public:
 	Buffer();
 	Buffer(const uint32 size);
-	Buffer(Buffer Buffer& buffer);
+	Buffer(const Buffer& buffer);
 	~Buffer();
 
 	bool init(const uint32 size);
-	uint8* data();
+	int8* data();
+	int8* data() const;
 	uint32 size();
+	uint32 size() const;
 	bool empty();
-	uint8* copy(uint8* buffer, const uint32 size);
+	bool empty() const;
+	int8* copy(int8* buffer, const uint32 size);
+	int8* copy(int8* buffer, const uint32 size) const;
 	
 	/**
 	 * @brief get error description.
@@ -42,7 +46,7 @@ public:
 
 private:
 	Error m_error;
-	uint8* m_data;
+	int8* m_data;
 	uint32 m_size;
 };
 

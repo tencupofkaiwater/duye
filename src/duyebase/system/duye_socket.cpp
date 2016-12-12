@@ -132,7 +132,7 @@ uint16 IPv6Addr::addrLen() const
     return m_addrLen;
 }
 
-Socket::Socket() : m_sockfd(-1), m_isInit(false), m_error(NULL) 
+Socket::Socket() : m_sockfd(-1), m_isInit(false)
 {
 	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
@@ -225,9 +225,9 @@ int32 Socket::sockfd() const
     return m_sockfd;	
 }
 
-int8* Socket::error()
+uint8* Socket::error()
 {
-    return m_error->error;
+    return m_error.error;
 }
 
 bool Socket::initOption(int32 sockfd, const std::string& ifName)

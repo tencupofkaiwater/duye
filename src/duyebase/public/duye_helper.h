@@ -18,6 +18,7 @@
 
 #include <string>
 #include <vector>
+#include <list>
 #include <set>
 #include <duye_type.h>
 
@@ -153,7 +154,8 @@ public:
 	 * @para [in] separator : cut off symbol
 	 * @para [in] outArray : output string array
 	 */   
-	static void split(const std::string& inStr, const uint8 separator, std::vector<std::string>& outArray);
+	static void split(const std::string& inStr, const int8 separator, std::vector<std::string>& outArray);
+	static void split(const std::string& inStr, const std::string& separator, std::vector<std::string>& outArray);
 
 	/**
 	 * @brief get line.
@@ -161,8 +163,8 @@ public:
 	 * @para [in] sepStr : separator string.
 	 * @para [in] outArray : output string array.
 	 */   
-	static bool getLine(const std::string& inStr, const uint8* sepStr, std::list<std::string>& lineList);
-	static bool getLine(const std::string& inStr, const uint8* sepStr, std::set<std::string>& lineSet);
+	static bool getLine(const std::string& inStr, const int8* sepStr, std::list<std::string>& lineList);
+	static bool getLine(const std::string& inStr, const int8* sepStr, std::set<std::string>& lineSet);
 	
 	/**
 	 * @brief get file path basename
@@ -199,7 +201,7 @@ public:
 	 * @return start position, NULL indicate don't found
 	 * @note 
 	 */
-	static uint8* findSubBytes(const uint8* data, const uint32 dataLen, const uint8* sub, const uint32 subLen);
+	static int8* findSubBytes(const int8* data, const uint32 dataLen, const int8* sub, const uint32 subLen);
 
 	/**
 	 * @brief find byte
@@ -210,7 +212,7 @@ public:
 	 * @return start position, NULL indicate don't found
 	 * @note 
 	 */
-	static uint8* findByte(const uint8* data, const uint32 dataLen, const uint8 byte);
+	static int8* findByte(const int8* data, const uint32 dataLen, const int8 byte);
 
 	/**
 	 * @brief reverse find byte
@@ -221,7 +223,7 @@ public:
 	 * @return start position, NULL indicate don't found
 	 * @note 
 	 */
-	static uint8* findByteR(const uint8* data, const uint32 dataLen, const uint8 byte);
+	static int8* findByteR(const int8* data, const uint32 dataLen, const int8 byte);
 	
 	/**
 	 * @brief convert byte array to hex format string
@@ -230,7 +232,7 @@ public:
 	 * @return hex string
 	 * @note 
 	 */
-	static std::string toHexStr(const uint8* data, const uint32 dataLen);
+	static std::string toHexStr(const int8* data, const uint32 dataLen);
 };
 
 /**

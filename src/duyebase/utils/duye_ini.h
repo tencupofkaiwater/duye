@@ -135,7 +135,7 @@ public:
      * @return error string
      * @note 
      */
-    int8* error();     
+    uint8* error();     
 
 private:
     void cleanSectionMap();
@@ -146,6 +146,6 @@ private:
     std::string	    m_filePath;
     IniSectionMap   m_iniSectionMap;
     Mutex	    	m_mapMutex;
-    Error*    		m_error;
+    Error    		m_error;
 };
 }

@@ -32,3 +32,5 @@
 #include <duye_thread.h>
 #include <duye_file.h>
 #include <duye_semaphore.h>
+#include <duye_process.h>
+#include <duye_process_single.h>

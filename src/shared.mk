@@ -71,22 +71,23 @@ ifneq ($(SOURCE),)
 endif
 
 cleanall:clean
-	rm $(RELEASE_DIR) -rf
+	rm -rf $(RELEASE_DIR)/include/$(MODULE)
+	rm -f $(RELEASE_DIR)/lib/$(TARGET).so*
 
 install:uninstall
 ifdef VERSION
 	@echo "Start Install `basename $(TARGET_FILE)`"
 	@mkdir -p $(INS_INC_DIR)/$(MODULE)  
 	@mkdir -p $(INS_LIB_DIR)/$(MODULE)    
-	@cp -f $(INC_DIR)/* $(INS_INC_DIR)/$(MODULE)
-	@cp -f $(LIB_DIR)/$(TARGET).so.$(VERSION) $(INS_LIB_DIR)/$(MODULE)
-	@cd $(INS_LIB_DIR) && ln -snf $(MODULE)/$(TARGET).so.$(VERSION) $(TARGET).so
+	cp -f $(INC_DIR)/$(MODULE)/*.h $(INS_INC_DIR)/$(MODULE)
+	cp -f $(LIB_DIR)/$(TARGET).so.$(VERSION) $(INS_LIB_DIR)/$(MODULE)
+	cd $(INS_LIB_DIR) && ln -snf $(MODULE)/$(TARGET).so.$(VERSION) $(TARGET).so
 	@echo "Install `basename $(TARGET_FILE)` to $(INS_LIB_DIR)/$(MODULE) Complete"
 endif	
 
 uninstall:
 	@echo "Start uninstall `basename $(TARGET_FILE)`"
-	@rm -rf $(INS_INC_DIR)/$(MODULE)  
-	@rm -rf $(INS_LIB_DIR)/$(MODULE)    
-	@rm -f $(INS_LIB_DIR)/$(TARGET).so*
-	@echo "Uninstall `basename $(TARGET_FILE)` to $(INS_LIB_DIR)/$(MODULE) Complete"
+	rm -rf $(INS_INC_DIR)/$(MODULE)  
+	rm -rf $(INS_LIB_DIR)/$(MODULE)    
+	rm -f $(INS_LIB_DIR)/$(TARGET).so*
+	@echo "Uninstall `basename $(TARGET_FILE)` from $(INS_LIB_DIR)/$(MODULE) Complete"

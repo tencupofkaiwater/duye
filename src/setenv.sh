@@ -18,7 +18,7 @@ echo "INC_DIR=$INC_DIR"
 export INS_INC_DIR=/usr/local/include/duye
 echo "INS_INC_DIR=$INS_INC_DIR"
 
-export INS_LIB_DIR=/usr/lib
+export INS_LIB_DIR=/usr/lib`getconf LONG_BIT`
 echo "INS_LIB_DIR=$INS_LIB_DIR"
 
 export INS_BIN_DIR=/usr/bin

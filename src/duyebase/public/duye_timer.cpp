@@ -68,6 +68,8 @@ bool TimerServer::run()
             iter++;
         }
     }
+
+	return true;
 }
 
 }

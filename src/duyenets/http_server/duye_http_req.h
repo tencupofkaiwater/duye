@@ -19,6 +19,7 @@
 #include <string>
 #include <map>
 #include <duye_type.h>
+#include <duye_sys.h>
 #include <duye_http_type.h>
 
 namespace duye {
@@ -32,6 +33,7 @@ public:
 	void setHeader(const HttpReqHeader& http_header);
 	bool addJsonPara(const std::string& name, const std::string& value);
 	std::string getReqString(std::string& error);
+	uint8* error();
 
 private:
 	Error m_error;

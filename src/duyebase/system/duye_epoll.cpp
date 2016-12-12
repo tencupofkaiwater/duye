@@ -27,7 +27,6 @@ static const int8* DUYE_LOG_PREFIX = "duye.system.epoll";
 Epoll::Epoll() : m_epollfd(-1)
     , m_maxEvents(0)
     , m_sysEvents(NULL)
-    , m_error(NULL)
 {
     m_error.setPrefix(DUYE_LOG_PREFIX);
 }
@@ -40,12 +39,6 @@ Epoll::~Epoll()
         free(m_sysEvents);
         m_sysEvents = NULL;
     }
-
-	if (m_error)
-	{
-		delete m_error;
-		m_error = NULL;
-	}
 }
 
 bool Epoll::open(const uint32 maxEvents)
@@ -151,9 +144,9 @@ bool Epoll::wait(Epoll::EventList& eventList, const uint32 timeout)
     return true;
 }
 
-int8* Epoll::error()
+uint8* Epoll::error()
 {
-    return m_error->error;
+    return m_error.error;
 }
 
 }

@@ -20,16 +20,21 @@
 
 namespace duye {
 
-HttpRes::HttpRes() {}
+static const int8* DUYE_LOG_PREFIX = "duyenets.http.res";
+
+HttpRes::HttpRes() {
+	m_error.setPrefix(DUYE_LOG_PREFIX);
+}
 
 HttpRes::HttpRes(const Buffer& html) {
+	m_error.setPrefix(DUYE_LOG_PREFIX);
 	parseResHtml(html);
 }
 
 HttpRes::~HttpRes() {}
 
 bool HttpRes::parseResHtml(const Buffer& html) {
-	return parseRes(m_org_html);
+	return parseRes(html);
 }
 
 const HttpResHeader& HttpRes::getHeader() const {
@@ -40,16 +45,17 @@ const Buffer& HttpRes::getBody() const {
 	return m_org_body;
 }
 
-bool HttpRes::getJsonParaValue(const std::string& name, const std::string& value) {
+bool HttpRes::getJsonParaValue(const std::string& name, std::string& value) {
 	ParamPairs::iterator iter = m_jsons.find(name);
 	if (iter == m_jsons.end()) {
 		return false;
 	}
 
-	return iter->second;
+	value = iter->second;
+	return true;
 }
 
-const ParamPairs& HttpRes::getJsonParaMap(const std::string& name, const std::string& value) const {
+const ParamPairs& HttpRes::getJsonParaMap() const {
 	return m_jsons;
 }
 
@@ -101,35 +107,17 @@ bool HttpRes::parseRes(const Buffer& html) {
 	return true;
 }
 
-bool HttpRes::parseHeader(const std::string& header) {
-	std::list<std::string> lineList;
-	StrHelper::getLine(header, "\r\n", lineList);
-	if (lineList.empty()) {
-		ERROR_DUYE_LOG("http response header error");
-		return false;
-	}
-
-	std::list<std::string>::iterator iter = lineList.begin();
-	for (; iter != lineList.end(); ++iter) {
-		
-	}
-	
-	return true;
-}
-
 bool HttpRes::parseBody() {
 	if (m_org_body.empty()) {
 		ERROR_DUYE_LOG("http response body is empty");
 		return false;
-	}
-
-	
+	}	
 	
 	return true;
 }
 	
 std::string HttpRes::getHeaderHtml(const Buffer& html) {
-	uint8* end_pos = ByteHelper::findSubBytes(html.data(), html.size(), "\r\n\r\n");
+	int8* end_pos = ByteHelper::findSubBytes(html.data(), html.size(), "\r\n\r\n", sizeof("\r\n\r\n") - 1);
 	if (!end_pos) {
 		return "";
 	}
@@ -138,7 +126,7 @@ std::string HttpRes::getHeaderHtml(const Buffer& html) {
 	uint32 body_len = html.size() - header_len;
 
 	m_org_body.init(body_len);
-	Buffer.copy(m_org_body.data(), m_org_body.size());
+	html.copy(m_org_body.data(), m_org_body.size());
 
 	return std::string(html.data(), header_len);
 }

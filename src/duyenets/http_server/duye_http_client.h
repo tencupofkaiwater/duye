@@ -31,14 +31,15 @@ class HttpClient
 {
 public:
     HttpClient();
-	HttpClient(const std::string& server_ip, const uint16 server_port);
+	HttpClient(const std::string& server_ip, const uint16 server_port = 80);
     ~HttpClient();
 
 	/**
 	 * @brief set server address and port
 	 * @return error description.
 	 */
-	void setServer(const std::string& server_ip, const uint16 server_port);
+	bool connect();
+	bool connect(const std::string& server_ip, const uint16 server_port = 80);
 
     /**
      * @brief http request.
@@ -57,9 +58,9 @@ public:
 
 private:
 	Error 		m_error;
-    TcpClient  	m_tcpClient;
+    TcpClient  	m_tcp_client;
     std::string m_server_ip;
     uint16      m_server_port;
-    bool        m_isConnected;	
+    bool        m_is_connected;	
 };
 }
