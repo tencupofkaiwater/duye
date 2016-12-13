@@ -15,17 +15,29 @@
 */
 
 #include <string>
+#include <list>
 #include <duye_logger.h>
 #include <duye_helper.h>
 #include <duye_cfg_mgr.h>
 
-static const int8* DUYE_LOG_PREFIX = "duye.public.cfgmgr";
-
 namespace duye {
 
-CfgMgr::CfgMgr() {}
-CfgMgr::CfgMgr(const std::string& filePath) : m_cfgFilePath(filePath) {}
+static const int8* DUYE_LOG_PREFIX = "duye.public.cfgmgr";
+
+CfgMgr::CfgMgr() {
+	m_error.setPrefix(DUYE_LOG_PREFIX);
+}
+
+CfgMgr::CfgMgr(const std::string& filePath) : m_cfgFilePath(filePath) {
+	m_error.setPrefix(DUYE_LOG_PREFIX);
+}
+
 CfgMgr::~CfgMgr() {}
+
+CfgMgr& CfgMgr::ins() {
+	static CfgMgr ins;
+	return ins;
+}
 
 bool CfgMgr::load()
 {
@@ -67,44 +79,44 @@ bool CfgMgr::loadData(const std::string cfgData)
     return loadData(cfgData.c_str());
 }
 
-bool CfgMgr::setValue(const std::string& path, const bool value)
+bool CfgMgr::setValue(const std::string& path, const bool value, int8* attName)
 {
-    return setText(path, StrHelper::toStr(value));
+    return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const int32 value)
+bool CfgMgr::setValue(const std::string& path, const int32 value, int8* attName)
 {
-    return setText(path, StrHelper::toStr(value));
+    return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const int64 value)
+bool CfgMgr::setValue(const std::string& path, const int64 value, int8* attName)
 {
-    return setText(path, StrHelper::toStr(value));
+    return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const uint32 value)
+bool CfgMgr::setValue(const std::string& path, const uint32 value, int8* attName)
 {
-    return setText(path, StrHelper::toStr(value));
+    return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const uint64 value)
+bool CfgMgr::setValue(const std::string& path, const uint64 value, int8* attName)
 {
-    return setText(path, StrHelper::toStr(value));
+    return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const int8* value)
+bool CfgMgr::setValue(const std::string& path, const int8* value, int8* attName)
 {
-    return setText(path, StrHelper::toStr(value));
+    return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const std::string& value)
+bool CfgMgr::setValue(const std::string& path, const std::string& value, int8* attName)
 {
-    return setText(path, value);
+    return setText(path, value, attName);
 }
 
-bool CfgMgr::getValue(const std::string& path, bool& value)
+bool CfgMgr::getValue(const std::string& path, bool& value, int8* attName)
 {
-    std::string text = getText(path);
+    std::string text = getText(path, attName);
 	if (text.empty())
 		return false;
 
@@ -113,9 +125,9 @@ bool CfgMgr::getValue(const std::string& path, bool& value)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, int16& value)
+bool CfgMgr::getValue(const std::string& path, int16& value, int8* attName)
 {
-    std::string text = getText(path);
+    std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
 
@@ -124,9 +136,9 @@ bool CfgMgr::getValue(const std::string& path, int16& value)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, int32& value)
+bool CfgMgr::getValue(const std::string& path, int32& value, int8* attName)
 {
-    std::string text = getText(path);
+    std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
 
@@ -135,9 +147,9 @@ bool CfgMgr::getValue(const std::string& path, int32& value)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, int64& value)
+bool CfgMgr::getValue(const std::string& path, int64& value, int8* attName)
 {
-    std::string text = getText(path);
+    std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
 
@@ -146,9 +158,9 @@ bool CfgMgr::getValue(const std::string& path, int64& value)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, uint16& value)
+bool CfgMgr::getValue(const std::string& path, uint16& value, int8* attName)
 {
-    std::string text = getText(path);
+    std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
 
@@ -157,9 +169,9 @@ bool CfgMgr::getValue(const std::string& path, uint16& value)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, uint32& value)
+bool CfgMgr::getValue(const std::string& path, uint32& value, int8* attName)
 {
-    std::string text = getText(path);
+    std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
 
@@ -168,9 +180,9 @@ bool CfgMgr::getValue(const std::string& path, uint32& value)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, uint64& value)
+bool CfgMgr::getValue(const std::string& path, uint64& value, int8* attName)
 {
-    std::string text = getText(path);
+    std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
 
@@ -179,9 +191,9 @@ bool CfgMgr::getValue(const std::string& path, uint64& value)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, std::string& value)
+bool CfgMgr::getValue(const std::string& path, std::string& value, int8* attName)
 {
-    std::string text = getText(path);
+    std::string text = getText(path, attName);
 	if (text.empty())
 		return false;
 
@@ -190,21 +202,23 @@ bool CfgMgr::getValue(const std::string& path, std::string& value)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, int8* buffer, const uint64 size)
-{
-    std::string text = getText(path);
-	if (text.empty())
-		return false;
+bool CfgMgr::getNodes(const std::string& path, const std::list<std::string>& attrList, NodeList& nodeList) {
+	std::list<duye::NodeAndNamePair> node_and_name_list;
+	if (!parsePath(path, node_and_name_list)) return "";
 
-	uint32 copyLen = text.size() > size ? size : text.size();
-	memcpy(buffer, text.c_str(), copyLen);
+	std::list<NodeAndNamePair>::const_iterator iter = node_and_name_list.begin();
+	for (; iter != node_and_name_list.end(); ++iter) {
+		if (iter->node == node_and_name_list.back().node) {
+			if (iter->node.empty() || !iter->name.empty()) {
+				ERROR_DUYE_LOG("path(%s) error:last node not need name value", path.c_str());
+			}
+		} else if (iter->node.empty() || iter->name.empty()) {
+			ERROR_DUYE_LOG("path(%s) error:node or name is empty", path.c_str());
+			return "";
+		}
+	}
 
-	return true;
-}
-
-std::string CfgMgr::getValue(const std::string& path)
-{
-	return getText(path);
+	return getNodeList(node_and_name_list, attrList, nodeList);
 }
 
 bool CfgMgr::save()
@@ -212,69 +226,184 @@ bool CfgMgr::save()
     return true;
 }
 
-void CfgMgr::print()
+void CfgMgr::toString(std::string& outString)
 {
-	m_cfgDoc.print();
+	//m_cfgDoc.print();
 }
 
-std::string CfgMgr::getText(const std::string& path)
-{
-	std::string outText;
-	std::vector<std::string> pathArray;
-	StrHelper::split(path, '.', pathArray);
-	if (pathArray.size() <= 1 || pathArray.size() > 3)
-	{
-		DUYE_ERROR("pathArray.size() <= 1 || pathArray.size() > 3");
-		return "";
+uint8* CfgMgr::error() {
+	return m_error.error;
+}
+
+std::string CfgMgr::getText(const std::string& path, int8* attName)
+{	
+	std::list<duye::NodeAndNamePair> node_and_name_list;
+	if (!parsePath(path, node_and_name_list)) return "";
+
+	std::list<NodeAndNamePair>::const_iterator iter = node_and_name_list.begin();
+	for (; iter != node_and_name_list.end(); ++iter) {
+		if (iter->node.empty() || iter->name.empty()) {
+			ERROR_DUYE_LOG("path(%s) error:node or name is empty", path.c_str());
+			return "";
+		}
+	}	
+
+	XmlElement* node = getNode(node_and_name_list);
+	if (!node) return "";
+
+	if (!attName) {
+		return node->getText();
+	} else {
+		return node->attribute(attName);
+	}	
+}
+
+bool CfgMgr::setText(const std::string& path, const std::string& val, int8* attName)
+{	
+	std::list<duye::NodeAndNamePair> node_and_name_list;
+	if (!parsePath(path, node_and_name_list)) return false;
+
+	std::list<NodeAndNamePair>::const_iterator iter = node_and_name_list.begin();
+	for (; iter != node_and_name_list.end(); ++iter) {
+		if (iter->node.empty() || iter->name.empty()) {
+			ERROR_DUYE_LOG("path(%s) error:node or name is empty", path.c_str());
+			return "";
+		}
+	}	
+
+	XmlElement* node = getNode(node_and_name_list);
+	if (!node) return false;
+
+	if (!attName) {
+		return node->text();
+	} else {
+		return node->setAttribute(attr_name, val);
+	}	
+	
+	m_cfgDoc.saveFile(m_cfgFilePath);
+	
+	return true;
+}
+
+bool CfgMgr::parsePath(const std::string& path, std::list<duye::NodeAndNamePair>& nodeAndNameList) {
+	std::list<std::string> node_list;
+	StrHelper::split(path, '.', node_list);
+	if (node_list.empty()) {
+		ERROR_DUYE_LOG("parse path error");
+		return false;
 	}
 	
-	XmlElement* rootElement = m_cfgDoc.rootElement();
-	if (rootElement == NULL)
-	{
-		DUYE_ERROR("rootElement == NULL");
-	    return "";		
-	}
-	
-	if (rootElement->valueStr() != pathArray[0])
-	{
-		DUYE_ERROR("rootElement->valueStr() != pathArray[0], %s = %s", rootElement->value(), pathArray[0].c_str());
-	    return "";		
+	std::list<std::string>::iterator iter = node_list.begin();
+	for (; iter != node_list.end(); ++iter) {
+		std::vector<std::string> node_name_vec;
+		StrHelper::split(path, ':', node_name_vec);
+		if (node_name_vec.size() == 1) {
+			nodeAndNameList.push_back(NodeAndNamePair(node_name_vec[0], ""));
+		} else if (node_name_vec.size() == 2) {
+			nodeAndNameList.push_back(NodeAndNamePair(node_name_vec[0], node_name_vec[1]));
+		} else {
+			ERROR_DUYE_LOG("parse node and name error");
+			return false;			
+		}
 	}
 
-	const int8* tempText = NULL;
-	XmlElement* childElement = rootElement->firstChildElement();
-	for (; childElement != NULL; childElement = childElement->nextSiblingElement())
-	{
-		if (childElement->valueStr() == pathArray[1])
-		{
-			if (pathArray.size() == 2)
-			{
-				tempText = childElement->getText();
-				if (tempText == NULL)
-					return "";
+	return true;
+}
 
-				outText.assign(tempText);
+XmlElement* CfgMgr::getNode(const std::list<duye::NodeAndNamePair>& nodeAndNameList) {
+	XmlElement* root = m_cfgDoc.rootElement();
+	if (root == NULL) {
+		ERROR_DUYE_LOG("root == NULL");
+		return NULL;
+	}
+
+	XmlElement* node = root->firstChildElement();
+	if (node == NULL) {
+		ERROR_DUYE_LOG("FirstChildElement == NULL");
+		return NULL;
+	}
+
+	XmlElement* found_node = node;
+	std::list<NodeAndNamePair>::const_iterator pair_iter = nodeAndNameList.begin();
+	for (; pair_iter != nodeAndNameList.end(); ++pair_iter) {
+		found_node = recursion(found_node, pair_iter->node, pair_iter->name);
+		if (!found_node) {
+			break;
+		} else {
+			found_node = found_node->firstChildElement();
+		}
+	}
+
+	return found_node;
+}
+
+bool CfgMgr::getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList, const std::list<std::string>& attrList, NodeList& nodeList) {
+	XmlElement* root = m_cfgDoc.rootElement();
+	if (root == NULL) {
+		ERROR_DUYE_LOG("root == NULL");
+		return false;
+	}
+
+	XmlElement* node = root->firstChildElement();
+	if (node == NULL) {
+		ERROR_DUYE_LOG("FirstChildElement == NULL");
+		return false;
+	}
+
+	XmlElement* found_node = node;
+	bool judge_name = true;
+	std::list<NodeAndNamePair>::const_iterator iter = nodeAndNameList.begin();
+	for (; iter != nodeAndNameList.end(); ++iter) {
+		if (iter->name.empty()) {
+			judge_name = false;
+		}
+		
+		found_node = recursion(found_node, iter->node, iter->name, judge_name);
+		if (!found_node) {
+			break;
+		} else {
+			found_node = found_node->firstChildElement();
+		}
+	}
+
+	if (found_node) {
+		while (found_node) {
+			std::list<std::pair<std::string, std::string> > value_list;
+			std::list<std::string>::const_iterator attr_iter = attrList.begin();
+			for (; attr_iter != attrList.end(); ++attr_iter) {
+				const int8* value = found_node->attribute(attr_iter->c_str());
+				if (value) {
+					value_list.push_back(std::make_pair(*attr_iter, value));
+				}
 			}
 			
-			XmlElement* childElement2 = childElement->firstChildElement();
-			for (; childElement2 != NULL; childElement2 = childElement2->nextSiblingElement())
-			{
-				if (childElement->valueStr() == pathArray[2])
-				tempText = childElement->getText();
-				if (tempText == NULL)
-					return "";
-
-				outText.assign(tempText);
-			}
-		}        
+			nodeList.push_back(value_list);			
+			found_node = found_node->nextSiblingElement();
+		}
+	} else {
+		return false;
 	}
-	
-	return outText;
+
+	return true;
 }
 
-bool CfgMgr::setText(const std::string& path, const std::string& val)
-{
-	return true;
+XmlElement* CfgMgr::recursion(XmlElement* node, const std::string& node_name, const std::string& name_attr, bool judge_name) {
+	if (!node) {
+		return NULL;
+	}
+
+	if (judge_name && name_attr.empty()) return NULL;
+
+	if (node->value() != node_name) {
+		return recursion(node->nextSiblingElement(), node_name, name_attr, judge_name);
+	} else if (judge_name) {
+		const int8* value = node->attribute("name");
+		if (value == NULL || value != name_attr) {
+			return recursion(node->nextSiblingElement(), node_name, name_attr, judge_name);
+		}
+	}
+	
+	return node;
 }
 
 }

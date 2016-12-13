@@ -92,7 +92,7 @@ int32 System::shell(const int8* args, ...) {
     va_end(vaList);	
 	cmd[strLen] = 0;
 
-	return System::shell(cmd, NULL);
+	return System::shell(cmd, NULL, 0);
 }
 
 int32 System::shell(const uint32 cmd_len, const int8* args, ...) {
@@ -105,7 +105,7 @@ int32 System::shell(const uint32 cmd_len, const int8* args, ...) {
     va_end(vaList);	
 	cmd[strLen] = 0;
 
-	return System::shell(cmd, NULL);
+	return System::shell(cmd, NULL, 0);
 }
 
 int32 System::shell(std::string& result, const int8* args, ...) {

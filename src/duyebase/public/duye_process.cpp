@@ -67,7 +67,7 @@ uint32 Process::limitFile() const
 
 bool Process::wait(const uint32 timeout)
 {
-    m_exitCondition.wait(timeout);
+    m_exitCondition.wait(timeout * 1000);
 	return m_processStatus == PROCESS_EXIT ? true : false;
 }
 

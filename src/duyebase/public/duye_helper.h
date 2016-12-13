@@ -156,6 +156,10 @@ public:
 	 */   
 	static void split(const std::string& inStr, const int8 separator, std::vector<std::string>& outArray);
 	static void split(const std::string& inStr, const std::string& separator, std::vector<std::string>& outArray);
+	static void split(const std::string& inStr, const int8 separator, std::list<std::string>& outArray);
+	static void split(const std::string& inStr, const std::string& separator, std::list<std::string>& outArray);
+	static void split(const std::string& inStr, const int8 separator, std::set<std::string>& outArray);
+	static void split(const std::string& inStr, const std::string& separator, std::set<std::string>& outArray);	
 
 	/**
 	 * @brief get line.

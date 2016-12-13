@@ -453,6 +453,30 @@ void StrHelper::split(const std::string& inStr, const std::string& separator, st
 	}
 }
 
+void StrHelper::split(const std::string& inStr, const int8 separator, std::list<std::string>& outArray) {
+	std::vector<std::string> temp_array;
+	split(inStr, separator, temp_array);
+	outArray.assign(temp_array.begin(), temp_array.end());
+}
+
+void StrHelper::split(const std::string& inStr, const std::string& separator, std::list<std::string>& outArray) {
+	std::vector<std::string> temp_array;
+	split(inStr, separator, temp_array);
+	outArray.assign(temp_array.begin(), temp_array.end());
+}
+
+void StrHelper::split(const std::string& inStr, const int8 separator, std::set<std::string>& outArray) {
+	std::vector<std::string> temp_array;
+	split(inStr, separator, temp_array);
+	outArray.insert(temp_array.begin(), temp_array.end());
+}
+
+void StrHelper::split(const std::string& inStr, const std::string& separator, std::set<std::string>& outArray) {
+	std::vector<std::string> temp_array;
+	split(inStr, separator, temp_array);
+	outArray.insert(temp_array.begin(), temp_array.end());
+}
+
 bool StrHelper::getLine(const std::string& inStr, const int8* sepStr, std::list<std::string>& lineList) {
 	if (inStr.empty() || sepStr == NULL) {
 		return false;
