@@ -79,43 +79,80 @@ bool CfgMgr::loadData(const std::string cfgData)
     return loadData(cfgData.c_str());
 }
 
-bool CfgMgr::setValue(const std::string& path, const bool value, int8* attName)
+bool CfgMgr::setValue(const std::string& path, const bool value, const std::string& attName)
 {
     return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const int32 value, int8* attName)
+bool CfgMgr::setValue(const std::string& path, const bool value)
+{
+    return setText(path, StrHelper::toStr(value), "");
+}
+
+bool CfgMgr::setValue(const std::string& path, const int32 value, const std::string& attName)
 {
     return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const int64 value, int8* attName)
+bool CfgMgr::setValue(const std::string& path, const int32 value)
+{
+    return setText(path, StrHelper::toStr(value), "");
+}
+
+bool CfgMgr::setValue(const std::string& path, const int64 value, const std::string& attName)
 {
     return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const uint32 value, int8* attName)
+bool CfgMgr::setValue(const std::string& path, const int64 value)
+{
+    return setText(path, StrHelper::toStr(value), "");
+}
+
+bool CfgMgr::setValue(const std::string& path, const uint32 value, const std::string& attName)
 {
     return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const uint64 value, int8* attName)
+bool CfgMgr::setValue(const std::string& path, const uint32 value)
+{
+    return setText(path, StrHelper::toStr(value), "");
+}
+
+bool CfgMgr::setValue(const std::string& path, const uint64 value, const std::string& attName)
 {
     return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const int8* value, int8* attName)
+bool CfgMgr::setValue(const std::string& path, const uint64 value)
+{
+    return setText(path, StrHelper::toStr(value), "");
+}
+
+bool CfgMgr::setValue(const std::string& path, const int8* value, const std::string& attName)
 {
     return setText(path, StrHelper::toStr(value), attName);
 }
 
-bool CfgMgr::setValue(const std::string& path, const std::string& value, int8* attName)
+bool CfgMgr::setValue(const std::string& path, const int8* value)
+{
+    return setText(path, StrHelper::toStr(value), "");
+}
+
+bool CfgMgr::setValue(const std::string& path, const std::string& value, const std::string& attName)
 {
     return setText(path, value, attName);
 }
 
-bool CfgMgr::getValue(const std::string& path, bool& value, int8* attName)
+bool CfgMgr::setValue(const std::string& path, const std::string& value)
 {
+    return setText(path, value, "");
+}
+
+bool CfgMgr::getValue(const std::string& path, bool& value, const std::string& attName)
+{
+	if (attName.empty()) return false;
+	
     std::string text = getText(path, attName);
 	if (text.empty())
 		return false;
@@ -125,8 +162,21 @@ bool CfgMgr::getValue(const std::string& path, bool& value, int8* attName)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, int16& value, int8* attName)
+bool CfgMgr::getValue(const std::string& path, bool& value)
+{ 
+    std::string text = getText(path, "");
+	if (text.empty())
+		return false;
+
+	value = StrHelper::toBool(text);
+
+	return true;
+}
+
+bool CfgMgr::getValue(const std::string& path, int16& value, const std::string& attName)
 {
+	if (attName.empty()) return false;
+	
     std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
@@ -136,8 +186,21 @@ bool CfgMgr::getValue(const std::string& path, int16& value, int8* attName)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, int32& value, int8* attName)
+bool CfgMgr::getValue(const std::string& path, int16& value)
 {
+    std::string text = getText(path, "");
+	if (text.empty() || !StrHelper::isNums(text))
+		return false;
+
+	value = (int32)StrHelper::toInt(text);
+
+	return true;
+}
+
+bool CfgMgr::getValue(const std::string& path, int32& value, const std::string& attName)
+{
+	if (attName.empty()) return false;
+	
     std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
@@ -147,8 +210,21 @@ bool CfgMgr::getValue(const std::string& path, int32& value, int8* attName)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, int64& value, int8* attName)
+bool CfgMgr::getValue(const std::string& path, int32& value)
 {
+    std::string text = getText(path, "");
+	if (text.empty() || !StrHelper::isNums(text))
+		return false;
+
+	value = (int32)StrHelper::toInt(text);
+
+	return true;
+}
+
+bool CfgMgr::getValue(const std::string& path, int64& value, const std::string& attName)
+{
+	if (attName.empty()) return false;
+	
     std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
@@ -158,8 +234,21 @@ bool CfgMgr::getValue(const std::string& path, int64& value, int8* attName)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, uint16& value, int8* attName)
+bool CfgMgr::getValue(const std::string& path, int64& value)
 {
+    std::string text = getText(path, "");
+	if (text.empty() || !StrHelper::isNums(text))
+		return false;
+
+	value = (int64)StrHelper::toInt(text);
+
+	return true;
+}
+
+bool CfgMgr::getValue(const std::string& path, uint16& value, const std::string& attName)
+{
+	if (attName.empty()) return false;
+	
     std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
@@ -169,8 +258,21 @@ bool CfgMgr::getValue(const std::string& path, uint16& value, int8* attName)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, uint32& value, int8* attName)
+bool CfgMgr::getValue(const std::string& path, uint16& value)
 {
+    std::string text = getText(path, "");
+	if (text.empty() || !StrHelper::isNums(text))
+		return false;
+
+	value = (uint32)StrHelper::toInt(text);
+
+	return true;
+}
+
+bool CfgMgr::getValue(const std::string& path, uint32& value, const std::string& attName)
+{
+	if (attName.empty()) return false;
+	
     std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
@@ -180,8 +282,21 @@ bool CfgMgr::getValue(const std::string& path, uint32& value, int8* attName)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, uint64& value, int8* attName)
+bool CfgMgr::getValue(const std::string& path, uint32& value)
 {
+    std::string text = getText(path, "");
+	if (text.empty() || !StrHelper::isNums(text))
+		return false;
+
+	value = (uint32)StrHelper::toInt(text);
+
+	return true;
+}
+
+bool CfgMgr::getValue(const std::string& path, uint64& value, const std::string& attName)
+{
+	if (attName.empty()) return false;
+	
     std::string text = getText(path, attName);
 	if (text.empty() || !StrHelper::isNums(text))
 		return false;
@@ -191,8 +306,21 @@ bool CfgMgr::getValue(const std::string& path, uint64& value, int8* attName)
 	return true;
 }
 
-bool CfgMgr::getValue(const std::string& path, std::string& value, int8* attName)
+bool CfgMgr::getValue(const std::string& path, uint64& value)
 {
+    std::string text = getText(path, "");
+	if (text.empty() || !StrHelper::isNums(text))
+		return false;
+
+	value = (uint64)StrHelper::toInt(text);
+
+	return true;
+}
+
+bool CfgMgr::getValue(const std::string& path, std::string& value, const std::string& attName)
+{
+	if (attName.empty()) return false;
+	
     std::string text = getText(path, attName);
 	if (text.empty())
 		return false;
@@ -200,6 +328,36 @@ bool CfgMgr::getValue(const std::string& path, std::string& value, int8* attName
 	value = text;
 
 	return true;
+}
+
+bool CfgMgr::getValue(const std::string& path, std::string& value)
+{
+    std::string text = getText(path, "");
+	if (text.empty())
+		return false;
+
+	value = text;
+
+	return true;
+}
+
+std::string CfgMgr::getValue(const std::string& path, const std::string& attName) {
+	if (attName.empty()) return "";
+	return getText(path, attName);	
+}
+
+std::string CfgMgr::getValue(const int8* path, const int8* attName) {
+	if (!attName || strlen(attName) == 0) return "";
+	return getText(path, attName);
+}
+
+std::string CfgMgr::getValue(const std::string& path) {
+	return getText(path, "");		
+}
+
+std::string CfgMgr::getValue(const int8* path) {
+	if (!path) return "";
+	return getText(path, "");
 }
 
 bool CfgMgr::getNodes(const std::string& path, const std::list<std::string>& attrList, NodeList& nodeList) {
@@ -235,7 +393,7 @@ uint8* CfgMgr::error() {
 	return m_error.error;
 }
 
-std::string CfgMgr::getText(const std::string& path, int8* attName)
+std::string CfgMgr::getText(const std::string& path, const std::string& attName)
 {	
 	std::list<duye::NodeAndNamePair> node_and_name_list;
 	if (!parsePath(path, node_and_name_list)) return "";
@@ -251,14 +409,16 @@ std::string CfgMgr::getText(const std::string& path, int8* attName)
 	XmlElement* node = getNode(node_and_name_list);
 	if (!node) return "";
 
-	if (!attName) {
+	if (attName.empty()) {
 		return node->getText();
 	} else {
-		return node->attribute(attName);
+		return *(node->attribute(attName));
 	}	
+
+	return "";
 }
 
-bool CfgMgr::setText(const std::string& path, const std::string& val, int8* attName)
+bool CfgMgr::setText(const std::string& path, const std::string& val, const std::string& attName)
 {	
 	std::list<duye::NodeAndNamePair> node_and_name_list;
 	if (!parsePath(path, node_and_name_list)) return false;
@@ -274,10 +434,10 @@ bool CfgMgr::setText(const std::string& path, const std::string& val, int8* attN
 	XmlElement* node = getNode(node_and_name_list);
 	if (!node) return false;
 
-	if (!attName) {
-		return node->text();
+	if (attName.empty()) {
+		node->setText(val.c_str());
 	} else {
-		return node->setAttribute(attr_name, val);
+		node->setAttribute(attName, val);
 	}	
 	
 	m_cfgDoc.saveFile(m_cfgFilePath);

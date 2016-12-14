@@ -89,13 +89,20 @@ public:
      * 		</node>
   	 *	</mangjing>
      */
-    bool setValue(const std::string& path, const bool value, int8* attName = NULL);
-    bool setValue(const std::string& path, const int32 value, int8* attName = NULL);
-    bool setValue(const std::string& path, const int64 value, int8* attName = NULL);
-    bool setValue(const std::string& path, const uint32 value, int8* attName = NULL);
-    bool setValue(const std::string& path, const uint64 value, int8* attName = NULL);
-    bool setValue(const std::string& path, const int8* value, int8* attName = NULL);
-    bool setValue(const std::string& path, const std::string& value, int8* attName = NULL);
+    bool setValue(const std::string& path, const bool value, const std::string& attName);
+	bool setValue(const std::string& path, const bool value);
+    bool setValue(const std::string& path, const int32 value, const std::string& attName);
+	bool setValue(const std::string& path, const int32 value);
+    bool setValue(const std::string& path, const int64 value, const std::string& attName);
+	bool setValue(const std::string& path, const int64 value);
+    bool setValue(const std::string& path, const uint32 value, const std::string& attName);
+	bool setValue(const std::string& path, const uint32 value);
+    bool setValue(const std::string& path, const uint64 value, const std::string& attName);
+	bool setValue(const std::string& path, const uint64 value);
+    bool setValue(const std::string& path, const int8* value, const std::string& attName);
+	bool setValue(const std::string& path, const int8* value);
+    bool setValue(const std::string& path, const std::string& value, const std::string& attName);
+	bool setValue(const std::string& path, const std::string& value);
     
     /**
      * @brief get configuration value
@@ -117,15 +124,26 @@ public:
      * 		</node>
   	 *	</mangjing>
      */
-    bool getValue(const std::string& path, bool& value, int8* attName = NULL);
-    bool getValue(const std::string& path, int16& value, int8* attName = NULL);
-    bool getValue(const std::string& path, int32& value, int8* attName = NULL);
-    bool getValue(const std::string& path, int64& value, int8* attName = NULL);
-    bool getValue(const std::string& path, uint16& value, int8* attName = NULL);
-    bool getValue(const std::string& path, uint32& value, int8* attName = NULL);
-    bool getValue(const std::string& path, uint64& value, int8* attName = NULL);
-    bool getValue(const std::string& path, std::string& value, int8* attName = NULL);
-	std::string getValue(const std::string& path, int8* attName = NULL);
+    bool getValue(const std::string& path, bool& value, const std::string& attName);
+	bool getValue(const std::string& path, bool& value);
+    bool getValue(const std::string& path, int16& value, const std::string& attName);
+	bool getValue(const std::string& path, int16& value);
+    bool getValue(const std::string& path, int32& value, const std::string& attName);
+	bool getValue(const std::string& path, int32& value);
+    bool getValue(const std::string& path, int64& value, const std::string& attName);
+	bool getValue(const std::string& path, int64& value);
+    bool getValue(const std::string& path, uint16& value, const std::string& attName);
+	bool getValue(const std::string& path, uint16& value);
+    bool getValue(const std::string& path, uint32& value, const std::string& attName);
+	bool getValue(const std::string& path, uint32& value);
+    bool getValue(const std::string& path, uint64& value, const std::string& attName);
+	bool getValue(const std::string& path, uint64& value);
+    bool getValue(const std::string& path, std::string& value, const std::string& attName);
+	bool getValue(const std::string& path, std::string& value);
+	std::string getValue(const std::string& path, const std::string& attName);
+	std::string getValue(const int8* path, const int8* attName);
+	std::string getValue(const std::string& path);
+	std::string getValue(const int8* path);
 
 	bool getNodes(const std::string& path, const std::list<std::string>& attrList, NodeList& nodeList);
     
@@ -149,8 +167,8 @@ public:
     uint8* error();	
 
 private:
-	std::string getText(const std::string& path, int8* attName);
-	bool setText(const std::string& path, const std::string& val, int8* attName);
+	std::string getText(const std::string& path, const std::string& attName);
+	bool setText(const std::string& path, const std::string& val, const std::string& attName);
 	bool parsePath(const std::string& path, std::list<duye::NodeAndNamePair>& nodeAndNameList);
 	XmlElement* getNode(const std::list<duye::NodeAndNamePair>& nodeAndNameList);
 	bool getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList, const std::list<std::string>& attrList, NodeList& nodeList);

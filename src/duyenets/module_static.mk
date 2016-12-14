@@ -18,9 +18,9 @@ SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir))
 
 LIBS_PATH:=
 
-LIBS:=duyebase 
+LIBS:=
 
-SLIBS:=
+SLIBS:=$(LIB_DIR)/libduyebase.a
 
 OUT_HEADS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir)/*.h)
 

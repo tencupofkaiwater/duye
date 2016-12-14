@@ -75,16 +75,15 @@ cleanall:clean
 
 install:uninstall
 ifdef VERSION
-	@echo "Start Install `basename $(TARGET_FILE)`"
-	@mkdir -p $(INS_LIB_DIR)     
-	@mkdir -p $(INS_LIB_DIR)/$(MODULE)     
-	@cp -f $(LIB_DIR)/$(TARGET).a.$(VERSION) $(INS_LIB_DIR)/$(MODULE)
-	@cd $(INS_LIB_DIR) && ln -snf $(MODULE)/$(TARGET).a.$(VERSION) $(TARGET).a
-	@echo "Install `basename $(TARGET_FILE)` to $(INS_LIB_DIR)/$(MODULE) Complete"
+	@#echo "Start Install `basename $(TARGET_FILE)`"
+	@#mkdir -p $(INS_LIB_DIR)     
+	@#mkdir -p $(INS_LIB_DIR)/$(MODULE)     
+	@#cp -f $(LIB_DIR)/$(TARGET).a.$(VERSION) $(INS_LIB_DIR)/$(MODULE)
+	@#cd $(INS_LIB_DIR) && ln -snf $(MODULE)/$(TARGET).a.$(VERSION) $(TARGET).a
+	@#echo "Install `basename $(TARGET_FILE)` to $(INS_LIB_DIR)/$(MODULE) Complete"
 endif
 
 uninstall:
-	@echo "Start uninstall `basename $(TARGET_FILE)`"
-	@rm -f $(INS_LIB_DIR)/$(TARGET).a*
-	@echo "Install `basename $(TARGET_FILE)` to $(LIB_DIR) Complete"
-	@echo "Uninstall `basename $(TARGET_FILE)` to $(INS_LIB_DIR)/$(MODULE) Complete"
+	@#echo "Start uninstall `basename $(TARGET_FILE)`"
+	@#rm -f $(INS_LIB_DIR)/$(TARGET).a*
+	@#echo "Uninstall `basename $(TARGET_FILE)` to $(INS_LIB_DIR)/$(MODULE) Complete"

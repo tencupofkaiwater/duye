@@ -967,6 +967,18 @@ const char* XmlElement::getText() const
     return 0;
 }
 
+void XmlElement::setText(const char* value) {
+    XmlNode* child = this->firstChild();
+    if (child != NULL) 
+    {
+        XmlText* childText = child->toText();
+        if (childText != NULL) 
+        {
+            return childText->setValue(value);
+        }
+    }
+}
+
 XmlDocument::XmlDocument() : XmlNode(XmlNode::NYXML_DOCUMENT)
 {
     m_tabsize = 4;

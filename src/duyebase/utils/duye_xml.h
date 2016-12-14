@@ -1195,6 +1195,7 @@ public:
      * safe type casts on the referenced node.
      */
     const char* getText() const;
+	void setText(const char* value);
 
     /// Creates a new Element and returns it - the returned element is a copy.
     virtual XmlNode* clone() const;

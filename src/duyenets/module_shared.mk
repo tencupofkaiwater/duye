@@ -18,7 +18,7 @@ SRCDIRS:=$(foreach dir, $(SUBDIRS), $(BUILD_PATH)/$(dir))
 
 LIBS_PATH:=
 
-LIBS:=duyebase 
+LIBS:=duyebase
 
 SLIBS:=
 

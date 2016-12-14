@@ -53,8 +53,8 @@ bool DBServer::initServer(const int8* confFile)
     }   
 
     // check server_ip
-    if (!m_cfgMgr.getValue("duyedbserver.server_ip").empty() && 
-        !duye::StrHelper::isIpAddr(m_cfgMgr.getValue("duyedbserver.server_ip")))
+    if (!m_cfgMgr.getValue("node:global.param:server_ip", "value").empty() && 
+        !duye::StrHelper::isIpAddr(m_cfgMgr.getValue("node:global.param:server_ip", "value")))
     {
         DUYE_WARN("duyedbserver.server_ip format error");
         return false;
