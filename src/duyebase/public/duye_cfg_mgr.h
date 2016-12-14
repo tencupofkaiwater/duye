@@ -51,8 +51,31 @@ public:
  */
 class CfgMgr
 {
-public:
-	typedef std::list<std::list<std::pair<std::string/*attr_name*/, std::string/*attr_value*/> > > NodeList;
+	class ParamNode {
+		typedef std::map<std::string/*name*/, std::string/*value*/> PairMap;
+		
+	public:
+		ParamNode() {}
+
+		uint32 size() { return m_pair_map.size(); }
+		void addPair(const std::string& attrName, const std::string& attrValue) {
+			m_pair_map.insert(std::make_pair(attrName, attrValue));
+		}
+
+		std::string getValue(const std::string& attrName) {
+			PairMap::iterator iter = m_pair_map.find(attrName);
+			if (iter == m_pair_map.end()) {
+				return "";
+			}
+
+			return iter->second;
+		}
+
+	private:
+		PairMap m_pair_map;
+	};
+	
+	typedef std::list<ParamNode> ParamNodeList;
 
 public:
     CfgMgr();
@@ -145,7 +168,7 @@ public:
 	std::string getValue(const std::string& path);
 	std::string getValue(const int8* path);
 
-	bool getNodes(const std::string& path, const std::list<std::string>& attrList, NodeList& nodeList);
+	bool getNodes(const std::string& path, const std::list<std::string>& attrList, ParamNodeList& nodeList);
     
     /**
      * @brief save configuration 
@@ -171,7 +194,7 @@ private:
 	bool setText(const std::string& path, const std::string& val, const std::string& attName);
 	bool parsePath(const std::string& path, std::list<duye::NodeAndNamePair>& nodeAndNameList);
 	XmlElement* getNode(const std::list<duye::NodeAndNamePair>& nodeAndNameList);
-	bool getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList, const std::list<std::string>& attrList, NodeList& nodeList);
+	bool getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList, const std::list<std::string>& attrList, ParamNodeList& nodeList);
 	XmlElement* recursion(XmlElement* node, const std::string& node_name, const std::string& name_attr, bool judge_name = true);
     
 private:

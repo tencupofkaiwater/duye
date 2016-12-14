@@ -360,7 +360,7 @@ std::string CfgMgr::getValue(const int8* path) {
 	return getText(path, "");
 }
 
-bool CfgMgr::getNodes(const std::string& path, const std::list<std::string>& attrList, NodeList& nodeList) {
+bool CfgMgr::getNodes(const std::string& path, const std::list<std::string>& attrList, ParamNodeList& nodeList) {
 	std::list<duye::NodeAndNamePair> node_and_name_list;
 	if (!parsePath(path, node_and_name_list)) return "";
 
@@ -497,7 +497,7 @@ XmlElement* CfgMgr::getNode(const std::list<duye::NodeAndNamePair>& nodeAndNameL
 	return found_node;
 }
 
-bool CfgMgr::getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList, const std::list<std::string>& attrList, NodeList& nodeList) {
+bool CfgMgr::getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList, const std::list<std::string>& attrList, ParamNodeList& nodeList) {
 	XmlElement* root = m_cfgDoc.rootElement();
 	if (root == NULL) {
 		ERROR_DUYE_LOG("root == NULL");
@@ -528,16 +528,16 @@ bool CfgMgr::getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList
 
 	if (found_node) {
 		while (found_node) {
-			std::list<std::pair<std::string, std::string> > value_list;
+			ParamNode param_node;
 			std::list<std::string>::const_iterator attr_iter = attrList.begin();
 			for (; attr_iter != attrList.end(); ++attr_iter) {
 				const int8* value = found_node->attribute(attr_iter->c_str());
 				if (value) {
-					value_list.push_back(std::make_pair(*attr_iter, value));
+					param_node.addPair(*attr_iter, value);
 				}
 			}
 			
-			nodeList.push_back(value_list);			
+			nodeList.push_back(param_node);			
 			found_node = found_node->nextSiblingElement();
 		}
 	} else {
