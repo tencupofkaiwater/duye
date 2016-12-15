@@ -31,7 +31,7 @@ class Error
 {
 public:
 	Error() : errorLog(NULL), errorBufSize(0) {
-		uint32 size = snprintf((char*)error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m");		
+		uint32 size = snprintf((char*)error, ERROR_BUF_SIZE, "\033[1;31;40m[error]\033[0m");	
 		error[size] = 0;
 		errorBufSize = ERROR_BUF_SIZE - size - 1;
 		errorLog = error + size;
@@ -42,7 +42,7 @@ public:
 	void setPrefix(const int8* prefix) {
 		if (prefix == NULL) return;
 		
-		uint32 size = snprintf((char*)error, ERROR_BUF_SIZE, "\033[1;31;40m<error>\033[0m<%s>", prefix);		
+		uint32 size = snprintf((char*)error, ERROR_BUF_SIZE, "\033[1;31;40m[error]\033[0m<%s>", prefix);		
 		error[size] = 0;
 		errorBufSize = ERROR_BUF_SIZE - size - 1;
 		errorLog = error + size;

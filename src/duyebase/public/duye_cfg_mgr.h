@@ -51,6 +51,7 @@ public:
  */
 class CfgMgr
 {
+public:
 	class ParamNode {
 		typedef std::map<std::string/*name*/, std::string/*value*/> PairMap;
 		
@@ -183,11 +184,10 @@ public:
     void toString(std::string& outString);
 
     /**
-     * @brief get last error string
-     * @return error
-     * @note 
-     */		
-    uint8* error();	
+     * @brief get config file path
+     * @return path
+     */
+    const std::string& getConfPath() const;
 
 private:
 	std::string getText(const std::string& path, const std::string& attName);
@@ -198,7 +198,6 @@ private:
 	XmlElement* recursion(XmlElement* node, const std::string& node_name, const std::string& name_attr, bool judge_name = true);
     
 private:
-	Error			m_error;
     std::string     m_cfgFilePath;
     XmlDocument 	m_cfgDoc;
 };

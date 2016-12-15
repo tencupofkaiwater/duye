@@ -955,7 +955,7 @@ XmlNode* XmlElement::clone() const
 const char* XmlElement::getText() const
 {
     const XmlNode* child = this->firstChild();
-    if (child != NULL) 
+    if (child != NULL)
     {
         const XmlText* childText = child->toText();
         if (childText != NULL) 
@@ -964,7 +964,7 @@ const char* XmlElement::getText() const
         }
     }
     
-    return 0;
+    return NULL;
 }
 
 void XmlElement::setText(const char* value) {

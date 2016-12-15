@@ -297,8 +297,8 @@ bool System::limitCpu(const char* process_name, const uint16 cpu_percent) {
     std::string conf_dir = conf_dir_base + process_name;
     uint32 quota = cpu_percent * 1000;
 
-    return System::shell("mkdir -p %s; echo %u > %s/cpu.cfs_quota_us; echo %d > %s/tasks", 
-		conf_dir.c_str(), quota, pid, conf_dir.c_str()) == 0;
+    return System::shell("mkdir -p %s; echo %u > %s/cpu.cfs_quota_us; echo %d > %s/tasks",
+		conf_dir.c_str(), quota, conf_dir.c_str(), pid, conf_dir.c_str()) == 0;
 }
 
 bool System::getIPAddrByDevName(const std::string& phyCardName, std::string& ipAddr)

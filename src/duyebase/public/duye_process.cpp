@@ -67,8 +67,8 @@ uint32 Process::limitFile() const
 
 bool Process::wait(const uint32 timeout)
 {
-    m_exitCondition.wait(timeout * 1000);
-	return m_processStatus == PROCESS_EXIT ? true : false;
+    bool ret = m_exitCondition.wait(timeout * 1000);
+	return (m_processStatus == PROCESS_EXIT || ret) ? true : false;
 }
 
 void Process::wakeup()
@@ -85,19 +85,17 @@ void Process::onSignalHandler(const SignalType sigType)
     	switch (sigType)
         {
 	    case D_SIGSEGV:
-	    	(*iter)->onSegFault();
 			m_processStatus = PROCESS_EXIT;
+	    	(*iter)->onSegFault();
 	    	break;
 	    case D_SIGINT:
-	    	(*iter)->onCtrlC();
 			m_processStatus = PROCESS_EXIT;
+	    	(*iter)->onCtrlC();
 	     	break;
 	    default:
 	    	(*iter)->onOther(sigType);
 	    	break;
         }
-    }    
-
-	wakeup();
+    }
 }
 }

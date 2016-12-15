@@ -86,6 +86,7 @@ void ProcessSysCallback::signalHandler(const int32 sig)
 		signalType = D_SIG;
 		break;
 	}
+	
     m_observer->onSignalHandler(signalType);
 }
 
