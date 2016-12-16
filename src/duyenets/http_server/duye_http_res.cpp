@@ -55,8 +55,54 @@ bool HttpRes::getJsonParaValue(const std::string& name, std::string& value) {
 	return true;
 }
 
+std::string HttpRes::getJsonParaValue(const std::string& name) {
+	ParamPairs::iterator iter = m_jsons.find(name);
+	if (iter == m_jsons.end()) {
+		return "";
+	}
+
+	return iter->second;
+}
+
 const ParamPairs& HttpRes::getJsonParaMap() const {
 	return m_jsons;
+}
+
+void HttpRes::setStatusCode(const HttpResCode& code) {
+	switch (code) {
+	case HTTP_CODE_200:
+		m_header.setHeaderValue(HTTP_RES_CODE, "200");
+		break;
+	case HTTP_CODE_404:
+		m_header.setHeaderValue(HTTP_RES_CODE, "404");
+		break;
+	case HTTP_CODE_503:
+		m_header.setHeaderValue(HTTP_RES_CODE, "503");
+		break;
+	case HTTP_CODE_506:
+		m_header.setHeaderValue(HTTP_RES_CODE, "506");
+		break;		
+	default:
+		break;
+	}
+}
+
+HttpResCode HttpRes::getStatusCode() const {
+	std::string code = m_header.getHeaderValue(HTTP_RES_CODE);
+
+	if (code == "200") {
+		return HTTP_CODE_200;
+	} else if (code == "404") {
+		return HTTP_CODE_404;
+	} else if (code == "503") {
+		return HTTP_CODE_503;
+	} else if (code == "506") {
+		return HTTP_CODE_506;
+	} else {
+		return HTTP_CODE_MAX;
+	}
+
+	return HTTP_CODE_MAX;
 }
 
 uint8* HttpRes::getError() {

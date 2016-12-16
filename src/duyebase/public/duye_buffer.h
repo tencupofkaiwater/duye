@@ -28,7 +28,8 @@ public:
 	Buffer(const Buffer& buffer);
 	~Buffer();
 
-	bool init(const uint32 size);
+	bool init(const uint32 capacity);
+	bool append(const int8* data, const uint32 len);
 	int8* data();
 	int8* data() const;
 	uint32 size();
@@ -47,6 +48,7 @@ public:
 private:
 	Error m_error;
 	int8* m_data;
+	uint32 m_capacity;
 	uint32 m_size;
 };
 

@@ -61,8 +61,8 @@ bool Condition::wait(const uint32 timeout)
 
     gettimeofday(&now, 0);     
 
-    tmpTimeout.tv_sec = now.tv_sec + timeout / 1000;       
-    tmpTimeout.tv_nsec = now.tv_usec * 1000 + timeout % 1000 * 1000 * 1000;    
+    tmpTimeout.tv_sec = now.tv_sec + timeout / 1000;     
+    tmpTimeout.tv_nsec = now.tv_usec * 1000 + timeout % 1000 * 1000 * 1000;  
 
     pthread_mutex_lock(&m_mutex);
     int32 ret = pthread_cond_timedwait(&m_condition, &m_mutex, &tmpTimeout);

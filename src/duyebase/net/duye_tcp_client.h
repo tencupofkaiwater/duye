@@ -48,7 +48,7 @@ public:
      * @return size/-1
      * @note 
      */	
-    int64 recv(int8* buffer, const uint64 size, const bool isBlock = true); 
+    int64 recv(int8* buffer, const uint64 size, const bool isBlock = true);
     
     /**
      * @brief send data

@@ -20,12 +20,12 @@ namespace duye {
 
 static const int8* DUYE_LOG_PREFIX = "duyebase.buffer";
 
-Buffer::Buffer() : m_data(NULL), m_size(0) 
+Buffer::Buffer() : m_data(NULL), m_capacity(0), m_size(0)
 {
 	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
-Buffer::Buffer(const uint32 size) : m_data(NULL), m_size(0) {
+Buffer::Buffer(const uint32 size) : m_data(NULL), m_capacity(0), m_size(0) {
 	m_error.setPrefix(DUYE_LOG_PREFIX);
 	init(size);	
 }
@@ -45,15 +45,26 @@ Buffer::~Buffer() {
 	}
 }
 
-bool Buffer::init(const uint32 size) {
-	m_data = new int8[size];
+bool Buffer::init(const uint32 capacity) {
+	m_data = new int8[capacity];
 	if (!m_data) {
 		ERROR_DUYE_LOG("new memory failed");
 		return false;
 	} else {
-		m_size = size;
+		m_capacity = capacity;
 	}
 
+	return true;
+}
+
+bool Buffer::append(const int8* data, const uint32 len) {
+	if (m_size + len >= m_capacity) {
+		ERROR_DUYE_LOG("Buffer capacity(%d) too small", m_capacity);
+		return false;
+	}
+
+	memcpy(m_data + m_size, data, len);
+	m_size += len;
 	return true;
 }
 

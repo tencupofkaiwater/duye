@@ -26,6 +26,7 @@
 #include <memory>
 #include <list>
 
+#include <duye_sys.h>
 #include <duye_type.h>
 
 namespace duye {

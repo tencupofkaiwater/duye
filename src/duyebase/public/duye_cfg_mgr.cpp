@@ -724,7 +724,7 @@ XmlElement* CfgMgr::recursion(XmlElement* node, const std::string& node_name, co
 		}
 	}
 
-	DUYE_DEBUG("find node = %p", node);
+	DUYE_DEBUG("find node = %s", node_name.c_str());
 	
 	return node;
 }

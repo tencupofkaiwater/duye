@@ -58,7 +58,7 @@ public:
     /**
      * @brief let current thread has reached the awaited state,
      * utill be wake up or timeout return
-     * @param [in] timeout : waitting timeout
+     * @param [in] timeout : waitting timeout, unit millisecond
      * @return true/false
      * @note 
      */	

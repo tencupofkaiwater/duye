@@ -24,6 +24,12 @@
 
 namespace duye {
 
+class HttpClientIf {
+public:
+	virtual HttpClientIf();
+	virtual bool onMsg(const HttpRes& res) const = 0;
+};
+
 /**
  * @brief http client
  */
@@ -41,6 +47,8 @@ public:
 	bool connect();
 	bool connect(const std::string& server_ip, const uint16 server_port = 80);
 
+	bool disconnect();
+
     /**
      * @brief http request.
      * @param [in] req : http request.
@@ -48,19 +56,19 @@ public:
      * @param [in] is_block : request mode, default is block.
      * @return : true/false
      */
-    bool request(const HttpReq& req, HttpRes& res, const bool is_block = true);
+    bool request(const HttpReq& req, HttpRes& res);
+	bool request(const HttpReq& req, const HttpClientIf* onMsger);
 
-	/**
-	 * @brief get error description.
-	 * @return error description.
-	 */
-	uint8* getError();
+	const std::string& getServerIP();
+	uint16 getServerPort();
+
+	void regist(const HttpClientIf* onMsger);
 
 private:
-	Error 		m_error;
     TcpClient  	m_tcp_client;
     std::string m_server_ip;
     uint16      m_server_port;
-    bool        m_is_connected;	
+    bool        m_is_connected;
+	HttpClientIf* m_on_msger;
 };
 }

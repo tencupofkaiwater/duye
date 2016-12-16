@@ -34,7 +34,10 @@ public:
 	const HttpResHeader& getHeader() const;
 	const Buffer& getBody() const;
 	bool getJsonParaValue(const std::string& name, std::string& value);
+	std::string getJsonParaValue(const std::string& name);
 	const ParamPairs& getJsonParaMap() const;
+	void setStatusCode(const HttpResCode& code);
+	std::string getStatusCode() const;
 
 	/**
 	 * @brief get error description.

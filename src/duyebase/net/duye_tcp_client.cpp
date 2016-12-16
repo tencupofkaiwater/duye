@@ -48,7 +48,7 @@ bool TcpClient::connect(const std::string& serverIP, const uint16 serverPort, co
             return true;    
         }    
 
-        System::msleep(cycleTime);        
+        System::msleep(cycleTime);  
     }
 
     DUYE_ERROR("connect() failed");

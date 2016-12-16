@@ -21,6 +21,25 @@
 
 namespace duye {
 
+enum HttpResCode {
+	// 服务器成功返回网页
+	HTTP_CODE_200 = 200,
+	// 请求的网页不存在
+	HTTP_CODE_404 = 404,
+	// 请求超时
+	HTTP_CODE_408 = 408,
+	// 请求实体过大
+	HTTP_CODE_413 = 413,
+	// 服务不可用
+	HTTP_CODE_503 = 503,
+	// 错误页面,无法解析
+	HTTP_CODE_506 = 506,	
+	// 未连接
+	HTTP_CODE_507 = 507,	
+	// 未设置
+	HTTP_CODE_MAX
+};
+
 enum HttpMethodType {
 	HTTP_GET,
 	HTTP_HEAD,
@@ -389,6 +408,16 @@ public:
 		return m_header_map[HTTP_PROTOCOL].empty();
 	}
 
+	bool setHeaderValue(const HttpHeaderType& header_type, const std::string& value) {
+		if (header_type < HTTP_METHOD || header_type >= HTTP_HEADER_MAX) {
+			//ERROR_DUYE_LOG("input parameter header_type error");
+			return false;
+		}
+
+		m_header_map.insert(std::make_pair(header_type, value));
+		return true;
+	}
+	
 	std::string getHeaderValue(const HttpHeaderType& header_type) {
 		if (header_type < HTTP_METHOD || header_type >= HTTP_HEADER_MAX) {
 			//ERROR_DUYE_LOG("input parameter header_type error");
@@ -397,13 +426,7 @@ public:
 		
 		return m_header_map[header_type];
 	}
-
-	/*
-	uint8* error() {
-		return m_error.error;
-	}
-	*/
-
+	
 private:
 	bool getPair(const std::string& in_str, std::string& name, std::string& value) {
 		std::vector<std::string> split_array;
