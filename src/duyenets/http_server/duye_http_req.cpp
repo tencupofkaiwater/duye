@@ -21,11 +21,9 @@ namespace duye {
 static const int8* DUYE_LOG_PREFIX = "duyenets.http.req";
 
 HttpReq::HttpReq() {
-	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
 HttpReq::HttpReq(const HttpReqHeader& http_header) : m_header(http_header) {
-	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
 HttpReq::~HttpReq() {
@@ -55,12 +53,12 @@ Accept-Encoding: gzip, deflate, sdch
 
 Accept-Language: zh-CN,zh;q=0.8
 */
-std::string HttpReq::getReqString(std::string& error) {
-	error.clear();
-
+std::string HttpReq::getReqString() {
+	std::string error;
 	std::string req_str = m_header.getHeaderString(error);
 	if (!error.empty()) {
-		return "";		
+		DUYE_ERROR("%s", error.c_str());
+		return "";
 	}
 
 	if (!m_jsons.empty()) {
@@ -79,9 +77,4 @@ std::string HttpReq::getReqString(std::string& error) {
 	
 	return req_str;
 }
-
-uint8* HttpReq::error() {
-	return m_error.error;
-}
-
 }

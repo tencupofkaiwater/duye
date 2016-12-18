@@ -22,11 +22,15 @@ static const int8* DUYE_LOG_PREFIX = "duye.system.tcpclient";
 
 namespace duye {
     
-TcpClient::TcpClient() {}
+TcpClient::TcpClient() : m_con_status(false) {}
 TcpClient::~TcpClient() { disconnect(); }
 
 bool TcpClient::connect(const std::string& serverIP, const uint16 serverPort, const uint32 timeout)
 {
+	if (m_con_status) {
+		return true;
+	}
+	
     m_serverIpv4Addr.setIp(NetHelper::ipToInt(serverIP));
     m_serverIpv4Addr.setPort(serverPort);
 
@@ -39,16 +43,16 @@ bool TcpClient::connect(const std::string& serverIP, const uint16 serverPort, co
         }
     }
 
-    uint32 cycleTime = 100; // millisecond
-    uint32 cycleTimes = timeout / 100;
-    for (uint32 i = 0; i < cycleTimes; i++)
+    uint32 cycleTime = timeout / 3; // millisecond
+    for (uint32 i = 0; i < 3; i++)
     {
         if (Transfer::connect(m_clientSocket.sockfd(), (const struct sockaddr*)&m_serverIpv4Addr.addr(), m_serverIpv4Addr.addrLen()))
         {
-            return true;    
+			m_con_status = true;
+            return true;
         }    
 
-        System::msleep(cycleTime);  
+        System::msleep(cycleTime);
     }
 
     DUYE_ERROR("connect() failed");
@@ -58,7 +62,15 @@ bool TcpClient::connect(const std::string& serverIP, const uint16 serverPort, co
 
 bool TcpClient::disconnect()
 {
-    return m_clientSocket.close();
+	if (!m_con_status) {
+		return true;
+	}
+
+	bool ret = m_clientSocket.close();
+	
+	m_con_status = false;
+	
+    return ret;
 }
 
 int64 TcpClient::recv(int8* buffer, const uint64 size, const bool isBlock)
@@ -88,6 +100,10 @@ const IPv4Addr& TcpClient::ipv4Addr()
 const Socket& TcpClient::socket()
 {
     return m_clientSocket;
+}
+
+bool TcpClient::isCon() {
+	return m_con_status;
 }
 
 }

@@ -32,11 +32,9 @@ public:
 
 	void setHeader(const HttpReqHeader& http_header);
 	bool addJsonPara(const std::string& name, const std::string& value);
-	std::string getReqString(std::string& error);
-	uint8* error();
+	std::string getReqString();
 
 private:
-	Error m_error;
 	HttpReqHeader m_header;
 	ParamPairs m_jsons;
 };

@@ -71,9 +71,12 @@ public:
      */
     const Socket& socket();
 
+	bool isCon();
+
 private:
-    Socket         m_clientSocket;
-    IPv4Addr	    m_serverIpv4Addr; 
+    Socket   m_clientSocket;
+    IPv4Addr m_serverIpv4Addr;
+	bool     m_con_status;
 };
 
 }

@@ -24,51 +24,55 @@
 
 namespace duye {
 
-class HttpClientIf {
+class HttpUserData {
 public:
-	virtual HttpClientIf();
-	virtual bool onMsg(const HttpRes& res) const = 0;
+	explicit HttpUserData(const HttpReq* req, const HttpRes* res) : http_req(req), http_res(res) {} 
+
+	HttpReq* http_req;
+	HttpRes* http_res;
 };
 
 /**
  * @brief http client
  */
-class HttpClient
+class HttpClient : duye::ThreadTask
 {
 public:
     HttpClient();
 	HttpClient(const std::string& server_ip, const uint16 server_port = 80);
     ~HttpClient();
 
-	/**
-	 * @brief set server address and port
-	 * @return error description.
-	 */
-	bool connect();
-	bool connect(const std::string& server_ip, const uint16 server_port = 80);
-
-	bool disconnect();
+	bool setServer(const std::string& server_ip, const uint16 server_port = 80);
 
     /**
      * @brief http request.
      * @param [in] req : http request.
      * @param [out] res : http response.
-     * @param [in] is_block : request mode, default is block.
+     * @param [in] timeout : http request timeout, default is 3000 millisecond 
      * @return : true/false
      */
-    bool request(const HttpReq& req, HttpRes& res);
-	bool request(const HttpReq& req, const HttpClientIf* onMsger);
+    bool get(const std::string& url, HttpRes& res, const uint32 timeout = 3000);
+	bool post(const std::string& url, HttpRes& res, const uint32 timeout = 3000);
 
 	const std::string& getServerIP();
 	uint16 getServerPort();
 
-	void regist(const HttpClientIf* onMsger);
+private:
+	// implementation from duye::ThreadTask
+	virtual bool run();
+	bool connect();
+	bool disconnect();
+	bool request(const HttpMethodType& type, const std::string& url, HttpRes& res, const uint32 timeout);
 
 private:
     TcpClient  	m_tcp_client;
     std::string m_server_ip;
     uint16      m_server_port;
-    bool        m_is_connected;
-	HttpClientIf* m_on_msger;
+	duye::Mutex m_req_mutex;
+	duye::Mutex m_ud_mutex;
+	bool 		m_exit_thread;
+	duye::Condition m_to_req_cond;
+	duye::Condition m_res_notify_cond;
+	HttpUserData* m_ud;
 };
 }
