@@ -21,6 +21,7 @@
 #include <duye_type.h>
 #include <duye_sys.h>
 #include <duye_http_type.h>
+#include <duye_http_header.h>
 
 namespace duye {
 

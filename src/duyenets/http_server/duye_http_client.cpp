@@ -27,6 +27,8 @@ namespace duye {
 
 static const int8* DUYE_LOG_PREFIX = "duyenets.http.client";
 
+HttpUserData::HttpUserData(HttpReq* req, HttpRes* res) : http_req(req), http_res(res) {} 
+
 HttpClient::HttpClient() : m_server_port(80), m_exit_thread(false), m_ud(NULL) {
 }
 
@@ -38,12 +40,12 @@ HttpClient::~HttpClient() {
 	disconnect();
 }
 
-bool HttpClient::setServer(const std::string& server_ip, const uint16 server_port) {
+void HttpClient::setServer(const std::string& server_ip, const uint16 server_port) {
 	m_server_ip = server_ip;
 	m_server_port = server_port;
 }
 
-bool HttpClient::get(const std::string& url, HttpRes& res, const uint32 timeout) {
+bool HttpClient::get(const HttpUrl& url, HttpRes& res, const uint32 timeout) {
 	if (!connect(timeout / 2)) {
 		res.setStatusCode(HTTP_CODE_510);
 		return false;
@@ -54,7 +56,7 @@ bool HttpClient::get(const std::string& url, HttpRes& res, const uint32 timeout)
 	return ret;
 }
 
-bool HttpClient::post(const std::string& url, HttpRes& res, const uint32 timeout) {
+bool HttpClient::post(const HttpUrl& url, HttpRes& res, const uint32 timeout) {
 	if (!connect(timeout / 2)) {
 		res.setStatusCode(HTTP_CODE_510);
 		return false;
@@ -90,7 +92,7 @@ bool HttpClient::run() {
 		Buffer response(HTTP_RESPONSE_SIZE);
 		
 		int64 send_size = m_tcp_client.send(req_content.c_str(), req_content.length());
-		if (send_size != req_content.length()) {
+		if (send_size != (int64)req_content.length()) {
 			DUYE_ERROR("send data failed");
 			code = HTTP_CODE_507;
 		} else {			
@@ -137,6 +139,8 @@ bool HttpClient::run() {
 		}		
 		m_ud_mutex.unlock();
 	}
+
+	return true;
 }
 
 bool HttpClient::connect(const uint32 timeout)
@@ -163,7 +167,7 @@ bool HttpClient::disconnect() {
 	return m_tcp_client.disconnect();
 }
 
-bool HttpClient::request(const HttpMethodType& type, const std::string& url, HttpRes& res, const uint32 timeout) {
+bool HttpClient::request(const HttpMethodType& type, const HttpUrl& url, HttpRes& res, const uint32 timeout) {
 	if (!m_tcp_client.isCon()) {
 		DUYE_ERROR("HttpClient don't connect");
 		res.setStatusCode(HTTP_CODE_509);
@@ -171,10 +175,10 @@ bool HttpClient::request(const HttpMethodType& type, const std::string& url, Htt
 	}
 
 	duye::AutoLock lock(m_req_mutex);
-	HttpReq req(HttpReqHeader(type, url));
+	HttpReq req(HttpReqHeader(type, url.getUrl()));
 	
 	HttpUserData ud(&req, &res);
-	HttpUserData* m_ud = &ud;
+	m_ud = &ud;
 	m_to_req_cond.signal();
 	
 	if (!m_res_notify_cond.wait(timeout)) {

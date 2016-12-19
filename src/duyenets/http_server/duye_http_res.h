@@ -21,6 +21,7 @@
 #include <duye_type.h>
 #include <duye_buffer.h>
 #include <duye_http_type.h>
+#include <duye_http_header.h>
 
 namespace duye {
 
@@ -37,7 +38,7 @@ public:
 	std::string getJsonParaValue(const std::string& name);
 	const ParamPairs& getJsonParaMap() const;
 	void setStatusCode(const HttpResCode& code);
-	std::string getStatusCode() const;
+	HttpResCode getStatusCode();
 
 	/**
 	 * @brief get error description.

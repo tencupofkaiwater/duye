@@ -18,7 +18,6 @@
 #pragma once
 
 #include <pthread.h> 
-
 #include <duye_type.h>
 
 namespace duye {

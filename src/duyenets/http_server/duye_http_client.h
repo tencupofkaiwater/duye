@@ -19,6 +19,7 @@
 #include <string>
 #include <duye_type.h>
 #include <duye_tcp_client.h>
+#include <duye_http_url.h>
 #include <duye_http_req.h>
 #include <duye_http_res.h>
 
@@ -26,7 +27,7 @@ namespace duye {
 
 class HttpUserData {
 public:
-	explicit HttpUserData(const HttpReq* req, const HttpRes* res) : http_req(req), http_res(res) {} 
+	explicit HttpUserData(HttpReq* req, HttpRes* res);
 
 	HttpReq* http_req;
 	HttpRes* http_res;
@@ -35,14 +36,13 @@ public:
 /**
  * @brief http client
  */
-class HttpClient : duye::ThreadTask
-{
+class HttpClient : public duye::ThreadTask {
 public:
     HttpClient();
 	HttpClient(const std::string& server_ip, const uint16 server_port = 80);
     ~HttpClient();
 
-	bool setServer(const std::string& server_ip, const uint16 server_port = 80);
+	void setServer(const std::string& server_ip, const uint16 server_port = 80);
 
     /**
      * @brief http request.
@@ -51,8 +51,8 @@ public:
      * @param [in] timeout : http request timeout, default is 3000 millisecond 
      * @return : true/false
      */
-    bool get(const std::string& url, HttpRes& res, const uint32 timeout = 3000);
-	bool post(const std::string& url, HttpRes& res, const uint32 timeout = 3000);
+    bool get(const HttpUrl& url, HttpRes& res, const uint32 timeout = 3000);
+	bool post(const HttpUrl& url, HttpRes& res, const uint32 timeout = 3000);
 
 	const std::string& getServerIP();
 	uint16 getServerPort();
@@ -60,19 +60,20 @@ public:
 private:
 	// implementation from duye::ThreadTask
 	virtual bool run();
-	bool connect();
+	bool connect(const uint32 timeout);
 	bool disconnect();
-	bool request(const HttpMethodType& type, const std::string& url, HttpRes& res, const uint32 timeout);
+	bool request(const HttpMethodType& type, const HttpUrl& url, HttpRes& res, const uint32 timeout);
 
 private:
-    TcpClient  	m_tcp_client;
+    duye::TcpClient m_tcp_client;
     std::string m_server_ip;
-    uint16      m_server_port;
+    uint16 m_server_port;
 	duye::Mutex m_req_mutex;
 	duye::Mutex m_ud_mutex;
-	bool 		m_exit_thread;
+	bool m_exit_thread;
 	duye::Condition m_to_req_cond;
 	duye::Condition m_res_notify_cond;
 	HttpUserData* m_ud;
 };
+
 }

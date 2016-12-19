@@ -19,6 +19,8 @@
 #include <duye_type.h>
 #include <duye_socket.h>
 
+#define TCP_DATA_BUFFER_SIZE 2048
+
 namespace duye {
 
 /** 

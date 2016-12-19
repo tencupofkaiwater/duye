@@ -462,6 +462,8 @@ std::string CfgMgr::getValue(const int8* path) {
 }
 
 bool CfgMgr::getNodes(const std::string& path, const std::list<std::string>& attrList, ParamNodeList& nodeList) {
+	DUYE_DEBUG("path : %s", path.c_str());
+	
 	std::list<duye::NodeAndNamePair> node_and_name_list;
 	if (!parsePath(path, node_and_name_list)) return false;
 
@@ -689,7 +691,7 @@ bool CfgMgr::getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList
 			nodeList.push_back(param_node);
 			found_node = found_node->nextSiblingElement();
 		}
-	} else {
+	} else {
 		DUYE_ERROR("found_node == null");
 		return false;
 	}

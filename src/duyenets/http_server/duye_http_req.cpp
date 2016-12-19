@@ -13,7 +13,7 @@
 *
 * 1. 2016-12-8 duye Created this file
 */
-
+#include <duye_logger.h>
 #include <duye_http_req.h>
 
 namespace duye {
@@ -54,10 +54,9 @@ Accept-Encoding: gzip, deflate, sdch
 Accept-Language: zh-CN,zh;q=0.8
 */
 std::string HttpReq::getReqString() {
-	std::string error;
-	std::string req_str = m_header.getHeaderString(error);
-	if (!error.empty()) {
-		DUYE_ERROR("%s", error.c_str());
+	std::string req_str = m_header.getHeaderString();
+	if (req_str.empty()) {
+		DUYE_ERROR("request html header is empty");
 		return "";
 	}
 

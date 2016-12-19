@@ -41,7 +41,7 @@ HttpResStatusCode& HttpResStatusCode::ins() {
 std::string HttpResStatusCode::getDesc(const HttpResCode& code) {
 	if (code < HTTP_CODE_200 || code >= HTTP_CODE_MAX) {
 		DUYE_ERROR("HttpResCode error");
-		return false;
+		return "";
 	}
 
 	return m_status_code_sesc_map[code];
@@ -113,7 +113,7 @@ HttpHeaderData& HttpHeaderData::ins() {
 	return ins;
 }
 
-std::string HttpHeaderData::getName(const HttpHeaderType& type, std::string& error) {
+std::string HttpHeaderData::getName(const HttpHeaderType& type) {
 	if (type == HTTP_METHOD || type == HTTP_PROTOCOL || type == HTTP_REQ_URL || type == HTTP_RES_CODE) {
 		DUYE_ERROR("HTTP_METHOD, HTTP_PROTOCOL, HTTP_REQ_URL, and HTTP_RES_CODE hasn't name");
 		return "";
@@ -150,29 +150,32 @@ HttpReqHeader::HttpReqHeader() : m_method(HTTP_GET) {
 	init();
 }
 
-explicit HttpReqHeader::HttpReqHeader(const HttpMethodType& type, const std::string& url) {
+HttpReqHeader::HttpReqHeader(const HttpMethodType& type, const std::string& url) {
 	init();
 	setMethod(type);
 	setValue(HTTP_REQ_URL, url);
 }	
 
-void HttpReqHeader::setMethod(const HttpMethodType& type) {
+bool HttpReqHeader::setMethod(const HttpMethodType& type) {
 	if (type < HTTP_GET || type > HTTP_POST) {
 		DUYE_ERROR("type error");
-		return;
+		return false;
 	}
 
 	m_method = type;
+	return true;
 }
 
-void HttpReqHeader::setValue(const HttpHeaderType& type, std::string& value) {
+bool HttpReqHeader::setValue(const HttpHeaderType& type, const std::string& value) {
 	switch (type) {
 		case HTTP_METHOD : {
 			DUYE_ERROR("HTTP_METHOD setting use setMethod");
+			return false;
 			break;
 		}
 		case HTTP_PROTOCOL : {
 			DUYE_ERROR("HTTP_PROTOCOL don't need setting");
+			return false;
 			break;
 		}
 		case HTTP_REQ_URL : m_url = value; break;
@@ -183,8 +186,10 @@ void HttpReqHeader::setValue(const HttpHeaderType& type, std::string& value) {
 		case HTTP_REQ_REFERER : m_referer = value; break;
 		case HTTP_REQ_ACCEPT_ENCODING : m_accept_encoding = value; break;
 		case HTTP_REQ_LANGUAGE : m_language = value; break;
-		default : DUYE_ERROR("type error"); break;
-	}		
+		default : DUYE_ERROR("type error"); return false; break;
+	}
+
+	return true;
 }
 
 void HttpReqHeader::addQueryPara(const std::string& name, const std::string& value) {

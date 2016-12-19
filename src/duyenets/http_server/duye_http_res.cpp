@@ -87,7 +87,7 @@ void HttpRes::setStatusCode(const HttpResCode& code) {
 	}
 }
 
-HttpResCode HttpRes::getStatusCode() const {
+HttpResCode HttpRes::getStatusCode() {
 	std::string code = m_header.getHeaderValue(HTTP_RES_CODE);
 
 	if (code == "200") {

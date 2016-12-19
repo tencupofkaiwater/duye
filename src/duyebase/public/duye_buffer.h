@@ -43,7 +43,7 @@ public:
 	 * @brief get error description.
 	 * @return error description.
 	 */
-	uint8* getError();
+	uint8* error();
 
 private:
 	Error m_error;

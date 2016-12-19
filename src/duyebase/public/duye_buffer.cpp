@@ -144,7 +144,7 @@ int8* Buffer::copy(int8* buffer, const uint32 size) const {
 	return buffer;
 }
 
-uint8* Buffer::getError() {
+uint8* Buffer::error() {
 	return m_error.error;
 }
 
