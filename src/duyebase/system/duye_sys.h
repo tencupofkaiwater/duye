@@ -170,5 +170,8 @@ public:
      * @note 
      */	
     static bool getNetworkCards(std::map<std::string, std::string>& networkCards);
+
+	static uint32 getPid();
+	static uint32 getPPid();
 };
 }

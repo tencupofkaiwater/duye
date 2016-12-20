@@ -21,9 +21,10 @@
 #include <sys/ioctl.h>
 #include <arpa/inet.h>
 #include <net/if.h>
+#include <unistd.h>
+#include <sys/syscall.h>
 #include <fcntl.h>
 #include <signal.h>
-#include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -359,6 +360,14 @@ bool System::getNetworkCards(std::map<std::string, std::string>& networkCards)
     }    
     
     return true;
+}
+
+uint32 System::getPid() {
+	return (uint32)getpid();
+}
+
+uint32 System::getPPid() {
+	return (uint32)getppid();
 }
 
 }

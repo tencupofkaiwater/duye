@@ -36,15 +36,16 @@ bool TcpClient::connect(const std::string& serverIP, const uint16 serverPort, co
 
     if (!m_clientSocket.isOpen())
     {
-        if (!m_clientSocket.open(IPPROTO_TCP))
+        if (!m_clientSocket.open(IPPROTO_TCP, false))
         {
             DUYE_ERROR("m_clientSocket.open() failed:%s");
             return false;
         }
     }
 
-    uint32 cycleTime = timeout / 3; // millisecond
-    for (uint32 i = 0; i < 3; i++)
+	uint32 times = 10;
+    uint32 cycleTime = timeout / times; // millisecond
+    for (uint32 i = 0; i < times; i++)
     {
         if (Transfer::connect(m_clientSocket.sockfd(), (const struct sockaddr*)&m_serverIpv4Addr.addr(), m_serverIpv4Addr.addrLen()))
         {
@@ -52,9 +53,12 @@ bool TcpClient::connect(const std::string& serverIP, const uint16 serverPort, co
             return true;
         }    
 
-        System::msleep(cycleTime);
+		if (cycleTime) {
+        	System::msleep(cycleTime);
+		}
     }
-
+	
+	m_clientSocket.close();
     DUYE_ERROR("connect() failed");
     
     return false;

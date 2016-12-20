@@ -217,6 +217,8 @@ bool Socket::close(const int32 how)
     }
 
     //return (shutdown(m_sockfd, how) == 0 ? true : false);
+    m_sockfd = -1;
+    m_isInit = false;
     return ::close(m_sockfd) == 0 ? true : false;
 }
 

@@ -28,6 +28,7 @@
 #include <duye_pipe.h>
 #include <duye_shm.h>
 #include <duye_socket.h>
+#include <duye_epoll.h>
 #include <duye_sys.h>
 #include <duye_thread.h>
 #include <duye_file.h>

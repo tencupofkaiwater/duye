@@ -14,17 +14,18 @@
 *  1. 2013-11-26 duye Created this file
 * 
 */
+#include <stdio.h>
 #include <duye_thread.h> 
 
 namespace duye {
 
 Thread::Thread(const bool autoRel) 
-    : m_threadId(-1)
+    : m_threadId(0)
     , m_autoRel(autoRel)
     , m_runnable(NULL) {}
     
 Thread::Thread(Runnable* runnable, const bool autoRel) 
-    : m_threadId(-1)
+    : m_threadId(0)
     , m_autoRel(autoRel)
     , m_runnable(runnable) {}
 
@@ -64,9 +65,9 @@ void Thread::exit()
     pthread_exit(NULL);
 }   
 
-uint32 Thread::threadId() const
+uint64 Thread::threadId() const
 {
-    return (uint32)m_threadId;
+    return (uint64)pthread_self();
 }
 
 void* Thread::enterPoint(void* argument)
@@ -90,7 +91,7 @@ bool ThreadTask::join()
    return m_thread.join();   
 }
 
-uint32 ThreadTask::threadId() const
+uint64 ThreadTask::threadId() const
 {
 	return m_thread.threadId();
 }

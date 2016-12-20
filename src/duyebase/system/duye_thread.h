@@ -102,7 +102,7 @@ public:
      * @return thread ID
      * @note 
      */		
-    uint32 threadId() const;
+    uint64 threadId() const;
 
 private:
     Thread(const Thread&);
@@ -150,7 +150,7 @@ public:
      * @brief get thread ID
      * @return thread ID
      */		
-    uint32 threadId() const;	
+    uint64 threadId() const;
 
     /**
      * @brief thread entry function
