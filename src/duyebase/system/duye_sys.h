@@ -16,6 +16,7 @@
 */
 #pragma once
 
+#include <malloc.h>
 #include <string.h>
 #include <string>
 #include <map>
@@ -173,5 +174,6 @@ public:
 
 	static uint32 getPid();
 	static uint32 getPPid();
+	static void manMalloc();
 };
 }

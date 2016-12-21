@@ -19,7 +19,7 @@
 #include <duye_process.h>
 #include <duye_file_server.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyenets.test.fileserver";
+static const int8* DUYE_LOG_PREFIX = "duye.nets.test.fileserver";
 
 class FileServerProcessSignal : public duye::ProcessIf
 {

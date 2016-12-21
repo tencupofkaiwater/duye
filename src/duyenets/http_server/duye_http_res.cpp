@@ -20,7 +20,7 @@
 
 namespace duye {
 
-static const int8* DUYE_LOG_PREFIX = "duyenets.http.res";
+static const int8* DUYE_LOG_PREFIX = "duye.nets.http.res";
 
 HttpRes::HttpRes() {
 	m_error.setPrefix(DUYE_LOG_PREFIX);

@@ -18,7 +18,7 @@
 #include <duye_rpc_server.h>
 #include <duye_rpc_proxy.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyenets.rpc.proxy";
+static const int8* DUYE_LOG_PREFIX = "duye.nets.rpc.proxy";
 
 namespace duye {
 

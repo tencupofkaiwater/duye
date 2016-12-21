@@ -359,7 +359,8 @@ public:
      * @param [out] buffer : output buffer
      * @param [in] size : buffer size
      * @param [in] flags : flags
-     * @return on success, return the number of characters received. on error, return -1
+     * @return on success, return the number of bytes received. on error, return -1, 
+     *		The return value will be 0 when the peer has performed an orderly shutdown.
      * @note 
      */	
     static int64 recv(const int32 sockfd, int8* buffer, const uint64 size, const int32 flags = 0);

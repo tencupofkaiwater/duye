@@ -52,7 +52,9 @@ public:
      * @return : true/false
      */
     bool get(const HttpUrl& url, HttpRes& res, const uint32 timeout = 3000);
+	bool get(const HttpReqHeader& header, HttpRes& res, const uint32 timeout = 3000);
 	bool post(const HttpUrl& url, HttpRes& res, const uint32 timeout = 3000);
+	bool post(const HttpReqHeader& header, HttpRes& res, const uint32 timeout = 3000);
 
 	const std::string& getServerIP();
 	uint16 getServerPort();
@@ -62,7 +64,7 @@ private:
 	virtual bool run();
 	bool connect(const uint32 timeout);
 	bool disconnect();
-	bool request(const HttpMethodType& type, const HttpUrl& url, HttpRes& res, const uint32 timeout);
+	bool request(const HttpReq& req, HttpRes& res, const uint32 timeout);
 
 private:
     duye::TcpClient m_tcp_client;

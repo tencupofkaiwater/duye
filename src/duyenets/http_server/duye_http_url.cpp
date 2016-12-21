@@ -52,7 +52,17 @@ std::string HttpUrl::getUrl() {
 }
 
 std::string HttpUrl::getUrl() const {
-	return getUrl();
+	std::string url = m_path + "?";
+	QueryMap::const_iterator iter = m_query_map.begin();
+	for (; iter != m_query_map.end(); ++iter) {
+		if (iter != m_query_map.begin()) {
+			url += "&";
+		}
+
+		url += iter->first + "=" + iter->second;
+	}
+
+	return url;
 }
 
 }

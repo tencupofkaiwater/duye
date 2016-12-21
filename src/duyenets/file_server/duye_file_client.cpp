@@ -18,7 +18,7 @@
 #include <duye_logger.h>
 #include <duye_file_client.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyenets.file.client";
+static const int8* DUYE_LOG_PREFIX = "duye.nets.file.client";
 
 namespace duye {
     

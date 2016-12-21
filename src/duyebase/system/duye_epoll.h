@@ -23,6 +23,14 @@
 #include <duye_type.h>
 
 namespace duye {
+
+typedef enum
+{
+	RECV_UN,
+	RECV_FD,
+	SEND_FD,
+	ERROR_FD
+} EpollEventType;
     
 class EpollEvent
 {
@@ -76,14 +84,6 @@ class Epoll
 public:
 	typedef struct epoll_event SysEvent;
     typedef std::list<EpollEvent> EventList;
-
-	typedef enum
-	{
-		RECV_UN,
-		RECV_FD,
-		SEND_FD,
-		ERROR_FD
-	} EpollEventType;
     
 public:
     Epoll();

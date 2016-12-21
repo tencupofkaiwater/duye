@@ -43,7 +43,7 @@ enum HttpResCode {
 	// connect to server timeout
 	HTTP_CODE_510 = 510,	
 	// nothing
-	HTTP_CODE_MAX
+	HTTP_CODE_MAX = 600
 };
 
 enum HttpMethodType {
@@ -74,7 +74,7 @@ enum HttpHeaderType {
 	HTTP_REQ_ACCEPT,
 	HTTP_REQ_REFERER,
 	HTTP_REQ_ACCEPT_ENCODING,	
-	HTTP_REQ_LANGUAGE,	
+	HTTP_REQ_LANGUAGE,
 	
 	// response type
 	HTTP_RES_CODE,

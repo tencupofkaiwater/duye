@@ -69,6 +69,9 @@ template <class T>
 MsgQueue<T>::MsgQueue(const uint64 queue_size) : m_queueSize(queue_size) {}
 
 template <class T>
+MsgQueue<T>::~MsgQueue() {}
+
+template <class T>
 bool MsgQueue<T>::push(T* msg)
 {
     if (m_queue.size() >= m_queueSize)
@@ -89,9 +92,9 @@ T* MsgQueue<T>::pop(const MsgQueueMode& mode)
     {
         m_semaphore.wait();
     }
-    else if (mode = MSG_NONBLOCK)
+    else if (mode == MSG_NONBLOCK)
     {
-        m_semaphore.tryWait();   
+        m_semaphore.tryWait();  
     }
     else
     {

@@ -19,7 +19,7 @@
 #include <duye_helper.h>
 #include <duye_file_protocol.h>
 
-static const int8* DUYE_LOG_PREFIX = "duyenets.file.protocol";
+static const int8* DUYE_LOG_PREFIX = "duye.nets.file.protocol";
 
 namespace duye {
 

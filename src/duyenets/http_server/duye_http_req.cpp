@@ -18,7 +18,7 @@
 
 namespace duye {
 
-static const int8* DUYE_LOG_PREFIX = "duyenets.http.req";
+static const int8* DUYE_LOG_PREFIX = "duye.nets.http.req";
 
 HttpReq::HttpReq() {
 }

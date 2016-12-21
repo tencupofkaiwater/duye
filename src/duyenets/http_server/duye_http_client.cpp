@@ -25,15 +25,17 @@
 
 namespace duye {
 
-static const int8* DUYE_LOG_PREFIX = "duyenets.http.client";
+static const int8* DUYE_LOG_PREFIX = "duye.nets.http.client";
 
 HttpUserData::HttpUserData(HttpReq* req, HttpRes* res) : http_req(req), http_res(res) {} 
 
 HttpClient::HttpClient() : m_server_port(80), m_exit_thread(false), m_ud(NULL) {
+	startTask();
 }
 
 HttpClient::HttpClient(const std::string& server_ip, const uint16 server_port) 
 	: m_server_ip(server_ip), m_server_port(server_port), m_exit_thread(false), m_ud(NULL) {
+	startTask();
 }
 
 HttpClient::~HttpClient() {
@@ -46,23 +48,37 @@ void HttpClient::setServer(const std::string& server_ip, const uint16 server_por
 }
 
 bool HttpClient::get(const HttpUrl& url, HttpRes& res, const uint32 timeout) {
-	if (!connect(timeout / 2)) {
+	HttpReqHeader header(HTTP_GET, url.getUrl());	
+	return get(header, res, timeout);
+}
+
+bool HttpClient::get(const HttpReqHeader& header, HttpRes& res, const uint32 timeout) {
+	if (!connect(0)) {
 		res.setStatusCode(HTTP_CODE_510);
 		return false;
 	}
 	
-	bool ret = request(HTTP_GET, url, res, timeout / 2);
+	HttpReq req(header);
+	bool ret = request(req, res, timeout);
+	
 	disconnect();
 	return ret;
 }
 
 bool HttpClient::post(const HttpUrl& url, HttpRes& res, const uint32 timeout) {
+	HttpReqHeader header(HTTP_POST, url.getUrl());
+	return post(header, res, timeout);
+}
+
+bool HttpClient::post(const HttpReqHeader& header, HttpRes& res, const uint32 timeout) {
 	if (!connect(timeout / 2)) {
 		res.setStatusCode(HTTP_CODE_510);
 		return false;
 	}
 	
-	bool ret = request(HTTP_POST, url, res, timeout / 2);
+	HttpReq req(header);
+	bool ret = request(req, res, timeout / 2);
+	
 	disconnect();
 	return ret;
 }
@@ -76,9 +92,10 @@ uint16 HttpClient::getServerPort() {
 }
 
 bool HttpClient::run() {
+	DUYE_DEBUG("HttpClient Thread:%u start", threadId());
+	
 	for (;;) {
 		m_to_req_cond.wait();
-
 		m_ud_mutex.lock();
 		if (!m_ud) {
 			m_ud_mutex.unlock();
@@ -86,6 +103,7 @@ bool HttpClient::run() {
 		}
 		
 		std::string req_content = m_ud->http_req->getReqString();
+		DUYE_INFO("\n%s", req_content.c_str());
 		m_ud_mutex.unlock();
 
 		HttpResCode code = HTTP_CODE_MAX;
@@ -140,6 +158,8 @@ bool HttpClient::run() {
 		m_ud_mutex.unlock();
 	}
 
+	DUYE_DEBUG("HttpClient Thread:%u end", threadId());
+
 	return true;
 }
 
@@ -167,29 +187,35 @@ bool HttpClient::disconnect() {
 	return m_tcp_client.disconnect();
 }
 
-bool HttpClient::request(const HttpMethodType& type, const HttpUrl& url, HttpRes& res, const uint32 timeout) {
+bool HttpClient::request(const HttpReq& req, HttpRes& res, const uint32 timeout) {
+	DUYE_DEBUG("IN %s", __FUNCTION__);
+	
 	if (!m_tcp_client.isCon()) {
 		DUYE_ERROR("HttpClient don't connect");
 		res.setStatusCode(HTTP_CODE_509);
+		DUYE_INFO("OUT %s", __FUNCTION__);
 		return false;
 	}
 
-	duye::AutoLock lock(m_req_mutex);
-	HttpReq req(HttpReqHeader(type, url.getUrl()));
-	
-	HttpUserData ud(&req, &res);
+	duye::AutoLock lock(m_req_mutex);	
+	HttpUserData ud((HttpReq*)&req, &res);
 	m_ud = &ud;
 	m_to_req_cond.signal();
-	
+
+	DUYE_DEBUG("request timeout : %d", timeout);
 	if (!m_res_notify_cond.wait(timeout)) {
 		m_ud_mutex.lock();
 		m_ud = NULL;
 		m_ud_mutex.unlock();
 		res.setStatusCode(HTTP_CODE_408);
+		DUYE_ERROR("HttpClient request timeout");
+		DUYE_INFO("OUT %s", __FUNCTION__);
 		return false;
 	}
+
+	DUYE_DEBUG("OUT %s", __FUNCTION__);
 	
-	return true;	
+	return true;
 }
 
 }

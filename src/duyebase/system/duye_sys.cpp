@@ -370,4 +370,8 @@ uint32 System::getPPid() {
 	return (uint32)getppid();
 }
 
+void System::manMalloc() {
+	malloc_trim(0);
+}
+
 }

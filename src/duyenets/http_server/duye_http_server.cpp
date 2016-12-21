@@ -20,7 +20,7 @@
 
 namespace duye {
 
-static const int8* DUYE_LOG_PREFIX = "duyenets.http.server";
+static const int8* DUYE_LOG_PREFIX = "duye.nets.http.server";
     
 HttpServer::HttpServer() : NetServer("HttpServer"), m_user(NULL) {}
 HttpServer::~HttpServer() 

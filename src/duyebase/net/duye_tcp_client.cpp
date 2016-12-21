@@ -43,7 +43,7 @@ bool TcpClient::connect(const std::string& serverIP, const uint16 serverPort, co
         }
     }
 
-	uint32 times = 10;
+	uint32 times = 3;
     uint32 cycleTime = timeout / times; // millisecond
     for (uint32 i = 0; i < times; i++)
     {
