@@ -1144,6 +1144,93 @@ bool XmlDocument::loadFile(FILE* file, XmlEncoding encoding)
     return !error();
 }
 
+bool XmlDocument::load(const char* content, const unsigned int length, XmlEncoding encoding)
+{
+    if (content == NULL) 
+    {
+    	setError(XML_ERROR_OPENING_FILE, 0, 0, XML_ENCODING_UNKNOWN);
+    	return false;
+    }
+
+    // Delete the existing data:
+    clear();
+    m_location.clear();
+
+    // Strange case, but good to handle up front.
+    if (length <= 0)
+    {
+    	setError(XML_ERROR_DOCUMENT_EMPTY, 0, 0, XML_ENCODING_UNKNOWN);
+    	return false;
+    }
+
+    // Subtle bug here. GnyXml did use fgets. But from the XML spec:
+    // 2.11 End-of-Line Handling
+    // <snip>
+    // <quote>
+    // ...the XML processor MUST behave as if it normalized all line breaks in external 
+    // parsed entities (including the document entity) on input, before parsing, by translating 
+    // both the two-character sequence #xD #xA and any #xD that is not followed by #xA to 
+    // a single #xA character.
+    // </quote>
+    //
+    // It is not clear fgets does that, and certainly isn't clear it works cross platform. 
+    // Generally, you expect fgets to translate from the convention of the OS to the c/unix
+    // convention, and not work generally.
+    /*
+    while( fgets( buf, sizeof(buf), file ) )
+    {
+        data += buf;
+    }
+    */
+
+    // Process the buffer in place to normalize new lines. (See comment above.)
+    // Copies from the 'p' to 'q' pointer, where p can advance faster if
+    // a newline-carriage return is hit.
+    //
+    // Wikipedia:
+    // Systems based on ASCII or a compatible character set use either LF  (Line feed, '\n', 0x0A, 10 in decimal) or 
+    // CR (Carriage return, '\r', 0x0D, 13 in decimal) individually, or CR followed by LF (CR+LF, 0x0D 0x0A)...
+    //		* LF:    Multics, Unix and Unix-like systems (GNU/Linux, AIX, Xenix, Mac OS X, FreeBSD, etc.), BeOS, Amiga, RISC OS, and others
+    //		* CR+LF: DEC RT-11 and most other early non-Unix, non-IBM OSes, CP/M, MP/M, DOS, OS/2, Microsoft Windows, Symbian OS
+    //		* CR:    Commodore 8-bit machines, Apple II family, Mac OS up to version 9 and OS-9
+
+    const char* p = content;	// the read head
+    char* q = (char*)content;			// the write head
+    const char CR = 0x0d;
+    const char LF = 0x0a;
+
+    //content[length] = 0;
+    while (*p) 
+    {
+        assert(p < (content + length));
+        assert(q <= (content + length));
+        assert(q <= p);
+
+        if (*p == CR) 
+        {
+            *q++ = LF;
+            p++;
+            
+            if (*p == LF) 
+            {       
+            	// check for CR+LF (and skip LF)
+                p++;
+            }
+        }
+        else 
+        {
+            *q++ = *p++;
+        }
+    }
+    
+    assert(q <= (content + length));
+    *q = 0;
+
+    parse(content, 0, encoding);
+
+    return !error();
+}
+
 bool XmlDocument::saveFile(const char* filename) const
 {
     // The old c stuff lives on...

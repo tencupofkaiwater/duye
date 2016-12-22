@@ -24,7 +24,7 @@ namespace duye {
 class Buffer {
 public:
 	Buffer();
-	Buffer(const uint32 size);
+	Buffer(const uint32 capacity);
 	Buffer(const Buffer& buffer);
 	~Buffer();
 
@@ -34,6 +34,7 @@ public:
 	int8* data() const;
 	uint32 size();
 	uint32 size() const;
+	void setSize(const uint32 size);
 	bool empty();
 	bool empty() const;
 	int8* copy(int8* buffer, const uint32 size);

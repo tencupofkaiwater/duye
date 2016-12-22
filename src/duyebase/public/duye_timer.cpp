@@ -40,9 +40,18 @@ bool TimerServer::registerTimer(TimerIf* timerIf, const uint32 timeout)
         return false;
 
     AutoLock autoLock(m_timerDataListMutex);
-    m_timerDataList.push_back(TimerData(timeout, timerIf));
+    m_timerUserMap.insert(std::make_pair(timerIf, TimerData(timeout, timerIf)));
 
     return true;
+}
+
+bool TimerServer::cancelTimer(TimerIf* timerIf) {
+    if (timerIf == NULL)
+        return false;
+	
+    AutoLock autoLock(m_timerDataListMutex);
+    m_timerUserMap.erase(timerIf);
+	return true;
 }
 
 bool TimerServer::run()
@@ -54,17 +63,17 @@ bool TimerServer::run()
     {
         System::msleep(period);
         AutoLock autoLock(m_timerDataListMutex);
-        TimerDataList::iterator iter = m_timerDataList.begin();
-        while (iter != m_timerDataList.end())
+        TimerUserMap::iterator iter = m_timerUserMap.begin();
+        while (iter != m_timerUserMap.end())
         {
-            if (iter->incTime == iter->timeout)
+            if (iter->second.incTime == iter->second.timeout)
             {
-                iter->user->onTimeout(iter->timeout);
-                m_timerDataList.erase(++iter);
+                iter->first->onTimeout(iter->second.timeout);
+                iter = m_timerUserMap.erase(iter);
                 continue;
             }
 
-            iter->incTime -= period;
+            iter->second.incTime -= period;
             iter++;
         }
     }

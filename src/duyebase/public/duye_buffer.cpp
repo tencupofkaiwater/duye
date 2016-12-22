@@ -25,9 +25,9 @@ Buffer::Buffer() : m_data(NULL), m_capacity(0), m_size(0)
 	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
-Buffer::Buffer(const uint32 size) : m_data(NULL), m_capacity(0), m_size(0) {
+Buffer::Buffer(const uint32 capacity) : m_data(NULL), m_capacity(capacity), m_size(0) {
 	m_error.setPrefix(DUYE_LOG_PREFIX);
-	init(size);	
+	init(capacity);
 }
 
 Buffer::Buffer(const Buffer& buffer) {
@@ -46,11 +46,19 @@ Buffer::~Buffer() {
 }
 
 bool Buffer::init(const uint32 capacity) {
+	if (m_data) {
+		delete [] m_data;
+		m_data = NULL;
+		m_capacity = 0;
+		m_size = 0;
+	}
+	
 	m_data = new int8[capacity];
 	if (!m_data) {
-		ERROR_DUYE_LOG("new memory failed");
+		ERROR_DUYE_LOG("malloc memory failed");
 		return false;
 	} else {
+		memset(m_data, 0, capacity);
 		m_capacity = capacity;
 	}
 
@@ -82,6 +90,10 @@ uint32 Buffer::size() {
 
 uint32 Buffer::size() const {
 	return m_size;
+}
+
+void Buffer::setSize(const uint32 size) {
+	m_size = size;
 }
 
 bool Buffer::empty() {

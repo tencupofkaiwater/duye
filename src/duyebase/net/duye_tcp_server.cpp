@@ -16,11 +16,14 @@
 
 #include <duye_logger.h>
 #include <duye_helper.h>
+#include <duye_buffer.h>
 #include <duye_tcp_server.h>
 
-static const int8* DUYE_LOG_PREFIX = "duye.system.tcpserver";
+#define RECV_BUF_MAX_SIZE 4096
 
 namespace duye {
+
+static const int8* DUYE_LOG_PREFIX = "duye.system.tcpserver";
     
 TcpServer::TcpServer() : NetServer("TcpServer"), m_tcpServerUser(NULL) {}
 TcpServer::~TcpServer() {}
@@ -48,8 +51,13 @@ bool TcpServer::initServer(const NetServerPara& serverPara, TcpServerIf* user)
         }
     }
 
+	if (serverPara.recvBufSize > RECV_BUF_MAX_SIZE) {
+        DUYE_ERROR("recvBufSize too large, setting 1 ~ %d, please.", RECV_BUF_MAX_SIZE);
+        return false;
+	}
+
     m_tcpServerUser = user;
-    m_serverPara = serverPara;    
+    m_serverPara = serverPara;
     setServerStatus(SERVER_INIT);
     DUYE_INFO("TcpServer::initServer [ok]");
     
@@ -163,9 +171,13 @@ const IPv4Addr& TcpServer::ipv4Addr()
     return m_ipv4Addr;
 }
 
-int64 TcpServer::send(const int8* data, const uint64 len)
+bool TcpServer::registerListener(const int32 sockfd, HcnServerListener* listener) {
+	return m_hcnServer.registerListener(sockfd, listener);
+}
+
+int64 TcpServer::send(const int32 clientSockfd, const int8* data, const uint64 len)
 {
-    return Transfer::send(m_socket.sockfd(), data, len, MSG_NOSIGNAL);	
+    return Transfer::send(clientSockfd, data, len, MSG_NOSIGNAL);
 }
 
 bool TcpServer::onNetEvent(HcnEvent* event)
@@ -231,8 +243,8 @@ bool TcpServer::readData(HcnEvent* event)
     DUYE_DEBUG("received read event, sockfd=%d", event->fd());
     
     //AutoLock autoLock(m_readMutex);
-    int8 msgBuf[NET_MSG_BUF_SIZE] = {0};
-    int64 msgLen = recv(event->fd(), msgBuf, NET_MSG_BUF_SIZE);
+    Buffer buffer(m_serverPara.recvBufSize);
+    int64 msgLen = recv(event->fd(), buffer.data(), m_serverPara.recvBufSize);
     if (msgLen < 0)
     {
         DUYE_ERROR("Transfer::recv() failed : size = %d", msgLen);
@@ -243,12 +255,12 @@ bool TcpServer::readData(HcnEvent* event)
         DUYE_WARN("sockfd=%d disconnected", event->fd());
         return m_tcpServerUser->onDiscon(event->fd());
     }
-    
-    msgBuf[msgLen] = 0;
 
-    DUYE_TRACE("Transfer::recv() data : size = %d, content >>>> \n%s\n", msgLen, msgBuf);
+	buffer.setSize(msgLen);
 
-    return m_tcpServerUser->onRecved(event->fd(), msgBuf, msgLen);
+    DUYE_TRACE("Transfer::recv() data : size = %d, content >>>> \n%s\n", msgLen, buffer.data());
+
+    return m_tcpServerUser->onRecved(event->fd(), buffer.data(), buffer.size());
 }
 
 bool TcpServer::accept(IPv4Addr& clientAddr,  int32& clientSockfd, const bool isBlock)

@@ -16,7 +16,7 @@
 */
 #pragma once
 
-#include <list>
+#include <map>
 #include <duye_type.h>
 #include <duye_lock.h>
 #include <duye_thread.h>
@@ -38,8 +38,8 @@ public:
         : timeout(intimeout), incTime(0), user(inuser) {}
     ~TimerData() {}
 
-    uint32          timeout;
-    uint32          incTime;
+    uint32     timeout;
+    uint32     incTime;
     TimerIf*   user;
 };
 
@@ -51,7 +51,7 @@ public:
 class TimerServer : public ThreadTask
 {
 public:
-    typedef std::list<TimerData> TimerDataList;
+    typedef std::map<TimerIf*, TimerData> TimerUserMap;
     
 public:
 	TimerServer();
@@ -68,17 +68,23 @@ public:
      
     /**
      * @brief register timer
-     * @param [in] timeout : time out, millisecond
-     * @param [in] userData : user data
+     * @param [in] timerIf : user
+     * @param [in] timeout : time out, millisecond     
      */
     bool registerTimer(TimerIf* timerIf, const uint32 timeout);
+	
+    /**
+     * @brief cancel timer
+     * @param [in] timerIf : user
+     */
+	bool cancelTimer(TimerIf* timerIf);
 
 private:
     // implementation from ThreadTask
     virtual bool run();
 
 private:
-    TimerDataList  m_timerDataList;
+    TimerUserMap   m_timerUserMap;
     Mutex          m_timerDataListMutex;
 };
 

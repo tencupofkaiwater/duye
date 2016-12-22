@@ -1519,6 +1519,7 @@ public:
      * file location. Streaming may be added in the future.
      */
     bool loadFile(FILE* file, XmlEncoding encoding = XML_DEFAULT_ENCODING);
+	bool load(const char* content, const unsigned int length, XmlEncoding encoding = XML_DEFAULT_ENCODING);
     /// Save a file using the given FILE*. Returns true if successful.
     bool saveFile(FILE* file) const;
     ///< STL std::string version.

@@ -92,6 +92,8 @@ public:
      * @return IPv4 address
      */
     const IPv4Addr& ipv4Addr();
+
+	bool registerListener(const int32 sockfd, HcnServerListener* listener);
         
     /**
      * @brief send data
@@ -100,7 +102,7 @@ public:
      * @return size/-1
      * @note 
      */		
-    int64 send(const int8* data, const uint64 len);
+    int64 send(const int32 clientSockfd, const int8* data, const uint64 len);
 
 protected:
     // implementation HcnServerListener
