@@ -48,13 +48,15 @@ bool Epoll::open(const uint32 maxEvents)
     m_epollfd = epoll_create(m_maxEvents);
     if (m_epollfd == -1)
     {
-    	ERROR_DUYE_LOG("epoll_create failed %s:%d:%s\n", __FILE__, __LINE__, __FUNCTION__);
+    	ERROR_DUYE_LOG("%s:%d > epoll_create failed \n", __FILE__, __LINE__);
     	return false;
     }   
 
     m_sysEvents = (struct epoll_event*)calloc(m_maxEvents, sizeof(struct epoll_event));
-    if (m_sysEvents == NULL)
+    if (m_sysEvents == NULL) {
+		ERROR_DUYE_LOG("%s:%d > calloc return NULL \n", __FILE__, __LINE__);
         return false;
+    }
     
     return true;
 }
@@ -72,21 +74,30 @@ bool Epoll::close()
 
 bool Epoll::addfd(const int32 fd, const uint32 epollMode)
 {
-    if (m_epollfd == -1)
+    if (m_epollfd == -1) {
+		ERROR_DUYE_LOG("%s:%d > m_epollfd == -1", __FILE__, __LINE__);
 		return false;
+    }
 	
     struct epoll_event epollEvent;
     bzero(&epollEvent, sizeof(struct epoll_event));
     epollEvent.data.fd = fd;
     epollEvent.events = epollMode;
     
-    return epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &epollEvent) == 0 ? true : false;
+    if (epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &epollEvent) != 0) {
+		ERROR_DUYE_LOG("[%s:%d] epoll_ctl() return != 0", __FILE__, __LINE__);
+		return false;
+    }
+
+	return true;
 }
 
 bool Epoll::modfd(const int32 fd, const uint32 epollMode)
 {
-    if (m_epollfd == -1)
+    if (m_epollfd == -1) {
+		ERROR_DUYE_LOG("[%s:%d] m_epollfd == -1", __FILE__, __LINE__);
 		return false;
+    }
 	
     struct epoll_event epollEvent;
     bzero(&epollEvent, sizeof(struct epoll_event));
@@ -98,16 +109,20 @@ bool Epoll::modfd(const int32 fd, const uint32 epollMode)
 	 
 bool Epoll::delfd(const int32 fd)
 {
-    if (m_epollfd == -1)
+    if (m_epollfd == -1) {
+		ERROR_DUYE_LOG("[%s:%d] m_epollfd == -1", __FILE__, __LINE__);
 		return false;
+    }
     
     return epoll_ctl(m_epollfd, EPOLL_CTL_DEL, fd, NULL) == 0 ? true : false;
 }
 
 bool Epoll::wait(Epoll::EventList& eventList, const uint32 timeout)
 {
-    if (m_epollfd == -1)
+    if (m_epollfd == -1) {
+		ERROR_DUYE_LOG("[%s:%d] m_epollfd == -1", __FILE__, __LINE__);
 		return false;
+    }
 	
     int32 event_count = epoll_wait(m_epollfd, m_sysEvents, m_maxEvents, timeout);
     if (event_count <= 0)
@@ -115,14 +130,12 @@ bool Epoll::wait(Epoll::EventList& eventList, const uint32 timeout)
     	return false;
     }
 
-    ERROR_DUYE_LOG("[trace]m_epoll.wait event:%d", event_count);
-
     for (uint32 i = 0; i < (uint32)event_count; i++)   
     {
         if ((m_sysEvents[i].events & EPOLLERR) ||  
             (m_sysEvents[i].events & EPOLLHUP))
         {
-            ERROR_DUYE_LOG("[error]epoll error, close fd. %s:%d:%s\n", __FILE__, __LINE__, __FUNCTION__);
+            ERROR_DUYE_LOG("[%s:%d] epoll error, close fd \n", __FILE__, __LINE__);
             delfd(m_sysEvents[i].data.fd);
             eventList.push_back(EpollEvent(m_sysEvents[i].data.fd, ERROR_FD));
     	    continue;

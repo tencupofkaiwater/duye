@@ -116,13 +116,14 @@ bool HcnServer::registerListener(const int32 sockfd, HcnServerListener* listener
 {
     if (!m_epoll.addfd(sockfd, epollMode))
     {
-        DUYE_ERROR("m_epoll.addfd(%d) failed.", sockfd);
+        DUYE_ERROR("m_epoll.addfd(%d) failed : %s", sockfd, m_epoll.error());
         return false;
     }    
     
     AutoLock autoLock(m_listenerMutex);
-    if (m_listenerContainer.find(sockfd) == m_listenerContainer.end())
+    if (m_listenerContainer.find(sockfd) == m_listenerContainer.end()) {
         m_listenerContainer.insert(std::make_pair(sockfd, listener));
+    }
 	
     return true;
 }

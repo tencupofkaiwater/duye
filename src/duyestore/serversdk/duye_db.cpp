@@ -17,7 +17,7 @@
 #include <duye_db_query.h>
 #include <duye_db.h>
 
-static const int8* DUYE_LOG_PREFIX = "duye.db";
+//static const int8* DUYE_LOG_PREFIX = "duye.db";
 
 namespace duye {
 

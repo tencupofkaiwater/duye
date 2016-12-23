@@ -16,7 +16,7 @@
 #include <duye_logger.h>
 #include <duye_db_file.h>
 
-static const int8* DUYE_LOG_PREFIX = "duye.db.file";
+//static const int8* DUYE_LOG_PREFIX = "duye.db.file";
 
 namespace duye {
 

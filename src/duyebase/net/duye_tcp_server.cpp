@@ -171,8 +171,12 @@ const IPv4Addr& TcpServer::ipv4Addr()
     return m_ipv4Addr;
 }
 
-bool TcpServer::registerListener(const int32 sockfd, HcnServerListener* listener) {
-	return m_hcnServer.registerListener(sockfd, listener);
+bool TcpServer::addClient(const int32 sockfd) {
+	return m_hcnServer.registerListener(sockfd, this);
+}
+
+bool TcpServer::removeClient(const int32 sockfd) {
+	return m_hcnServer.unregisterListener(sockfd);
 }
 
 int64 TcpServer::send(const int32 clientSockfd, const int8* data, const uint64 len)

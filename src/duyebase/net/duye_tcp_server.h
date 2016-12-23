@@ -93,8 +93,9 @@ public:
      */
     const IPv4Addr& ipv4Addr();
 
-	bool registerListener(const int32 sockfd, HcnServerListener* listener);
-        
+	bool addClient(const int32 sockfd);
+    bool removeClient(const int32 sockfd);
+	
     /**
      * @brief send data
      * @param [in] data : send data
