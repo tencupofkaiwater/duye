@@ -233,11 +233,11 @@ bool TcpServer::acceptClient()
     DUYE_INFO("accept client : %s:%d sockfd=%d", clientAddr.ipStr(), clientAddr.port(), clientSockfd);
 
 	// add client socket to hcn server
-    if (!m_hcnServer.registerListener(clientSockfd, this))
-    {
-        DUYE_ERROR("m_hcnServer.registerListener() failed.");
-        return false;
-    }
+    // if (!m_hcnServer.registerListener(clientSockfd, this))
+    // {
+    //     DUYE_ERROR("m_hcnServer.registerListener() failed.");
+    //     return false;
+    // }
 
 	return m_tcpServerUser->onNewcon(clientAddr, clientSockfd);
 }

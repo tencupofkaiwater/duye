@@ -61,22 +61,6 @@ bool CfgMgr::load(const std::string& filePath)
     return true;
 }
 
-bool CfgMgr::loadData(const int8* cfgData)
-{
-    if (cfgData == NULL)
-    {
-        DUYE_ERROR("cfg_data == NULL");
-        return false;                
-    }
-    
-    return true;
-}
-
-bool CfgMgr::loadData(const std::string cfgData)
-{
-    return loadData(cfgData.c_str());
-}
-
 bool CfgMgr::setValue(const std::string& path, const bool value, const std::string& attName)
 {
     return setText(path, StrHelper::toStr(value), attName);

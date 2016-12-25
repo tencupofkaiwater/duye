@@ -80,19 +80,16 @@ public:
 
 public:
     CfgMgr();
-    explicit CfgMgr(const std::string& filePath);
     ~CfgMgr();
 
 	static CfgMgr& ins();
     
     /**
      * @breif load configuration
+     * @param [in] filePath : configuration file full path
      * @return true/false
      */
-    bool load();
     bool load(const std::string& filePath);
-    bool loadData(const int8* cfgData);
-    bool loadData(const std::string cfgData);
     
     /**
      * @brief get configuration value

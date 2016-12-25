@@ -84,8 +84,9 @@ bool Epoll::addfd(const int32 fd, const uint32 epollMode)
     epollEvent.data.fd = fd;
     epollEvent.events = epollMode;
     
-    if (epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &epollEvent) != 0) {
-		ERROR_DUYE_LOG("[%s:%d] epoll_ctl() return != 0", __FILE__, __LINE__);
+    int32 ret = epoll_ctl(m_epollfd, EPOLL_CTL_ADD, fd, &epollEvent);
+    if (ret != 0) {
+		ERROR_DUYE_LOG("[%s:%d] epoll_ctl() return = %d", __FILE__, __LINE__, ret);
 		return false;
     }
 
