@@ -25,6 +25,7 @@ class Buffer {
 public:
 	Buffer();
 	Buffer(const uint32 capacity);
+	Buffer(const int8* data, const uint32 len);
 	Buffer(const Buffer& buffer);
 	~Buffer();
 
