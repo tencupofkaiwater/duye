@@ -24,28 +24,13 @@ namespace duye {
 
 static const int8* DUYE_LOG_PREFIX = "duye.public.cfgmgr";
 
-CfgMgr::CfgMgr() {
-}
-
-CfgMgr::CfgMgr(const std::string& filePath) : m_cfgFilePath(filePath) {
-}
+CfgMgr::CfgMgr() {}
 
 CfgMgr::~CfgMgr() {}
 
 CfgMgr& CfgMgr::ins() {
 	static CfgMgr ins;
 	return ins;
-}
-
-bool CfgMgr::load()
-{
-    if (m_cfgFilePath.empty())
-    {
-        DUYE_ERROR("configuration file path is empty");
-        return false;
-    }
-    
-    return load(m_cfgFilePath);
 }
 
 bool CfgMgr::load(const std::string& filePath)
