@@ -122,17 +122,6 @@ private:
      */
     bool accept(IPv4Addr& clientAddr, int32& clientSockfd, const bool isBlock = false);
 
-    /**
-     * @brief receive data
-     * @param [out] clientSockfd : client sockfd
-     * @param [out] buffer : output buffer
-     * @param [in] size : buffer size
-     * @param [in] isBlock : block or unblock, default unblock
-     * @return size/-1
-     * @note 
-     */	
-    int64 recv(int32 clientSockfd, int8* buffer, const uint64 size, const bool isBlock = false);     
-
 private:
     NetServerPara   m_serverPara;
     Socket          m_socket;

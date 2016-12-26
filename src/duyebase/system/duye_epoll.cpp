@@ -34,15 +34,12 @@ Epoll::Epoll() : m_epollfd(-1)
 Epoll::~Epoll() 
 {
     close();
-    if (m_sysEvents != NULL)
-    {
-        free(m_sysEvents);
-        m_sysEvents = NULL;
-    }
 }
 
 bool Epoll::open(const uint32 maxEvents)
 {   
+    close();
+
     m_maxEvents = maxEvents;
     
     m_epollfd = epoll_create(m_maxEvents);
@@ -50,7 +47,7 @@ bool Epoll::open(const uint32 maxEvents)
     {
     	ERROR_DUYE_LOG("%s:%d > epoll_create failed \n", __FILE__, __LINE__);
     	return false;
-    }   
+    }  
 
     m_sysEvents = (struct epoll_event*)calloc(m_maxEvents, sizeof(struct epoll_event));
     if (m_sysEvents == NULL) {
@@ -63,11 +60,18 @@ bool Epoll::open(const uint32 maxEvents)
 
 bool Epoll::close()
 {
+    m_maxEvents = 0;
     if (m_epollfd != -1)
     {
     	::close(m_epollfd);
     	m_epollfd = -1;
     }
+
+    if (m_sysEvents != NULL)
+    {
+        free(m_sysEvents);
+        m_sysEvents = NULL;
+    }    
     
     return true;
 }
@@ -131,7 +135,7 @@ bool Epoll::wait(Epoll::EventList& eventList, const uint32 timeout)
     	return false;
     }
 
-    for (uint32 i = 0; i < (uint32)event_count; i++)   
+    for (uint32 i = 0; i < (uint32)event_count; i++)
     {
         if ((m_sysEvents[i].events & EPOLLERR) ||  
             (m_sysEvents[i].events & EPOLLHUP))

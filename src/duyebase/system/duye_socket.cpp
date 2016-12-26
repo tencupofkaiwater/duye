@@ -19,6 +19,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <duye_sys.h>
+#include <duye_logger.h>
 #include <duye_socket.h>
 
 namespace duye {
@@ -384,7 +385,36 @@ bool Transfer::connect(const int32 clientSockfd, const struct sockaddr* serverAd
 
 int64 Transfer::send(const int32 sockfd, const int8* data, const uint64 len, const int32 flags)
 {
-    return ::send(sockfd, data, len, flags);
+    int8* p = (int8*)data;
+    uint64 leave_len = len;
+
+    while (1) {
+        int64 size = ::send(sockfd, p, leave_len, flags);
+        if (size < 0) {
+            if (errno == EINTR) {
+                DUYE_ERROR("socket error : %d", errno);
+                return -1;
+            }
+
+            if (errno == EAGAIN) {
+                DUYE_WARN("buffer over error : %d, will sleep 10 millisecond", errno);
+                System::msleep(10);
+                continue;
+            }
+        }
+
+        if ((uint64)size == leave_len) {
+            DUYE_TRACE("send data finished");
+            leave_len = 0;
+            break;
+        }
+
+        leave_len -= size;
+        p += size;
+        DUYE_TRACE("send data process %d/%d bytes", len - leave_len, len);
+    }
+
+    return len - leave_len;
 }
 
 int64 Transfer::sendmsg(const int32 sockfd, const struct msghdr* msg, const int32 flags)
@@ -397,9 +427,16 @@ int64 Transfer::sendto(const int32 sockfd, IPv4Addr& dst_addr, const int8* data,
     return ::sendto(sockfd, data, len, flags, (const struct sockaddr*)&dst_addr.addr(), dst_addr.addrLen());	
 }
 
-int64 Transfer::recv(const int32 sockfd, int8* buffer, const uint64 size, const int32 flags)
+int64 Transfer::recv(const int32 sockfd, int8* buffer, const uint64 size, const bool block)
 {
-    return ::recv(sockfd, buffer, size, flags);
+    if (block)
+    {
+        return recv(sockfd, buffer, size, 0);
+    }
+    else
+    {
+        return recv(sockfd, buffer, size, MSG_DONTWAIT);
+    }
 }
 
 int64 Transfer::recvmsg(const int32 sockfd, struct msghdr* msg, const int32 flags)

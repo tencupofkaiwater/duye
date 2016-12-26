@@ -169,10 +169,11 @@ bool HcnServer::run()
     for (;;)
     {
         eventList.clear();
-        if (!m_epoll.wait(eventList, timeout))
+        if (!m_epoll.wait(eventList, timeout)) {
             continue;
+        }
 
-        DUYE_TRACE("m_epoll.wait event:%d", eventList.size());
+        DUYE_TRACE("m_epoll.wait event size = %d", eventList.size());
         Epoll::EventList::iterator iter = eventList.begin();
         for (; iter != eventList.end(); ++iter)
             notifyEvent(*iter);
@@ -206,13 +207,13 @@ bool HcnServer::notifyEvent(const EpollEvent& event)
     }
 
     DUYE_TRACE("will m_threadPool.doJob()");
-    if (!m_threadPool.doJob(job, (void*)hcnEvent))
-    {
+    if (!m_threadPool.doJob(job, (void*)hcnEvent)) {
+        DUYE_ERROR("call m_threadPool.doJob return failed");
         delete hcnEvent;
         hcnEvent = NULL;
         return false;
     }
-
+    
     return true;
 }
 

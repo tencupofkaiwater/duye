@@ -14,6 +14,7 @@
 * 1. 2016-03-29 duye Created this file
 */
 
+#include <errno.h>
 #include <duye_logger.h>
 #include <duye_helper.h>
 #include <duye_buffer.h>
@@ -181,17 +182,17 @@ bool TcpServer::removeClient(const int32 sockfd) {
 
 int64 TcpServer::send(const int32 clientSockfd, const int8* data, const uint64 len)
 {
-    return Transfer::send(clientSockfd, data, len, MSG_NOSIGNAL);
+    return Transfer::send(clientSockfd, data, len);
 }
 
 bool TcpServer::onNetEvent(HcnEvent* event)
 {
-    if (event == NULL)
+    if (event == NULL) {
         return false;
+    }
 
     DUYE_DEBUG("received net event, sockfd=%d", event->fd());
-	if (event->fd() == m_socket.sockfd() && event->type() == RECV_FD)
-	{
+	if (event->fd() == m_socket.sockfd() && event->type() == RECV_FD) {
         return acceptClient();
 	}
 
@@ -201,14 +202,15 @@ bool TcpServer::onNetEvent(HcnEvent* event)
         readData(event);
         break;
     case SEND_FD:
-        //writeData(event);
+        // nothing to do
         break;
     case ERROR_FD:
-        DUYE_WARN("socket error, fd = %d", event->fd());
+        DUYE_INFO("sockfd=%d disconnected", event->fd());
+        return m_tcpServerUser->onDiscon(event->fd());
         return false;
         break;
     default:
-        DUYE_ERROR("unknown event type=%d sockfd=%d", event->type(), event->fd());
+        DUYE_WARN("unknown event type=%d sockfd=%d", event->type(), event->fd());
         return false;
         break;
     }
@@ -226,7 +228,7 @@ bool TcpServer::acceptClient()
     int32 clientSockfd = -1;
     if (!accept(clientAddr, clientSockfd))
     {
-        DUYE_WARN("m_tcpServer.accept() failed.");   
+        DUYE_WARN("m_tcpServer.accept() failed.");
         return false;
     }
 
@@ -248,22 +250,40 @@ bool TcpServer::readData(HcnEvent* event)
     
     //AutoLock autoLock(m_readMutex);
     Buffer buffer(m_serverPara.recvBufSize);
-    int64 msgLen = recv(event->fd(), buffer.data(), m_serverPara.recvBufSize);
-    if (msgLen < 0)
-    {
-        DUYE_ERROR("Transfer::recv() failed : size = %d", msgLen);
+    while (1) {
+        int8 temp[1024] = {0};
+        int64 msgLen = Transfer::recv(event->fd(), temp, sizeof(temp));
+        if (msgLen < 0) {
+            if (errno == EAGAIN) {
+                DUYE_TRACE("Transfer::recv() finished, errno=%d", errno);
+            } else {
+                DUYE_ERROR("Transfer::recv() socket error, errno=%d", errno);
+            }
+            break;
+        } else if (msgLen == 0) {
+            DUYE_TRACE("client disconnected");
+            m_tcpServerUser->onDiscon(event->fd());
+            m_hcnServer.unregisterListener(event->fd());
+            break;
+        } else {
+            if (!buffer.append(temp, msgLen)) {
+                DUYE_ERROR("buffer overflow, can write size=%d", m_serverPara.recvBufSize);
+                break;
+            }
+
+            if ((size_t)msgLen < sizeof(temp)) {
+                DUYE_TRACE("Transfer::recv() finished");
+                break;
+            }
+        }
+    }
+
+    if (buffer.size() == 0) {
+        DUYE_TRACE("Transfer::recv() data size=0");
         return false;
     }
-    else if (msgLen == 0)
-    {
-        DUYE_WARN("sockfd=%d disconnected", event->fd());
-        return m_tcpServerUser->onDiscon(event->fd());
-    }
 
-	buffer.setSize(msgLen);
-
-    DUYE_TRACE("Transfer::recv() data : size = %d, content >>>> \n%s\n", msgLen, buffer.data());
-
+    DUYE_TRACE("Transfer::recv() data : size = %d, content >>>> \n%s\n", buffer.size(), buffer.data());
     return m_tcpServerUser->onRecved(event->fd(), buffer.data(), buffer.size());
 }
 
@@ -271,20 +291,6 @@ bool TcpServer::accept(IPv4Addr& clientAddr,  int32& clientSockfd, const bool is
 {
     clientSockfd = Transfer::accept(m_socket.sockfd(), (struct sockaddr*)&clientAddr.addr(), clientAddr.addrLen(), isBlock);
     return clientSockfd > 0 ? true : false;
-}
-
-int64 TcpServer::recv(int32 clientSockfd, int8* buffer, const uint64 size, const bool isBlock)
-{
-    if (isBlock)
-    {
-    	return Transfer::recv(clientSockfd, buffer, size);
-    }
-    else
-    {
-    	return Transfer::recv(clientSockfd, buffer, size, MSG_DONTWAIT);
-    }
-    
-    return -1;	
 }
 
 }
