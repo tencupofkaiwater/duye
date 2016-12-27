@@ -16,6 +16,7 @@
 
 #include <duye_logger.h>
 #include <duye_helper.h>
+#include <duye_net_rw.h>
 #include <duye_tcp_client.h>
 
 static const int8* DUYE_LOG_PREFIX = "duye.system.tcpclient";
@@ -77,23 +78,80 @@ bool TcpClient::disconnect()
     return ret;
 }
 
-int64 TcpClient::recv(int8* buffer, const uint64 size, const bool isBlock)
-{
-    if (isBlock)
-    {
-    	return Transfer::recv(m_clientSocket.sockfd(), buffer, size);
+int64 TcpClient::recv(Buffer& buffer, const bool isBlock)
+{    
+    NetRW::NetRWStatus status;
+    int64 bytes = NetRW::read(m_clientSocket.sockfd(), buffer, status, isBlock);
+    if (status == NetRW::RD_FINISHED) {
+        return bytes;
     }
-    else
-    {
-    	return Transfer::recv(m_clientSocket.sockfd(), buffer, size, MSG_DONTWAIT);
+
+    if (status == NetRW::RD_OVERFLOW) {
+        DUYE_ERROR("recv buffer size(%d) too small", buffer.capacity());
+    } else if (status == NetRW::FD_CLOSEED) {
+        DUYE_WARN("socket fd close");
+        NetRW::close(m_clientSocket.sockfd());
+    } else {
+        DUYE_ERROR("recv other error");
     }
-    
-    return -1;	
+
+    return -1;
 }
 
-int64 TcpClient::send(const int8* data, const uint64 len)
+int64 TcpClient::recv(int8* buffer, const uint32 size, const bool isBlock)
+{    
+    NetRW::NetRWStatus status;
+    int64 bytes = NetRW::read(m_clientSocket.sockfd(), buffer, size, status, isBlock);
+    if (status == NetRW::RD_FINISHED) {
+        return bytes;
+    }
+
+    if (status == NetRW::RD_OVERFLOW) {
+        DUYE_ERROR("recv buffer size(%d) too small", size);
+    } else if (status == NetRW::FD_CLOSEED) {
+        DUYE_WARN("socket fd close");
+        NetRW::close(m_clientSocket.sockfd());
+    } else {
+        DUYE_ERROR("recv other error");
+    }
+
+    return -1;
+}
+
+int64 TcpClient::send(const Buffer& buffer)
 {
-    return Transfer::send(m_clientSocket.sockfd(), data, len, MSG_NOSIGNAL);	
+    NetRW::NetRWStatus status;
+    int64 bytes = NetRW::write(m_clientSocket.sockfd(), buffer, status);
+    if (status == NetRW::WR_FINISHED) {
+        return bytes;
+    } 
+
+    if (status == NetRW::FD_CLOSEED) {
+        DUYE_WARN("socket fd closed");
+        NetRW::close(m_clientSocket.sockfd());
+    } else {
+        DUYE_WARN("NetRW::write() other unknown error");
+    }
+
+    return -1;
+}
+
+int64 TcpClient::send(const int8* data, const uint32 len)
+{
+    NetRW::NetRWStatus status;
+    int64 bytes = NetRW::write(m_clientSocket.sockfd(), data, len, status);
+    if (status == NetRW::WR_FINISHED) {
+        return bytes;
+    } 
+
+    if (status == NetRW::FD_CLOSEED) {
+        DUYE_WARN("socket fd closed");
+        NetRW::close(m_clientSocket.sockfd());
+    } else {
+        DUYE_WARN("NetRW::write() other unknown error");
+    }
+
+    return -1;
 }
 
 const IPv4Addr& TcpClient::ipv4Addr()

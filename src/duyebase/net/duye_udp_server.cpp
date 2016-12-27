@@ -84,21 +84,12 @@ const IPv4Addr& UdpServer::ipv4Addr()
 
 int64 UdpServer::recvfrom(IPv4Addr& srcAddr, int8* buffer, const uint64 size, const bool isBlock)
 {
-    if (isBlock)
-    {
-    	return Transfer::recvfrom(m_socket.sockfd(), srcAddr, buffer, size);
-    }
-    else
-    {
-    	return Transfer::recvfrom(m_socket.sockfd(), srcAddr, buffer, size, MSG_DONTWAIT);
-    }
-    
-    return -1;	
+  	return Transfer::recvfrom(m_socket.sockfd(), srcAddr, buffer, size, isBlock);
 }
 
 int64 UdpServer::sendto(IPv4Addr& dstAddr, const int8* data, const uint64 len)
 {
-    return Transfer::sendto(m_socket.sockfd(), dstAddr, data, len, MSG_NOSIGNAL);	
+    return Transfer::sendto(m_socket.sockfd(), dstAddr, data, len);	
 }
 
 }

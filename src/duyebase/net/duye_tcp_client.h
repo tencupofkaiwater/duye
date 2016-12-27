@@ -18,6 +18,7 @@
 
 #include <duye_type.h>
 #include <duye_socket.h>
+#include <duye_buffer.h>
 
 #define TCP_DATA_BUFFER_SIZE 2048
 
@@ -50,7 +51,8 @@ public:
      * @return size/-1
      * @note 
      */	
-    int64 recv(int8* buffer, const uint64 size, const bool isBlock = true);
+    int64 recv(Buffer& buffer, const bool isBlock = false);
+    int64 recv(int8* buffer, const uint32 size, const bool isBlock = false);
     
     /**
      * @brief send data
@@ -59,7 +61,8 @@ public:
      * @return size/-1
      * @note 
      */		
-    int64 send(const int8* data, const uint64 len);    
+    int64 send(const Buffer& buffer);
+    int64 send(const int8* data, const uint32 len);
 
     /**
      * @brief get server IPv4 address

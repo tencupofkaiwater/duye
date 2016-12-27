@@ -195,7 +195,7 @@ public:
      * @return true/false
      * @note 
      */		
-    bool open(const NetProtocol& protocol, const bool isBlock = true); 
+    bool open(const NetProtocol& protocol, const bool isBlock = true);
     bool open(const NetProtocol& protocol, const std::string& ifName, const bool isBlock = true);
     bool isOpen() const;
     
@@ -345,27 +345,26 @@ public:
      * @param [in] sockfd : socket fd
      * @param [in] data : send data
      * @param [in] len : data length
-     * @param [in] flags : default is MSG_NOSIGNAL
      * @return on success, return the number of characters sent. on error, return -1
      * @note 
      */		
-    static int64 send(const int32 sockfd, const int8* data, const uint64 len, const int32 flags = MSG_NOSIGNAL);
-    static int64 sendmsg(const int32 sockfd, const struct msghdr* msg, const int32 flags = MSG_NOSIGNAL);
-    static int64 sendto(const int32 sockfd, IPv4Addr& dstAddr, const int8* data, const uint64 len, const int32 flags = MSG_NOSIGNAL);
+    static int64 send(const int32 sockfd, const int8* data, const uint64 len);
+    static int64 sendmsg(const int32 sockfd, const struct msghdr* msg);
+    static int64 sendto(const int32 sockfd, IPv4Addr& dstAddr, const int8* data, const uint64 len);
    
     /**
      * @brief receive data
      * @param [in] sockfd : socket fd
      * @param [out] buffer : output buffer
      * @param [in] size : buffer size
-     * @param [in] flags : flags
+     * @param [in] block : block
      * @return on success, return the number of bytes received. on error, return -1, 
      *		The return value will be 0 when the peer has performed an orderly shutdown.
      * @note 
      */	
-    static int64 recv(const int32 sockfd, int8* buffer, const uint64 size, const bool block = false);
-    static int64 recvmsg(const int32 sockfd, struct msghdr* msg, const int32 flags = 0);
-    static int64 recvfrom(const int32 sockfd, IPv4Addr& srcAddr, int8* buffer, const uint64 size, const int32 flags = 0);    
+    static int64 recv(const int32 sockfd, int8* buffer, const uint64 size, const bool block);
+    static int64 recvmsg(const int32 sockfd, struct msghdr* msg, const bool block);
+    static int64 recvfrom(const int32 sockfd, IPv4Addr& srcAddr, int8* buffer, const uint64 size, const bool block);  
 };
 
 }

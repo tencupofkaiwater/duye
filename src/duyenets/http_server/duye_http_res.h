@@ -40,19 +40,12 @@ public:
 	void setStatusCode(const HttpResCode& code);
 	HttpResCode getStatusCode();
 
-	/**
-	 * @brief get error description.
-	 * @return error description.
-	 */
-	uint8* getError();
-
 private:
 	bool parseRes(const Buffer& html);
 	bool parseBody();
 	std::string getHeaderHtml(const Buffer& html);
 
 private:
-	Error 		m_error;
 	Buffer 		m_org_body;
 	HttpResHeader m_header;
 	ParamPairs 	m_jsons;

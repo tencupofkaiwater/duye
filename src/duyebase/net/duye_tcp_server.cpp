@@ -18,6 +18,7 @@
 #include <duye_logger.h>
 #include <duye_helper.h>
 #include <duye_buffer.h>
+#include <duye_net_rw.h>
 #include <duye_tcp_server.h>
 
 #define RECV_BUF_MAX_SIZE 4096
@@ -182,7 +183,22 @@ bool TcpServer::removeClient(const int32 sockfd) {
 
 int64 TcpServer::send(const int32 clientSockfd, const int8* data, const uint64 len)
 {
-    return Transfer::send(clientSockfd, data, len);
+    NetRW::NetRWStatus status;
+    int64 bytes = NetRW::write(clientSockfd, data, len, status);
+    if (status == NetRW::WR_FINISHED) {
+        return bytes;
+    } 
+
+    if (status == NetRW::FD_CLOSEED) {
+        DUYE_WARN("socket fd closed");
+        m_hcnServer.unregisterListener(clientSockfd);
+        NetRW::close(clientSockfd);
+        m_tcpServerUser->onDiscon(clientSockfd);
+    } else {
+        DUYE_WARN("NetRW::write() other unknown error");
+    }
+
+    return -1;
 }
 
 bool TcpServer::onNetEvent(HcnEvent* event)
@@ -250,41 +266,25 @@ bool TcpServer::readData(HcnEvent* event)
     
     //AutoLock autoLock(m_readMutex);
     Buffer buffer(m_serverPara.recvBufSize);
-    while (1) {
-        int8 temp[1024] = {0};
-        int64 msgLen = Transfer::recv(event->fd(), temp, sizeof(temp));
-        if (msgLen < 0) {
-            if (errno == EAGAIN) {
-                DUYE_TRACE("Transfer::recv() finished, errno=%d", errno);
-            } else {
-                DUYE_ERROR("Transfer::recv() socket error, errno=%d", errno);
-            }
-            break;
-        } else if (msgLen == 0) {
-            DUYE_TRACE("client disconnected");
-            m_tcpServerUser->onDiscon(event->fd());
-            m_hcnServer.unregisterListener(event->fd());
-            break;
-        } else {
-            if (!buffer.append(temp, msgLen)) {
-                DUYE_ERROR("buffer overflow, can write size=%d", m_serverPara.recvBufSize);
-                break;
-            }
-
-            if ((size_t)msgLen < sizeof(temp)) {
-                DUYE_TRACE("Transfer::recv() finished");
-                break;
-            }
-        }
+    NetRW::NetRWStatus status;
+    NetRW::read(event->fd(), buffer, status);
+    if (status == NetRW::RD_FINISHED) {
+        DUYE_TRACE("Transfer::recv() size = %d, content >>>> \n%s\n", buffer.size(), buffer.data());
+        return m_tcpServerUser->onRecved(event->fd(), buffer.data(), buffer.size());
     }
 
-    if (buffer.size() == 0) {
-        DUYE_TRACE("Transfer::recv() data size=0");
-        return false;
+    if (status == NetRW::RD_OVERFLOW) {
+        DUYE_ERROR("recv buffer size(%d) too small", m_serverPara.recvBufSize);
+    } else if (status == NetRW::FD_CLOSEED) {
+        DUYE_WARN("socket fd=%d closed", event->fd());
+        //m_hcnServer.unregisterListener(event->fd());
+        NetRW::close(event->fd());
+        m_tcpServerUser->onDiscon(event->fd());
+    } else {
+        DUYE_ERROR("recv other error");
     }
 
-    DUYE_TRACE("Transfer::recv() data : size = %d, content >>>> \n%s\n", buffer.size(), buffer.data());
-    return m_tcpServerUser->onRecved(event->fd(), buffer.data(), buffer.size());
+    return false;
 }
 
 bool TcpServer::accept(IPv4Addr& clientAddr,  int32& clientSockfd, const bool isBlock)

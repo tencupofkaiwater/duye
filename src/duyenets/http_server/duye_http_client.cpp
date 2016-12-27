@@ -122,14 +122,14 @@ bool HttpClient::run() {
 				}
 				
 				int8 temp[HTTP_RESPONSE_TEMP_SIZE] = {0};
-				int64 recv_size = m_tcp_client.recv(temp, HTTP_RESPONSE_TEMP_SIZE);
+				int64 recv_size = m_tcp_client.recv((int8*)temp, HTTP_RESPONSE_TEMP_SIZE);
 				if (recv_size < 0) {
 					DUYE_DEBUG("receied data finished, received data size = %d", response.size());
 					break;
 				}
 
 				if (response.append(temp, recv_size)) {
-					DUYE_ERROR("Buffer::append() failed:%s", response.error());
+					DUYE_ERROR("Buffer::append() failed");
 					code = HTTP_CODE_413;
 					break;
 				}

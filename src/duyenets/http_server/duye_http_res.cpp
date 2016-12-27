@@ -15,6 +15,7 @@
 */
 #include <string>
 #include <list>
+#include <duye_logger.h>
 #include <duye_helper.h>
 #include <duye_http_res.h>
 
@@ -23,11 +24,9 @@ namespace duye {
 static const int8* DUYE_LOG_PREFIX = "duye.nets.http.res";
 
 HttpRes::HttpRes() {
-	m_error.setPrefix(DUYE_LOG_PREFIX);
 }
 
 HttpRes::HttpRes(const Buffer& html) {
-	m_error.setPrefix(DUYE_LOG_PREFIX);
 	parseResHtml(html);
 }
 
@@ -105,10 +104,6 @@ HttpResCode HttpRes::getStatusCode() {
 	return HTTP_CODE_MAX;
 }
 
-uint8* HttpRes::getError() {
-	return m_error.error;
-}
-
 /*
 HTTP/1.1 200 OK
 
@@ -132,13 +127,13 @@ Content-Type: image/png
 */
 bool HttpRes::parseRes(const Buffer& html) {
 	if (html.empty()) {
-		ERROR_DUYE_LOG("http response is empty");
+		DUYE_ERROR("http response is empty");
 		return false;		
 	}
 	
 	std::string header_html = getHeaderHtml(html);
 	if (header_html.empty()) {
-		ERROR_DUYE_LOG("http response header is empty");
+		DUYE_ERROR("http response header is empty");
 		return false;		
 	}
 	
@@ -155,7 +150,7 @@ bool HttpRes::parseRes(const Buffer& html) {
 
 bool HttpRes::parseBody() {
 	if (m_org_body.empty()) {
-		ERROR_DUYE_LOG("http response body is empty");
+		DUYE_ERROR("http response body is empty");
 		return false;
 	}	
 	
@@ -168,11 +163,13 @@ std::string HttpRes::getHeaderHtml(const Buffer& html) {
 		return "";
 	}
 
+	end_pos += (sizeof("\r\n\r\n") - 1);
+
 	uint32 header_len = end_pos - html.data();
 	uint32 body_len = html.size() - header_len;
 
-	m_org_body.init(body_len);
-	html.copy(m_org_body.data(), m_org_body.size());
+	m_org_body.resize(body_len);
+	m_org_body.append(end_pos, body_len);
 
 	return std::string(html.data(), header_len);
 }
