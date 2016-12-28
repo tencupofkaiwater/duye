@@ -19,7 +19,10 @@
 /** 
  * @brief base type define
  */
+#ifndef YTPEDEF_INT8_H
+#define YTPEDEF_INT8_H
 typedef char               int8;
+#endif
 typedef short		       int16;
 typedef int		           int32;
 typedef long long	       int64;
