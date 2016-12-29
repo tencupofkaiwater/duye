@@ -79,6 +79,12 @@ public:
      */
 	bool cancelTimer(TimerIf* timerIf);
 
+    /**
+     * @brief update timer
+     * @param [in] timerIf : user
+     */
+    bool updateTimer(TimerIf* timerIf, const uint32 timeout);
+
 private:
     // implementation from ThreadTask
     virtual bool run();
@@ -86,6 +92,7 @@ private:
 private:
     TimerUserMap   m_timerUserMap;
     Mutex          m_timerDataListMutex;
+    bool           m_isRunning;
 };
 
 }

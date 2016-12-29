@@ -91,6 +91,7 @@ int64 TcpClient::recv(Buffer& buffer, const bool isBlock)
     } else if (status == NetRW::FD_CLOSEED) {
         DUYE_WARN("socket fd close");
         NetRW::close(m_clientSocket.sockfd());
+        return 0;
     } else {
         DUYE_ERROR("recv other error");
     }
@@ -111,6 +112,7 @@ int64 TcpClient::recv(int8* buffer, const uint32 size, const bool isBlock)
     } else if (status == NetRW::FD_CLOSEED) {
         DUYE_WARN("socket fd close");
         NetRW::close(m_clientSocket.sockfd());
+        return 0;
     } else {
         DUYE_ERROR("recv other error");
     }

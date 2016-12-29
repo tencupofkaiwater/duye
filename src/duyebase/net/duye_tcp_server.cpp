@@ -178,6 +178,7 @@ bool TcpServer::addClient(const int32 sockfd) {
 }
 
 bool TcpServer::removeClient(const int32 sockfd) {
+    NetRW::close(sockfd);
 	return m_hcnServer.unregisterListener(sockfd);
 }
 

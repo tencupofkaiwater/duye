@@ -26,7 +26,9 @@
 namespace duye {
 
 static const int8* DUYE_LOG_PREFIX = "duye.logger";
-static const int8* DEF_CONF_FILE_NAME = "duye_log_conf.xml";
+static const int8* DEF_CONF_FILE_NAME = 
+
+"duye_log_conf.xml";
 
 LogGlobalRule::LogGlobalRule() 
     : m_topLogLevel(LOG_TRACE)
@@ -768,8 +770,8 @@ void Logger::getSysTime(int8* buffer, const uint32 size)
     TimeHelper::TimeValue timeValue;    
     TimeHelper::format(System::sysTime(), timeValue);
 
-    snprintf(buffer, size, "%d-%d-%d %d:%d:%d:%06d", timeValue.year, timeValue.month, timeValue.day, 
-        timeValue.hour, timeValue.minute, timeValue.sec, timeValue.msec + timeValue.usec * 1000);
+    snprintf(buffer, size, "%d-%d-%d %d:%d:%d:%03d", timeValue.year, timeValue.month, timeValue.day, 
+        timeValue.hour, timeValue.minute, timeValue.sec, timeValue.msec);
 }
 
 }

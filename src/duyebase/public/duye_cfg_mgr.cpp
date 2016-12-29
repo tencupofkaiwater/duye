@@ -431,16 +431,16 @@ std::string CfgMgr::getValue(const int8* path) {
 }
 
 bool CfgMgr::getNodes(const std::string& path, const std::list<std::string>& attrList, ParamNodeList& nodeList) {
-	DUYE_DEBUG("path : %s", path.c_str());
+	DUYE_TRACE("path : %s", path.c_str());
 	
 	std::list<duye::NodeAndNamePair> node_and_name_list;
 	if (!parsePath(path, node_and_name_list)) return false;
 
 	std::list<NodeAndNamePair>::const_iterator iter = node_and_name_list.begin();
 	for (; iter != node_and_name_list.end(); ++iter) {
-		DUYE_DEBUG("node:%s, name:%s", iter->node.c_str(), iter->name.c_str());
+		DUYE_TRACE("node:%s, name:%s", iter->node.c_str(), iter->name.c_str());
 		if (iter->node == node_and_name_list.back().node) {
-			DUYE_DEBUG("last node:%s", iter->node.c_str());
+			DUYE_TRACE("last node:%s", iter->node.c_str());
 			if (iter->node.empty() || !iter->name.empty()) {
 				DUYE_ERROR("path(%s) error:last node not need name value", path.c_str());
 			}
@@ -451,7 +451,7 @@ bool CfgMgr::getNodes(const std::string& path, const std::list<std::string>& att
 	}
 
 	if (node_and_name_list.empty()) {
-		DUYE_DEBUG("node_and_name_list is empty");
+		DUYE_TRACE("node_and_name_list is empty");
 		return false;
 	}
 
@@ -588,7 +588,7 @@ XmlElement* CfgMgr::getNode(const std::list<duye::NodeAndNamePair>& nodeAndNameL
 			break;
 		}
 		
-		DUYE_DEBUG("node:%s, name:%s", pair_iter->node.c_str(), pair_iter->name.c_str());
+		DUYE_TRACE("node:%s, name:%s", pair_iter->node.c_str(), pair_iter->name.c_str());
 		found_node = recursion(found_node, pair_iter->node, pair_iter->name);
 		if (!found_node) {
 			DUYE_ERROR("found_node == null");
@@ -602,7 +602,7 @@ XmlElement* CfgMgr::getNode(const std::list<duye::NodeAndNamePair>& nodeAndNameL
 }
 
 bool CfgMgr::getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList, const std::list<std::string>& attrList, ParamNodeList& nodeList) {
-	DUYE_DEBUG("in %s", __FUNCTION__);
+	DUYE_TRACE("in %s", __FUNCTION__);
 	
 	XmlElement* root = m_cfgDoc.rootElement();
 	if (root == NULL) {
@@ -627,7 +627,7 @@ bool CfgMgr::getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList
 			judge_name = false;
 		}
 
-		DUYE_DEBUG("node:%s, name:%s", iter->node.c_str(), iter->name.c_str());
+		DUYE_TRACE("node:%s, name:%s", iter->node.c_str(), iter->name.c_str());
 		found_node = recursion(found_node, iter->node, iter->name, judge_name);
 		if (!found_node) {
 			break;
@@ -645,7 +645,7 @@ bool CfgMgr::getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList
 				continue;
 			}
 
-			DUYE_DEBUG("%d. get attr in node:%s", cnt++, last_node_name.c_str());
+			DUYE_TRACE("%d. get attr in node:%s", cnt++, last_node_name.c_str());
 			
 			ParamNode param_node;
 			std::list<std::string>::const_iterator attr_iter = attrList.begin();
@@ -653,7 +653,7 @@ bool CfgMgr::getNodeList(const std::list<duye::NodeAndNamePair>& nodeAndNameList
 				const int8* value = found_node->attribute(attr_iter->c_str());
 				if (value) {
 					param_node.addPair(*attr_iter, value);
-					DUYE_DEBUG("add pair(%s, %s)", attr_iter->c_str(), value);
+					DUYE_TRACE("add pair(%s, %s)", attr_iter->c_str(), value);
 				}
 			}
 			
@@ -688,14 +688,14 @@ XmlElement* CfgMgr::recursion(XmlElement* node, const std::string& node_name, co
 			return NULL;
 		}
 
-		DUYE_DEBUG("node->attribute('name') = %s, name_attr=%s", value, name_attr.c_str());
+		DUYE_TRACE("node->attribute('name') = %s, name_attr=%s", value, name_attr.c_str());
 		if (value != name_attr) {
-			DUYE_DEBUG("node->attribute('name') = %s, input:%s, unmatch", value, name_attr.c_str());
+			DUYE_TRACE("node->attribute('name') = %s, input:%s, unmatch", value, name_attr.c_str());
 			return recursion(node->nextSiblingElement(), node_name, name_attr, judge_name);
 		}
 	}
 
-	DUYE_DEBUG("find node = %s", node_name.c_str());
+	DUYE_TRACE("find node = %s", node_name.c_str());
 	
 	return node;
 }

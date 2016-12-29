@@ -96,8 +96,8 @@ bool ThreadPool::initThreadPool()
         ThreadWorker* worker = new ThreadWorker(this, i);
         if (worker != NULL)
         {
-    	    m_idleThreadWorkerList.push_back(worker);	
-            DUYE_TRACE("create thread worker(id=%d) for thread pool, new thread id = %u", i, worker->threadId());
+    	    m_idleThreadWorkerList.push_back(worker);
+            //DUYE_TRACE("create thread worker(id=%d) for thread pool, new thread id = %u", i, worker->threadId());
         }
         else
         {

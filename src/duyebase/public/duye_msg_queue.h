@@ -88,17 +88,19 @@ bool MsgQueue<T>::push(T* msg)
 template <class T>
 T* MsgQueue<T>::pop(const MsgQueueMode& mode)
 {
-    if (mode == MSG_BLOCK)
-    {
-        m_semaphore.wait();
-    }
-    else if (mode == MSG_NONBLOCK)
-    {
-        m_semaphore.tryWait();  
-    }
-    else
-    {
-        return NULL;	
+    if (m_queue.size() == 0) {
+        if (mode == MSG_BLOCK)
+        {
+            m_semaphore.wait();
+        }
+        else if (mode == MSG_NONBLOCK)
+        {
+            m_semaphore.tryWait();
+        }
+        else
+        {
+            return NULL;
+        }
     }
     
     T* msg = m_queue.front();

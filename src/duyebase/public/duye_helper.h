@@ -254,8 +254,8 @@ public:
 		uint8   hour;
 		uint8   minute;
 		uint8   sec;
-		uint16  msec;
-		uint16  usec;
+		uint16  msec; // millisecond
+		uint16  usec; // microsecond
 	};
 
 public:

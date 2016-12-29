@@ -36,15 +36,28 @@ namespace duye {
 
 void System::sleep(const uint64& time)
 {
+	//struct timespec slptm;
+	//slptm.tv_sec = time;
+	//slptm.tv_nsec = 0;
+    //::nanosleep(&slptm, NULL);
     ::sleep(time);
 }
 
 void System::msleep(const uint64& time)
 {
+	//struct timespec slptm;
+	//slptm.tv_sec = 0;
+	//slptm.tv_nsec = time * 1000 * 1000;
+    //::nanosleep(&slptm, NULL);
     ::usleep(time * 1000);
 }
+
 void System::usleep(const uint64& time)
 {
+	//struct timespec slptm;
+	//slptm.tv_sec = 0;
+	//slptm.tv_nsec = time * 1000;
+    //::nanosleep(&slptm, NULL);
     ::usleep(time);
 }
 
