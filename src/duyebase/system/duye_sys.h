@@ -49,7 +49,7 @@ public:
 		errorLog = error + size;
 	}
 
-	uint8	error[ERROR_BUF_SIZE];	
+	uint8	error[ERROR_BUF_SIZE];
 	uint8*	errorLog;
 	uint32  errorBufSize;
 };
@@ -60,21 +60,18 @@ public:
     /**
      * @brief sleep
      * @param [in] time : second
-     * @note 
      */		
     static void sleep(const uint64& time);
 
     /**
      * @brief usleep
      * @param [in] time : millisecond
-     * @note 
      */		
     static void msleep(const uint64& time);    
     
     /**
      * @brief usleep
      * @param [in] time : microsecond
-     * @note 
      */		
     static void usleep(const uint64& time);
     
@@ -84,7 +81,6 @@ public:
      * @param [in] size : out buffer size
      * @param [in] args : parameters
      * @return string size, error : -1
-     * @note 
      */		
     static int64 pformat(int8* buffer, const uint64 size, const int8* args, ...);   
     
@@ -94,7 +90,7 @@ public:
      * @param [out] result : output buffer
      * @param [in] result_size : output buffer size
      * @return : On success, return the number of read bytes. The number equals to zero when shell 
-     *	         execute print empty. or -1 if an error occurred.
+     *      execute print empty. or -1 if an error occurred.
      */
     static int32 shell(const int8* cmd, int8* result , const uint32 result_size);
 	
@@ -103,20 +99,19 @@ public:
      * @param [out] cmd_len : command length
      * @param [out] result : output buffer
      * @param [in] result_size : output buffer size
-     * @param [in] args : args list
+     * @param [in] cmd : cmd
      * @return : On success, return the number of read bytes. The number equals to zero when shell 
-     *	         execute print empty. or -1 if an error occurred.
+     *      execute print empty. or -1 if an error occurred.
      */	
-    static int32 shell(const int8* args, ...);
-	static int32 shell(const uint32 cmd_len, const int8* args, ...);
-	static int32 shell(std::string& result, const int8* args, ...);
-	static int32 shell(const uint32 cmd_len, std::string& result, const int8* args, ...);
-	static int32 shell(const uint32 cmd_len, int8* result, const uint32 result_size, const int8* args, ...);
+    static int32 shell(const int8* cmd, ...);
+	static int32 shell(const uint32 cmd_len, const int8* cmd, ...);
+	static int32 shell(std::string& result, const int8* cmd, ...);
+	static int32 shell(const uint32 cmd_len, std::string& result, const int8* cmd, ...);
+	static int32 shell(const uint32 cmd_len, int8* result, const uint32 result_size, const int8* cmd, ...);
 	
     /**
      * @brief get system time
      * @return time(microsecond)
-     * @note 
      */		
     static uint64 sysTime();
     
@@ -134,7 +129,6 @@ public:
 
     /**
      * @brief create daemon process
-     * @note 
      */		
     static void daemonize();
 
@@ -143,7 +137,6 @@ public:
      * @param [in] process_name : process name
      * @param [in] cpu_percent : CPU limit percent
      * @return true/false
-     * @note 
      */	
     static bool limitCpu(const char* process_name, const uint16 cpu_percent);
     
@@ -152,7 +145,6 @@ public:
      * @param [in] phyCardName : physical network card name
      * @param [out] ipAddr : ip address
      * @return true/false
-     * @note 
      */	
     static bool getIPAddrByDevName(const std::string& phyCardName, std::string& ipAddr);
 
@@ -160,7 +152,6 @@ public:
      * @brief get first valid ip address
      * @param [out] ipAddr : ip address
      * @return true/false
-     * @note 
      */	
     static bool getFirstValidIPAddr(std::string& ipAddr);
 
@@ -168,12 +159,32 @@ public:
      * @brief get first valid ip address
      * @param [out] networkCards : <network_card_name, ip_address>
      * @return true/false
-     * @note 
      */	
     static bool getNetworkCards(std::map<std::string, std::string>& networkCards);
 
+    /**
+     * @brief get process id
+     * @return process id
+     */ 
 	static uint32 getPid();
+
+    /**
+     * @brief get parent process id
+     * @return process id
+     */     
 	static uint32 getPPid();
+
+    /**
+     * @brief get system type and version
+     * @param [out] name : system type, content : ubuntu, centos, fedora, rhel, suse, asianux, debian, oraclelinux
+     * @param [out] version : system version
+     * @return false/true
+     */     
+    static bool getSysInfo(std::string& name, std::string& version);
+
+    /**
+     * @brief manual free system memory fragmentation
+     */     
 	static void manMalloc();
 };
 }

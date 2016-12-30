@@ -48,9 +48,10 @@ public:
 	/**
 	 * @brief convert char to lowercase
 	 * @para [in] instr : in string
+	 * @return : true/false
 	 * @note : no copy, modify original data
 	 */	    
-	static void strlwr(int8* instr);
+	static bool strlwr(int8* instr);
 	/**
 	 * @brief convert chars to lowercase
 	 * @para [in] instr : in string

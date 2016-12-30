@@ -31,8 +31,12 @@
 #include <string.h>
 
 #include <duye_sys.h>
+#include <duye_logger.h>
+#include <duye_helper.h>
 
 namespace duye {
+
+static const int8* DUYE_LOG_PREFIX = "duye.system.sys";
 
 void System::sleep(const uint64& time)
 {
@@ -77,15 +81,19 @@ int64 System::pformat(int8* buffer, const uint64 size, const int8* args, ...)
 
 int32 System::shell(const int8* cmd, int8* buffer, const uint32 size)
 {
-    if (cmd == NULL)
+    if (cmd == NULL) {
+    	DUYE_ERROR("cmd == NULL");
         return -1;
+    }
 
     FILE* file = popen(cmd, "r");
-    if (file == NULL)
+    if (file == NULL) {
+    	DUYE_ERROR("file == NULL");
         return -1;
+    }
 
-    if (buffer == NULL || size == 0)
-    {
+    if (buffer == NULL || size == 0) {
+    	DUYE_DEBUG("buffer == NULL || size == 0");
         pclose(file);
         return 0;
     }
@@ -381,6 +389,90 @@ uint32 System::getPid() {
 
 uint32 System::getPPid() {
 	return (uint32)getppid();
+}
+
+bool System::getSysInfo(std::string& name, std::string& version) {
+	// start get system name 
+	const int8* sys_list[] = {"ubuntu", "centos", "fedora", "rhel", "suse", "asianux", "debian", "oraclelinux"};
+	int8 desc_str[1024] = {0};
+	if (shell("cat /etc/issue", desc_str, sizeof(desc_str)) <= 0) {
+		DUYE_ERROR("cat /etc/issue <= 0");
+		return false;
+	}
+
+	bool found = false;
+	StrHelper::strlwr(desc_str);
+	std::string lower_desc(desc_str);
+	const int8* rhel = "red hat enterprise linux";
+	for (uint32 i = 0; i < sizeof(sys_list)/sizeof(int8*); i++) {
+		const int8* temp = sys_list[i];
+		if (strcmp(temp, "rhel") == 0) {
+			temp = rhel;
+		}
+	
+		if (lower_desc.find(temp) != std::string::npos) {
+			name.assign(sys_list[i]);
+			found = true;
+		}
+	}
+
+	if (!found) {
+		if (shell("cat /etc/redhat-release", desc_str, sizeof(desc_str)) <= 0) {
+			DUYE_ERROR("cat /etc/redhat-release <= 0");
+			return false;
+		}
+
+		StrHelper::strlwr(desc_str);
+		std::string lower_desc(desc_str);
+		const int8* rhel = "red hat enterprise linux";
+		for (uint32 i = 0; i < sizeof(sys_list)/sizeof(int8*); i++) {
+			const int8* temp = sys_list[i];
+			if (strcmp(temp, "rhel") == 0) {
+				temp = rhel;
+			}
+		
+			if (lower_desc.find(temp) != std::string::npos) {
+				name.assign(sys_list[i]);
+				found = true;
+			}
+		}
+	} 
+
+	if (!found) {
+		DUYE_ERROR("don't found system name");
+		return false;
+	}
+
+	// end get system name
+
+	// start get system version
+	int8 version_temp[32] = {0};
+	uint32 ver_len = 0;
+	if (name == "ubuntu") {
+		// ubuntu centos oracle
+		if ((ver_len = shell("cat /etc/lsb-release | grep DISTRIB_RELEASE | awk -F '=' '{print $2}'", 
+			version_temp, sizeof(version_temp))) <= 0) {
+			DUYE_ERROR("[cat /etc/lsb-release | grep DISTRIB_RELEASE | awk -F '=' '{print $2}'] <= 0");
+			return false;
+		}
+	} else {
+		if ((ver_len = shell("cat /etc/issue | grep release | awk '{for (i = 1; i < NF; i++) if ($i == \"release\") print $(i+1)}'", 
+				version_temp, sizeof(version_temp))) <= 0) {
+
+			DUYE_TRACE("[cat /etc/issue | grep release | awk '{for (i = 1; i < NF; i++) if ($i == \"release\") print $(i+1)}'] <= 0");
+			if ((ver_len = shell("cat /etc/redhat-release | grep release | awk '{for (i = 1; i < NF; i++) if ($i == \"release\") print $(i+1)}'", 
+				version_temp, sizeof(version_temp))) <= 0) {
+				DUYE_ERROR("[cat /etc/redhat-release | grep release | awk '{for (i = 1; i < NF; i++) if ($i == \"release\") print $(i+1)}'] <= 0");
+				return false;
+			}
+		}
+	}
+
+	version_temp[ver_len - 1] = 0;
+	version.assign(version_temp);
+	// end get system version
+
+	return true;
 }
 
 void System::manMalloc() {

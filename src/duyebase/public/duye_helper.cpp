@@ -65,11 +65,11 @@ bool StrHelper::strnupr(const int8* instr, int8* outstr, const uint32 outsize)
 	return true;	
 }
 
-void StrHelper::strlwr(int8* instr)
+bool StrHelper::strlwr(int8* instr)
 {
 	if (instr == NULL)
 	{
-		return;
+		return false;
 	}
 
 	int8* p = instr;
@@ -80,6 +80,8 @@ void StrHelper::strlwr(int8* instr)
 			*p += UPR_DIF_LWR; 
 		}
 	}
+
+	return true;
 }
 
 bool StrHelper::strlwr(const int8* instr, int8* outstr, const uint32 outsize)
