@@ -746,8 +746,9 @@ const LogModuleRule* Logger::findModuleRule(const std::string& moduleName) const
 		for (uint32 j = 0; j < i; j++)
 		{
 			tempModuleName += outArray[j];
-			if (j != i - 1)
+			if (j != i - 1) {
 				tempModuleName.append(".");
+			}
 		}
 
 		LogModuleRuleMap::const_iterator iter = m_moduleRuleMap.find(tempModuleName);

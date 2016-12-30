@@ -429,15 +429,15 @@ void StrHelper::split(const std::string& inStr, const int8 separator, std::vecto
 		}
 	}
 
-	if (begPos < inStr.length() - 1)
+	if (begPos < inStr.length())
 	{
 		outArray.push_back(inStr.substr(begPos));
 	}
 
-	if (outArray.empty()) 
-	{
-		outArray.push_back(inStr);
-	}
+	// if (outArray.empty()) 
+	// {
+	// 	outArray.push_back(inStr);
+	// }
 }
 
 void StrHelper::split(const std::string& inStr, const std::string& separator, std::vector<std::string>& outArray)
@@ -452,15 +452,17 @@ void StrHelper::split(const std::string& inStr, const std::string& separator, st
 	{
 		end_pos = inStr.find(separator, start_pos);
 		if (end_pos == std::string::npos) break;
-		if (start_pos != end_pos)
+		if (start_pos != end_pos) {
 			outArray.push_back(inStr.substr(start_pos, end_pos - start_pos));
+		}
+
 		start_pos = end_pos + separator.length();
 	}
 
-	if (outArray.empty()) 
-	{
-		outArray.push_back(inStr);
-	}	
+	// if (outArray.empty()) 
+	// {
+	// 	outArray.push_back(inStr);
+	// }	
 }
 
 void StrHelper::split(const std::string& inStr, const int8 separator, std::list<std::string>& outArray) {
