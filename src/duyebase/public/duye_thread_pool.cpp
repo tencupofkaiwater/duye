@@ -35,12 +35,12 @@ bool ThreadPool::init(const uint32 threadCount)
 {
     if (threadCount < MIN_THREAD_COUNT)
     {
-        DUYE_WARN("user want to create thread numbers lower than default min numbers, will create min %d threads", MIN_THREAD_COUNT);
+        DUYE_WARN("will create %d threads", MIN_THREAD_COUNT);
         m_threadCount = MIN_THREAD_COUNT;
     }
     else if (threadCount > MAX_THREAD_COUNT)
     {
-        DUYE_WARN("user want to create thread numbers over than default max numbers, will create max %d threads", MAX_THREAD_COUNT);
+        DUYE_WARN("will create %d threads", MAX_THREAD_COUNT);
         m_threadCount = MAX_THREAD_COUNT;
     }    
     else
@@ -48,7 +48,7 @@ bool ThreadPool::init(const uint32 threadCount)
         m_threadCount = threadCount;
     }
     
-    m_isInit = initThreadPool();   
+    m_isInit = initThreadPool();
     if (m_isInit)
         DUYE_INFO("create thread numbers %d for thread pool", m_threadCount);
     else
