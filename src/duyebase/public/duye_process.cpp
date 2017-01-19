@@ -85,15 +85,16 @@ void Process::onSignalHandler(const SignalType sigType)
     	switch (sigType)
         {
 	    case D_SIGSEGV:
-			m_processStatus = PROCESS_EXIT;
 	    	(*iter)->onSegFault();
+            m_processStatus = PROCESS_EXIT;
 	    	break;
 	    case D_SIGINT:
-			m_processStatus = PROCESS_EXIT;
 	    	(*iter)->onCtrlC();
+            m_processStatus = PROCESS_EXIT;
 	     	break;
 	    default:
 	    	(*iter)->onOther(sigType);
+            m_processStatus = PROCESS_EXIT;
 	    	break;
         }
     }
