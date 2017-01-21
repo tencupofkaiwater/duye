@@ -377,10 +377,10 @@ bool CfgMgr::getValue(const std::string& path, std::string& value, const std::st
 	if (attName.empty()) return false;
 	
     std::string text = getText(path, attName);
-	if (text.empty()) {
-		DUYE_ERROR("content is empty");
-		return false;
-	}
+	// if (text.empty()) {
+	// 	DUYE_ERROR("content is empty");
+	// 	return false;
+	// }
 
 	value = text;
 
@@ -390,10 +390,10 @@ bool CfgMgr::getValue(const std::string& path, std::string& value, const std::st
 bool CfgMgr::getValue(const std::string& path, std::string& value)
 {
     std::string text = getText(path, "");
-	if (text.empty()) {
-		DUYE_ERROR("content is empty");
-		return false;
-	}
+	// if (text.empty()) {
+	// 	DUYE_ERROR("content is empty");
+	// 	return false;
+	// }
 
 	value = text;
 

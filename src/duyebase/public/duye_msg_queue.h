@@ -58,6 +58,13 @@ public:
      * @return message
      */
     T* pop(const MsgQueueMode& mode = MSG_BLOCK);
+
+    /**
+     * @brief pop message
+     * @param [in] timeout : millisecond
+     * @return message
+     */
+    T* pop(const uint32 timeout);
     
 private:
     std::queue<T*>  m_queue;
@@ -95,7 +102,9 @@ T* MsgQueue<T>::pop(const MsgQueueMode& mode)
         }
         else if (mode == MSG_NONBLOCK)
         {
-            m_semaphore.tryWait();
+            if (!m_semaphore.tryWait()) {
+                return NULL;
+            }
         }
         else
         {
@@ -106,6 +115,22 @@ T* MsgQueue<T>::pop(const MsgQueueMode& mode)
     T* msg = m_queue.front();
     m_queue.pop();
     
-    return msg;	
+    return msg;
 }
+
+template <class T>
+T* MsgQueue<T>::pop(const uint32 timeout)
+{
+    if (m_queue.size() == 0) {
+        if (!m_semaphore.timedWait(timeout)) {
+            return NULL;
+        }
+    }
+    
+    T* msg = m_queue.front();
+    m_queue.pop();
+    
+    return msg;
+}
+
 }
