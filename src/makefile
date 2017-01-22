@@ -1,4 +1,4 @@
-sub_dirs=duyebase duyestore duyenets
+sub_dirs=duyebase duyenets
 
 all:
 	@for subdir in $(sub_dirs);\
